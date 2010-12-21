@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 Tx_Extbase_Utility_Extension::registerPlugin(
 	$_EXTKEY,
 	'Pi1',
-	'Teaser (Professor Web Teaser)'
+	'Teaser (pw_teaser)'
 );
 
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Extbase Teaser');
