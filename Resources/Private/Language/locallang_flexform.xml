@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the pw_teaser extension in the Flexform formular</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="general">General preferences</label>
+			<label index="ordering">Ordering</label>
+			<label index="template">Template</label>
+			<label index="default"></label>
+			<label index="sourceLabel">Teaser source:</label>
+			<label index="customPagesLabel">Custom Pages (if selected at teaser source):</label>
+			<label index="source.thisChildren">Childpages of current page</label>
+			<label index="source.thisChildrenRecursively">Childpages of current page (recursively)</label>
+			<label index="source.custom">Selected pages</label>
+			<label index="source.customChildren">Childpages of selected pages</label>
+			<label index="source.customChildrenRecursively">Childpages of selected pages (recursively)</label>
+			<label index="loadContents">Load contents of each page for usage in template (needs more performance)</label>
+
+			<label index="orderByPlugin">Order selected pages like in the list above (doesn't work with pagination widget, this overwrites the order options in ordering tab)</label>
+
+			<label index="orderByLabel">Order by:</label>
+			<label index="order.crdate">Creation date</label>
+			<label index="order.tstamp">Timestamp</label>
+			<label index="order.lastUpdated">Last Updated</label>
+			<label index="order.sorting">Sorting</label>
+			<label index="order.title">Title (alphabetical)</label>
+			<label index="order.uid">Uid</label>
+
+			<label index="orderDirectionLabel">Order direction:</label>
+			<label index="orderdir.asc">Ascending (A-Z, newest first)</label>
+			<label index="orderdir.desc">Descending (Z-A, oldest first)</label>
+
+			<label index="templateRootPath">Template directory</label>
+			<label index="partitialRootPath">Partitial directory</label>
+			<label index="layoutRootPath">Layout directory</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="general">Allgemein Einstellungen</label>
+			<label index="ordering">Sortierung</label>
+			<label index="template">Template</label>
+			<label index="default"></label>
+			<label index="sourceLabel">Teaser-Quelle:</label>
+			<label index="customPagesLabel">Bestimmte Seiten (wenn bei Teaser-Quelle gewählt):</label>
+			<label index="source.thisChildren">Unterseiten der aktuellen Seite</label>
+			<label index="source.thisChildrenRecursively">Unterseiten der aktuellen Seite (rekursiv)</label>
+			<label index="source.custom">Ausgewählte Seiten</label>
+			<label index="source.customChildren">Unterseiten von ausgewählten Seiten</label>
+			<label index="source.customChildrenRecursively">Unterseiten von ausgewählten Seiten (rekursiv)</label>
+			<label index="loadContents">Lade Inhalte von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance)</label>
+
+			<label index="orderByLabel">Sortieren nach:</label>
+			<label index="order.crdate">Erstellungsdatum</label>
+			<label index="order.tstamp">Zeitstempel</label>
+			<label index="order.lastUpdated">Letztes Update</label>
+			<label index="order.sorting">Sortierung</label>
+			<label index="order.title">Titel (alphabetisch)</label>
+			<label index="order.uid">Uid</label>
+
+			<label index="orderDirectionLabel">Sortierrichtung:</label>
+			<label index="orderdir.asc">Aufsteigend (A-Z, Neuste als Erstes)</label>
+			<label index="orderdir.desc">Absteigend (Z-A, Älteste als Erstes)</label>
+			
+			<label index="templateRootPath">Template Verzeichnis</label>
+			<label index="partitialRootPath">Partitial Verzeichnis</label>
+			<label index="layoutRootPath">Layout Verzeichnis</label>
+		</languageKey>
+	</data>
+</T3locallang>

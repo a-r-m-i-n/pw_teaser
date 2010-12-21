@@ -1,0 +1,51 @@
+plugin.tx_pwteaser {
+
+	settings {
+	#	source = thisChildren || thisChildrenRecursively || custom || customChildren || customChildrenRecursively
+	#	customPages = 1,5,9
+	#	orderByPlugin = 0	#should only enabled, if source=custom
+	#	loadContents = 0
+
+	#	orderBy = crdate || tstamp || lastUpdated || sorting || title || uid
+	#	orderDirection = asc || desc
+	}
+
+	view {
+	#	templateRootPath =
+	#	partitialRootPath =
+	#	layoutRootPath =
+	}
+
+	persistence {
+		classes {
+			Tx_PwTeaser_Domain_Model_Page {
+				mapping {
+					tableName = pages
+					columns {
+						navtitle.mapOnProperty = nav_title
+						metaDescription.mapOnProperty = description
+						metaKeywords.mapOnProperty = keywords
+						authorEmail.mapOnProperty = author_email
+						tstamp.mapOnProperty = tstamp
+						crdate.mapOnProperty = crdate
+						newUntil.mapOnProperty = newUntil
+					}
+				}
+			}
+			Tx_PwTeaser_Domain_Model_Content {
+				mapping {
+					tableName = tt_content
+					columns {
+						pid.mapOnProperty = pid
+						colPos.mapOnProperty = colPos
+						ctype.mapOnProperty = CType
+						tstamp.mapOnProperty = tstamp
+						crdate.mapOnProperty = crdate
+					}
+				}
+			}
+		}
+		storagePid =
+	}
+
+}

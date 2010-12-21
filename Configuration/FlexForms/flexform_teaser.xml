@@ -1,0 +1,240 @@
+<T3DataStructure>
+	<sheets>
+		<generalsheet>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:general</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.source>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:sourceLabel</label>
+							<onChange>reload</onChange>
+								<config>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:source.thisChildren</numIndex>
+										<numIndex index="1">thisChildren</numIndex>
+									  </numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:source.thisChildrenRecursively</numIndex>
+										<numIndex index="1">thisChildrenRecursively</numIndex>
+									  </numIndex>
+									  <numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:source.custom</numIndex>
+										<numIndex index="1">custom</numIndex>
+									  </numIndex>
+									  <numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:source.customChildren</numIndex>
+										<numIndex index="1">customChildren</numIndex>
+									  </numIndex>
+									  <numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:source.customChildrenRecursively</numIndex>
+										<numIndex index="1">customChildrenRecursively</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+									<size>1</size>
+							  </config>
+						</TCEforms>
+					</settings.source>
+					<settings.customPages>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:customPagesLabel</label>
+							<displayCond>FIELD:settings.source:IN:custom,customChildren,customChildrenRecursively</displayCond>
+								<config>
+									<type>group</type>
+									<internal_type>db</internal_type>
+									<allowed>pages</allowed>
+									<size>1</size>
+									<maxitems>999</maxitems>
+									<minitems>0</minitems>
+									<show_thumbs>1</show_thumbs>
+								</config>
+						</TCEforms>
+					</settings.customPages>
+					<settings.orderByPlugin>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByPlugin</label>
+								<config>
+									<type>check</type>
+								</config>
+						</TCEforms>
+					</settings.orderByPlugin>
+					<settings.loadContents>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:loadContents</label>
+								<config>
+									<type>check</type>
+								</config>
+						</TCEforms>
+					</settings.loadContents>
+				</el>
+			</ROOT>
+		</generalsheet>
+		<orderingsheet>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:ordering</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.orderBy>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByLabel</label>
+								<config>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.crdate</numIndex>
+										<numIndex index="1">crdate</numIndex>
+									  </numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.tstamp</numIndex>
+										<numIndex index="1">tstamp</numIndex>
+									  </numIndex>
+									  <numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.lastUpdated</numIndex>
+										<numIndex index="1">lastUpdated</numIndex>
+									  </numIndex>
+									  <numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.sorting</numIndex>
+										<numIndex index="1">sorting</numIndex>
+									  </numIndex>
+									  <numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.title</numIndex>
+										<numIndex index="1">title</numIndex>
+									  </numIndex>
+									  <numIndex index="6" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.uid</numIndex>
+										<numIndex index="1">uid</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+
+							  </config>
+						</TCEforms>
+					</settings.orderBy>
+					<settings.orderDirection>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderDirectionLabel</label>
+								<config>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderdir.asc</numIndex>
+										<numIndex index="1">asc</numIndex>
+									  </numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderdir.desc</numIndex>
+										<numIndex index="1">desc</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+									<size>1</size>
+							  </config>
+						</TCEforms>
+					</settings.orderDirection>
+				</el>
+			</ROOT>
+		</orderingsheet>
+		<tempaltesheet>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:template</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<view.templateRootPath>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateRootPath</label>
+								<config>
+									<type>input</type>
+									<eval>trim</eval>
+									<default></default>
+									<wizards type="array">
+										<_PADDING>2</_PADDING>
+										<link type="array">
+											<type>popup</type>
+											<title>Link</title>
+											<icon>fileicons/folder.gif</icon>
+											<script>browse_links.php?mode=wizard&amp;act=folder</script>
+											<params type="array">
+												<blindLinkOptions>page,url,mail,spec,file</blindLinkOptions>
+												<allowedExtensions></allowedExtensions>
+											</params>
+											<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+										</link>
+									</wizards>
+								</config>
+						</TCEforms>
+					</view.templateRootPath>
+		
+					<view.partitialRootPath>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:partitialRootPath</label>
+								<config>
+									<type>input</type>
+									<eval>trim</eval>
+									<default></default>
+									<wizards type="array">
+										<_PADDING>2</_PADDING>
+										<link type="array">
+											<type>popup</type>
+											<title>Link</title>
+											<icon>fileicons/folder.gif</icon>
+											<script>browse_links.php?mode=wizard&amp;act=folder</script>
+											<params type="array">
+												<blindLinkOptions>page,url,mail,spec,file</blindLinkOptions>
+												<allowedExtensions></allowedExtensions>
+											</params>
+											<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+										</link>
+									</wizards>
+								</config>
+						</TCEforms>
+					</view.partitialRootPath>
+
+					<view.layoutRootPath>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:layoutRootPath</label>
+								<config>
+									<type>input</type>
+									<eval>trim</eval>
+									<default></default>
+									<wizards type="array">
+										<_PADDING>2</_PADDING>
+										<link type="array">
+											<type>popup</type>
+											<title>Link</title>
+											<icon>fileicons/folder.gif</icon>
+											<script>browse_links.php?mode=wizard&amp;act=folder</script>
+											<params type="array">
+												<blindLinkOptions>page,url,mail,spec,file</blindLinkOptions>
+												<allowedExtensions></allowedExtensions>
+											</params>
+											<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+										</link>
+									</wizards>
+								</config>
+						</TCEforms>
+					</view.layoutRootPath>
+				</el>
+			</ROOT>
+		</tempaltesheet>
+	</sheets>
+</T3DataStructure>
