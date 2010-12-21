@@ -62,6 +62,7 @@
 					<settings.orderByPlugin>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByPlugin</label>
+							<displayCond>FIELD:settings.source:IN:custom</displayCond>
 								<config>
 									<type>check</type>
 								</config>
