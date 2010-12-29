@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Page Teaser (with Fluid)',
-	'description' => 'Extensions to create dynamic teasers, with data from page properties and its content elements. Professor Web Teaser based on Extbase and Fluid Template Engine.',
+	'description' => 'Extensions to create dynamic teasers, with data from page properties and its content elements. Page Teaser based on Extbase and Fluid Template Engine.',
 	'category' => 'plugin',
 	'author' => 'Armin Ruediger Vieweg',
 	'author_email' => 'info@professorweb.de',
