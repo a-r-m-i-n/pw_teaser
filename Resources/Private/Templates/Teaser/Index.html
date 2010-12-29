@@ -2,33 +2,21 @@
 <f:layout name="default" />
 
 <f:section name="main">
-
-<f:widget.paginate objects="{pages}" as="pageObject" configuration="{itemsPerPage: 10, insertAbove: 0, insertBelow: 1}">
-<ul>
-<f:for each="{pageObject}" as="page">
-	<li>
-		<h4>
-			<f:if condition="{page.isNew}">
-				<span style="color:red;">NEU!</span> 
-			</f:if>
-			
-			<f:link.page pageUid="{page.uid}">{page.title}</f:link.page></h4>
-
-		<f:if condition="{page.media.0}">
-			<f:image src="{page.media.0}" alt="javor" width="100" />
-		</f:if>
-		Elemente: <f:count>{page.contents}</f:count>
-
-	
-		<pw:getContent contents="{page.contents}" as="blubb" colPos="0" cType="text" >
-			
-		</pw:getContent>
-
-		
-		<hr />
-	</li>
-</f:for>
-</ul>
-</f:widget.paginate>
-
+	<f:if condition="{f:count(subject:'{pages}')}">
+		<f:then>
+			<pw:widget.paginate objects="{pages}" as="pageObject" configuration="{itemsPerPage: 5, insertAbove: 0, insertBelow: 1}">
+				<ul>
+					<f:for each="{pageObject}" as="page">
+						<li>
+							<b><f:link.page pageUid="{page.uid}">{page.title}</f:link.page></b><br />
+							{page.abstract}<br /><br />
+						</li>
+					</f:for>
+				</ul>
+			</pw:widget.paginate>
+		</f:then>
+		<f:else>
+			<i>Keine Einträge gefunden.</i>
+		</f:else>
+	</f:if>
 </f:section>

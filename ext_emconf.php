@@ -11,7 +11,7 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Professor Web Teaser',
+	'title' => 'Page Teaser (with Fluid)',
 	'description' => 'Extensions to create dynamic teasers, with data from page properties and its content elements. Professor Web Teaser based on Extbase and Fluid Template Engine.',
 	'category' => 'plugin',
 	'author' => 'Armin Ruediger Vieweg',
@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
-	'version' => '1.0.1',
+	'version' => '1.0.2',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '4.4.0-0.0.0',

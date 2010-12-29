@@ -97,29 +97,25 @@
 										<numIndex index="1"></numIndex>
 									  </numIndex>
 									  <numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.crdate</numIndex>
-										<numIndex index="1">crdate</numIndex>
-									  </numIndex>
-									  <numIndex index="2" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.tstamp</numIndex>
-										<numIndex index="1">tstamp</numIndex>
-									  </numIndex>
-									  <numIndex index="3" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.lastUpdated</numIndex>
-										<numIndex index="1">lastUpdated</numIndex>
-									  </numIndex>
-									  <numIndex index="4" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.sorting</numIndex>
-										<numIndex index="1">sorting</numIndex>
-									  </numIndex>
-									  <numIndex index="5" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.title</numIndex>
 										<numIndex index="1">title</numIndex>
 									  </numIndex>
-									  <numIndex index="6" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.uid</numIndex>
-										<numIndex index="1">uid</numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.sorting</numIndex>
+										<numIndex index="1">sorting</numIndex>
 									  </numIndex>
+									  <numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.crdate</numIndex>
+										<numIndex index="1">crdate</numIndex>
+									  </numIndex>
+									  <numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.tstamp</numIndex>
+										<numIndex index="1">tstamp</numIndex>
+									  </numIndex>
+									  <!-- <numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.random</numIndex>
+										<numIndex index="1">tstamp</numIndex>
+									  </numIndex> -->
 									</items>
 									<maxitems>1</maxitems>
 

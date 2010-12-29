@@ -19,15 +19,14 @@
 			<label index="source.customChildrenRecursively">Childpages of selected pages (recursively)</label>
 			<label index="loadContents">Load contents of each page for usage in template (needs more performance)</label>
 
-			<label index="orderByPlugin">Order selected pages like in the list above (doesn't work with pagination widget, this overwrites the order options in ordering tab)</label>
+			<label index="orderByPlugin">Order selected pages like in the list above (this overwrites the order options in ordering tab)</label>
 
 			<label index="orderByLabel">Order by:</label>
 			<label index="order.crdate">Creation date</label>
-			<label index="order.tstamp">Timestamp</label>
-			<label index="order.lastUpdated">Last Updated</label>
-			<label index="order.sorting">Sorting</label>
+			<label index="order.tstamp">Modification date</label>
+			<label index="order.sorting">Sorting in pagetree</label>
 			<label index="order.title">Title (alphabetical)</label>
-			<label index="order.uid">Uid</label>
+			<label index="order.random">Random</label>
 
 			<label index="orderDirectionLabel">Order direction:</label>
 			<label index="orderdir.asc">Ascending (A-Z, newest first)</label>
@@ -51,13 +50,14 @@
 			<label index="source.customChildrenRecursively">Unterseiten von ausgewählten Seiten (rekursiv)</label>
 			<label index="loadContents">Lade Inhalte von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance)</label>
 
+			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Einstellungen im Sortierungs-Tab werden hiermit überschrieben)</label>
+
 			<label index="orderByLabel">Sortieren nach:</label>
 			<label index="order.crdate">Erstellungsdatum</label>
-			<label index="order.tstamp">Zeitstempel</label>
-			<label index="order.lastUpdated">Letztes Update</label>
-			<label index="order.sorting">Sortierung</label>
+			<label index="order.tstamp">Änderungsdatum</label>
+			<label index="order.sorting">Sortierung im Seitenbaum</label>
 			<label index="order.title">Titel (alphabetisch)</label>
-			<label index="order.uid">Uid</label>
+			<label index="order.random">Zufällige Sortierung</label>
 
 			<label index="orderDirectionLabel">Sortierrichtung:</label>
 			<label index="orderdir.asc">Aufsteigend (A-Z, Neuste als Erstes)</label>
