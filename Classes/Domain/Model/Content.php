@@ -31,13 +31,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractEntity {
-
-	/**
-	 * pid
-	 * @var integer
-	 */
-	protected $pid;
-
 	/**
 	 * ctype
 	 * @var string
@@ -128,24 +121,6 @@ class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractE
 	 */
 	public function getCtype() {
 		return $this->ctype;
-	}
-
-	/**
-	 * Setter for pid
-	 *
-	 * @param integer $pid pid
-	 */
-	public function setPid($pid) {
-		$this->pid = $pid;
-	}
-
-	/**
-	 * Getter for pid
-	 *
-	 * @return integer pid
-	 */
-	public function getPid() {
-		return $this->pid;
 	}
 
 	/**
