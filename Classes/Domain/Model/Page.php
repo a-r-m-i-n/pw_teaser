@@ -46,22 +46,28 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	protected $subtitle;
 
 	/**
-	 * navtitle
+	 * navTitle
 	 * @var string
 	 */
-	protected $navtitle;
+	protected $navTitle;
 
 	/**
 	 * meta keywords
 	 * @var string
 	 */
-	protected $metaKeywords;
+	protected $keywords;
 
 	/**
 	 * meta description
 	 * @var string
 	 */
-	protected $metaDescription;
+	protected $description;
+
+	/**
+	 * abstract
+	 * @var string
+	 */
+	protected $abstract;
 
 	/**
 	 * alias
@@ -88,6 +94,24 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	protected $tstamp;
 
 	/**
+	 * lastUpdated
+	 * @var integer
+	 */
+	protected $lastUpdated;
+
+	/**
+	 * starttime
+	 * @var integer
+	 */
+	protected $starttime;
+
+	/**
+	 * endtime
+	 * @var integer
+	 */
+	protected $endtime;
+
+	/**
 	 * new until
 	 * @var integer
 	 */
@@ -104,12 +128,6 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @var string
 	 */
 	protected $authorEmail;
-
-	/**
-	 * abstract
-	 * @var string
-	 */
-	protected $abstract;
 
 	/**
 	 * contents
@@ -156,35 +174,42 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	}
 
 	/**
-	 * Setter for metaKeywords
+	 * Setter for keywords
 	 *
-	 * @param string $metaKeywords metaKeywords
+	 * @param string $keywords keywords
 	 */
-	public function setMetaKeywords($metaKeywords) {
-		$this->metaKeywords = $metaKeywords;
+	public function setKeywords($keywords) {
+		var_dump($this->metaKeywords);
+		$this->metaKeywords = $keywords;
 	}
 
 	/**
-	 * Getter for metaKeywords
+	 * Getter for keywords
 	 *
-	 * @return array array of metaKeywords
+	 * @return array array of keywords
 	 */
-	public function getMetaKeywords() {
-		$keywords = explode(',', $this->metaKeywords);
-		foreach ($keywords as $key => $keyword) {
-			$keywords[$key] = trim($keyword);
-		}
-		return $keywords;
+	public function getKeywords() {
+
+		return(t3lib_div::trimExplode(',', $this->keywords, TRUE));
+	}
+
+	/**
+	 * Getter for keywords. Returns a string
+	 *
+	 * @return string keywords as string
+	 */
+	public function getKeywordsAsString() {
+		return $this->keywords;
 	}
 
 
 	/**
-	 * Setter for metaDescription
+	 * Setter for description
 	 *
-	 * @param string $metaDescription metaDescription
+	 * @param string $description description
 	 */
-	public function setMetaDescription($metaDescription) {
-		$this->metaDescription = $metaDescription;
+	public function setDescription($description) {
+		$this->metaDescription = $description;
 	}
 
 	/**
@@ -192,8 +217,8 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 *
 	 * @return string metaDescription
 	 */
-	public function getMetaDescription() {
-		return $this->metaDescription;
+	public function getDescription() {
+		return $this->description;
 	}
 
 	/**
@@ -215,21 +240,21 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	}
 
 	/**
-	 * Setter for navtitle
+	 * Setter for navTitle
 	 *
-	 * @param string $navtitle navtitle
+	 * @param string $navTitle navTitle
 	 */
-	public function setNavtitle($navtitle) {
-		$this->navtitle = $navtitle;
+	public function setNavTitle($navTitle) {
+		$this->navTitle = $navTitle;
 	}
 
 	/**
-	 * Getter for navtitle
+	 * Getter for navTitle
 	 *
-	 * @return string navtitle
+	 * @return string navTitle
 	 */
-	public function getNavtitle() {
-		return $this->navtitle;
+	public function getNavTitle() {
+		return $this->navTitle;
 	}
 
 	/**
@@ -301,16 +326,13 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return string media
 	 */
 	public function getMedia() {
-		$defaultDirectory = 'uploads/media/';
-		$medias = explode(',', $this->media);
+		$defaultMediaDirectory = 'uploads/media/';
+		$media = t3lib_div::trimExplode(',', $this->media, TRUE);
 
-		foreach ($medias as $key => $media) {
-			if (!empty($media)) {
-				$medias[$key] = $defaultDirectory . $media;
-			}
+		foreach ($media as $key => $medium) {
+			$media[$key] = $defaultMediaDirectory . $medium;
 		}
-		
-		return $medias;
+		return $media;
 	}
 
 	/**
@@ -382,8 +404,61 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return integer tstamp
 	 */
 	public function getTstamp() {
-
 		return '@' . $this->tstamp;
+	}
+
+	/**
+	 * Setter for lastUpdated
+	 *
+	 * @param integer $lastUpdated lastUpdated
+	 */
+	public function setLastUpdated($lastUpdated) {
+		$this->lastUpdated = $lastUpdated;
+	}
+
+	/**
+	 * Getter for lastUpdated
+	 *
+	 * @return integer lastUpdated
+	 */
+	public function getLastUpdated() {
+		return '@' . $this->lastUpdated;
+	}
+
+	/**
+	 * Setter for starttime
+	 *
+	 * @param integer $starttime starttime
+	 */
+	public function setStarttime($starttime) {
+		$this->starttime = $starttime;
+	}
+
+	/**
+	 * Getter for starttime
+	 *
+	 * @return integer starttime
+	 */
+	public function getStarttime() {
+		return '@' . $this->starttime;
+	}
+
+	/**
+	 * Setter for endtime
+	 *
+	 * @param integer $endtime endtime
+	 */
+	public function setEndtime($endtime) {
+		$this->endtime = $endtime;
+	}
+
+	/**
+	 * Getter for endtime
+	 *
+	 * @return integer endtime
+	 */
+	public function getEndtime() {
+		return '@' . $this->endtime;
 	}
 
 	/**

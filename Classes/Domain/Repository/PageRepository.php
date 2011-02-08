@@ -34,13 +34,16 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 
 	private $orderBy = 'uid';
 	private $orderDirection = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+	private $limit = NULL;
 
 	/**
 	 * Sets the order by which is used by all find methods
 	 * @param string $orderBy property to order by
 	 */
 	public function setOrderBy($orderBy) {
-		$this->orderBy = $orderBy;
+		if ($orderBy != 'random') {
+			$this->orderBy = $orderBy;
+		}
 	}
 
 	/**
@@ -58,9 +61,21 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	}
 
 	/**
+	 * Sets the query limit
+	 *
+	 * @param integer $limit The limit of elements to show
+	 */
+	public function setLimit($limit) {
+		if ($limit > 0) {
+			$this->limit = $limit;
+		}
+	}
+
+	/**
 	 * Initializes the repository.
 	 *
 	 * @return void
+	 *
 	 * @see Tx_Extbase_Persistence_Repository::initializeObject()
 	 */
 	public function initializeObject() {
@@ -82,7 +97,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		$query->matching(
 			$query->equals('pid', $pid)
 		);
-		$query->setOrderings(array($this->orderBy => $this->orderDirection));
+
+		$this->handleOrderingAndLimit($query);
 		return $query->execute();
 	}
 
@@ -104,7 +120,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		$query->matching(
 			$query->in('pid', $pagePids)
 		);
-		$query->setOrderings(array($this->orderBy => $this->orderDirection));
+
+		$this->handleOrderingAndLimit($query);
 		return $query->execute();
 	}
 
@@ -163,6 +180,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 			$query->in('pid', $pagePids)
 		);
 
+		$this->handleOrderingAndLimit($query);
 		return $query->execute();
 	}
 
@@ -205,8 +223,22 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 			$query->in('pid', $pagePids)
 		);
 
-		$query->setOrderings(array($this->orderBy => $this->orderDirection));
+		$this->handleOrderingAndLimit($query);
 		return $query->execute();
+	}
+
+	/**
+	 * Adds handle of ordering and limitation to query object
+	 *
+	 * @param Tx_Extbase_Persistence_QueryInterface $query
+	 *
+	 * @return void
+	 */
+	private function handleOrderingAndLimit(Tx_Extbase_Persistence_QueryInterface $query) {
+		$query->setOrderings(array($this->orderBy => $this->orderDirection));
+		if (!empty($this->limit)) {
+			$query->setLimit($this->limit);
+		}
 	}
 }
 ?>

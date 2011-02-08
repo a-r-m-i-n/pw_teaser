@@ -2,21 +2,64 @@
 <f:layout name="default" />
 
 <f:section name="main">
+	<div><b>How many pages found:</b> {f:count(subject:'{pages}')}</div>
+
 	<f:if condition="{f:count(subject:'{pages}')}">
 		<f:then>
 			<pw:widget.paginate objects="{pages}" as="pageObject" configuration="{itemsPerPage: 5, insertAbove: 0, insertBelow: 1}">
 				<ul>
 					<f:for each="{pageObject}" as="page">
 						<li>
-							<b><f:link.page pageUid="{page.uid}">{page.title}</f:link.page></b><br />
-							{page.abstract}<br /><br />
+							<fieldset>
+								<legend><b>Title:</b> <f:link.page pageUid="{page.uid}">{page.title}</f:link.page></legend>
+								<ul>
+									<li><b>subtitle:</b> {page.subtitle}</li>
+									<li><b>navTitle:</b> {page.navTitle}</li>
+									<li><b>keywords as String:</b> {page.keywordsAsString}</li>
+									<li><b>keywords:</b>
+										<ul>
+											<f:for each="{page.keywords}" as="keyword" iteration="iterator">
+												<li<f:if condition="{iterator.isLast} == 1"> class="isLast"</f:if>>{keyword}</li>
+											</f:for>
+										</ul>
+									</li>
+									<li><b>description:</b> {page.description}</li>
+									<li><b>abstract:</b> {page.abstract}</li>
+									<li><b>alias:</b> {page.alias}</li>
+									<li><b>media:</b> 
+										<f:if condition="{f:count(subject:'{page.media}')}">
+											<f:then>
+												<ul>
+													<f:for each="{page.media}" as="media">
+														<li><a href="{media}"><f:image src="{media}" alt="{media}" width="140" /></a></li>
+													</f:for>
+												</ul>
+											</f:then>
+											<f:else>
+												<i>No media attached</i>
+											</f:else>
+										</f:if>
+									</li>
+									<li><b>crdate:</b> <f:format.date date="{page.crdate}" format="d.m.Y" /></li>
+									<li><b>tstamp:</b> <f:format.date date="{page.tstamp}" format="r" /></li>
+									<li><b>lastUpdated:</b> <f:format.date date="{page.lastupdated}" format="l, d.m.Y" /></li>
+									<li><b>starttime:</b> <f:format.date date="{page.starttime}" format="U" /></li>
+									<li><b>endtime:</b> <f:format.date date="{page.endtime}" format="U" /></li>
+									<li><b>newUntil:</b> <f:format.date date="{page.newUntil}" format="d.m.Y" /></li>
+									<li><b>isNew:</b> <f:if condition="{page.isNew}"><f:then>Yes, it is new :D</f:then><f:else>No, it is old :(</f:else></f:if></li>
+									<li><b>author:</b> {page.author}</li>
+									<li><b>authorEmail:</b> {page.authorEmail}</li>
+								<ul>
+							</fieldset>
+							<b></b><br />
+							<br /><br />
 						</li>
 					</f:for>
 				</ul>
 			</pw:widget.paginate>
 		</f:then>
 		<f:else>
-			<i>Keine Einträge gefunden.</i>
+			<i>This appears if the number of found pages is zero.</i>
 		</f:else>
 	</f:if>
 </f:section>

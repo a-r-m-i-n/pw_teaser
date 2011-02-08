@@ -12,11 +12,11 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Page Teaser (with Fluid)',
-	'description' => 'Extensions to create dynamic teasers, with data from page properties and its content elements. Page Teaser based on Extbase and Fluid Template Engine.',
+	'description' => 'Extension to create dynamic teasers, with data from page properties and its content elements. pw_teaser based on Extbase and Fluid Template Engine.',
 	'category' => 'plugin',
 	'author' => 'Armin Ruediger Vieweg',
 	'author_email' => 'info@professorweb.de',
-	'author_company' => '',
+	'author_company' => 'Professor Web - Webdesign Blog',
 	'shy' => '',
 	'dependencies' => 'extbase,fluid',
 	'conflicts' => '',
@@ -32,9 +32,9 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '1.0.2',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '4.4.0-0.0.0',
-			'extbase' => '1.3.0beta2a-0.0.0',
-			'fluid' => '1.3.0beta2-0.0.0',
+			'typo3' => '4.5.0RC1-0.0.0',
+			'extbase' => '1.3.0RC1-0.0.0',
+			'fluid' => '1.3.0RC1-0.0.0',
 		),
 		'conflicts' => array(
 		),

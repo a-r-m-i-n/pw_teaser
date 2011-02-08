@@ -89,6 +89,7 @@
 					<settings.orderBy>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByLabel</label>
+							<onChange>reload</onChange>
 								<config>
 									<type>select</type>
 									<items type="array">
@@ -112,19 +113,31 @@
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.tstamp</numIndex>
 										<numIndex index="1">tstamp</numIndex>
 									  </numIndex>
-									  <!-- <numIndex index="5" type="array">
+									  <numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.starttime</numIndex>
+										<numIndex index="1">starttime</numIndex>
+									  </numIndex>
+									  <numIndex index="6" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.endtime</numIndex>
+										<numIndex index="1">endtime</numIndex>
+									  </numIndex>
+									  <numIndex index="7" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.newtime</numIndex>
+										<numIndex index="1">newUntil</numIndex>
+									  </numIndex>
+									  <numIndex index="8" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.random</numIndex>
-										<numIndex index="1">tstamp</numIndex>
-									  </numIndex> -->
+										<numIndex index="1">random</numIndex>
+									  </numIndex>
 									</items>
 									<maxitems>1</maxitems>
-
 							  </config>
 						</TCEforms>
 					</settings.orderBy>
 					<settings.orderDirection>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderDirectionLabel</label>
+							<displayCond>FIELD:settings.orderBy:IN:title,sorting,crdate,tstamp,starttime,endtime</displayCond>
 								<config>
 									<type>select</type>
 									<items type="array">
@@ -146,6 +159,16 @@
 							  </config>
 						</TCEforms>
 					</settings.orderDirection>
+					<settings.limit>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:limit</label>
+								<config>
+									<type>input</type>
+									<eval>trim,num</eval>
+									<default></default>
+								</config>
+						</TCEforms>
+					</settings.limit>
 				</el>
 			</ROOT>
 		</orderingsheet>

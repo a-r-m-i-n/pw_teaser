@@ -7,7 +7,8 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="general">General preferences</label>
-			<label index="ordering">Ordering</label>
+			<label index="ordering">Order and limit</label>
+			<label index="enableFields">EnableFields</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
 			<label index="sourceLabel">Teaser source:</label>
@@ -22,8 +23,11 @@
 			<label index="orderByPlugin">Order selected pages like in the list above (this overwrites the order options in ordering tab)</label>
 
 			<label index="orderByLabel">Order by:</label>
-			<label index="order.crdate">Creation date</label>
-			<label index="order.tstamp">Modification date</label>
+			<label index="order.crdate">Creation Date</label>
+			<label index="order.tstamp">Modification Date</label>
+			<label index="order.starttime">Publish Date</label>
+			<label index="order.endtime">Expiration Date</label>
+			<label index="order.newtime">Marked as new Date</label>
 			<label index="order.sorting">Sorting in pagetree</label>
 			<label index="order.title">Title (alphabetical)</label>
 			<label index="order.random">Random</label>
@@ -31,6 +35,7 @@
 			<label index="orderDirectionLabel">Order direction:</label>
 			<label index="orderdir.asc">Ascending (A-Z, newest first)</label>
 			<label index="orderdir.desc">Descending (Z-A, oldest first)</label>
+			<label index="limit">Limit (number of pages to show maximum)</label>
 
 			<label index="templateRootPath">Template directory</label>
 			<label index="partitialRootPath">Partitial directory</label>
@@ -38,7 +43,8 @@
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="general">Allgemein Einstellungen</label>
-			<label index="ordering">Sortierung</label>
+			<label index="ordering">Sortierung und Limitierung</label>
+			<label index="enableFields">Aktivierungsfelder</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
 			<label index="sourceLabel">Teaser-Quelle:</label>
@@ -55,6 +61,9 @@
 			<label index="orderByLabel">Sortieren nach:</label>
 			<label index="order.crdate">Erstellungsdatum</label>
 			<label index="order.tstamp">Änderungsdatum</label>
+			<label index="order.starttime">Veröffentlichungsdatum (von)</label>
+			<label index="order.endtime">Ablaufdatum (bis)</label>
+			<label index="order.newtime">"Markiert als neu" Datum</label>
 			<label index="order.sorting">Sortierung im Seitenbaum</label>
 			<label index="order.title">Titel (alphabetisch)</label>
 			<label index="order.random">Zufällige Sortierung</label>
@@ -62,6 +71,7 @@
 			<label index="orderDirectionLabel">Sortierrichtung:</label>
 			<label index="orderdir.asc">Aufsteigend (A-Z, Neuste als Erstes)</label>
 			<label index="orderdir.desc">Absteigend (Z-A, Älteste als Erstes)</label>
+			<label index="limit">Limit (max. Seitenanzahl)</label>
 			
 			<label index="templateRootPath">Template Verzeichnis</label>
 			<label index="partitialRootPath">Partitial Verzeichnis</label>

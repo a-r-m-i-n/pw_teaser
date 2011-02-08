@@ -72,13 +72,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		$pages = NULL;
 		$pageUid = $GLOBALS['TSFE']->id;
 
-		if (!empty($this->settings['orderBy'])) {
-			$this->pageRepository->setOrderBy($this->settings['orderBy']);
-		}
-
-		if (!empty($this->settings['orderDirection'])) {
-			$this->pageRepository->setOrderDirection($this->settings['orderDirection']);
-		}
+		$this->setOrderingAndLimitation();
 
 		switch ($this->settings['source']) {
 			default:
@@ -110,6 +104,12 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 				break;
 		}
 
+		// Make random if selected on queryResult, cause Extbase doesn't support it
+		if ($this->settings['orderBy'] == 'random') {
+			$pages = $pages->toArray();
+			shuffle($pages);
+		}
+
 		// Load contents if enabled in configuration
 		if ($this->settings['loadContents'] == '1') {
 			foreach ($pages as $page) {
@@ -121,5 +121,23 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 
 		$this->view->assign('pages', $pages);
 	}
+
+	/**
+	 * Sets ordering and limitation settings from $this->settings
+	 */
+	protected function setOrderingAndLimitation() {
+		if (!empty($this->settings['orderBy'])) {
+			$this->pageRepository->setOrderBy($this->settings['orderBy']);
+		}
+
+		if (!empty($this->settings['orderDirection'])) {
+			$this->pageRepository->setOrderDirection($this->settings['orderDirection']);
+		}
+
+		if (!empty($this->settings['limit'])) {
+			$this->pageRepository->setLimit(intval($this->settings['limit']));
+		}
+	}
+
 }
 ?>
