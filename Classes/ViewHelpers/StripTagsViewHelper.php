@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
 *
 *  All rights reserved
 *
@@ -27,7 +27,7 @@
  * This class strips html and php code out of a string
  *
  * @author     Armin Rüdiger Vieweg <info@professorweb.de>
- * @copyright  2010 Copyright belongs to the respective authors
+ * @copyright  2011 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_PwTeaser_ViewHelpers_StripTagsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {

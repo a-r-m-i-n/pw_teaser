@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "pw_teaser".
 #
-# Auto generated 21-12-2010 12:35
+# Auto generated 21-12-2011 12:35
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
