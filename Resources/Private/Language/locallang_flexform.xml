@@ -7,7 +7,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="general">General preferences</label>
-			<label index="ordering">Order and limit</label>
+			<label index="ordering">Order, limit and visibility</label>
 			<label index="enableFields">EnableFields</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
@@ -36,6 +36,7 @@
 			<label index="orderdir.asc">Ascending (A-Z, newest first)</label>
 			<label index="orderdir.desc">Descending (Z-A, oldest first)</label>
 			<label index="limit">Limit (number of pages to show maximum)</label>
+			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
 
 			<label index="templateRootPath">Template directory</label>
 			<label index="partitialRootPath">Partitial directory</label>
@@ -43,7 +44,7 @@
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="general">Allgemein Einstellungen</label>
-			<label index="ordering">Sortierung und Limitierung</label>
+			<label index="ordering">Sortierung, Limitierung und Sichtbarkeit</label>
 			<label index="enableFields">Aktivierungsfelder</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
@@ -72,6 +73,7 @@
 			<label index="orderdir.asc">Aufsteigend (A-Z, Neuste als Erstes)</label>
 			<label index="orderdir.desc">Absteigend (Z-A, Älteste als Erstes)</label>
 			<label index="limit">Limit (max. Seitenanzahl)</label>
+			<label index="showNavHiddenItems">Zeige Seiten, welche in der Navigation ausgeblendet sind</label>
 			
 			<label index="templateRootPath">Template Verzeichnis</label>
 			<label index="partitialRootPath">Partitial Verzeichnis</label>

@@ -169,6 +169,14 @@
 								</config>
 						</TCEforms>
 					</settings.limit>
+					<settings.showNavHiddenItems>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:showNavHiddenItems</label>
+								<config>
+									<type>check</type>
+								</config>
+						</TCEforms>
+					</settings.showNavHiddenItems>
 				</el>
 			</ROOT>
 		</orderingsheet>

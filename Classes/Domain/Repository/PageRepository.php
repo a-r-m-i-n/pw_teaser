@@ -35,10 +35,14 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	private $orderBy = 'uid';
 	private $orderDirection = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
 	private $limit = NULL;
+	private $nav_hide_state = array(0);
 
 	/**
 	 * Sets the order by which is used by all find methods
+	 *
 	 * @param string $orderBy property to order by
+	 *
+	 * @return void
 	 */
 	public function setOrderBy($orderBy) {
 		if ($orderBy != 'random') {
@@ -48,7 +52,10 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 
 	/**
 	 * Sets the order direction which is used by all find methods
+	 *
 	 * @param string $orderDirection the direction to order, may be desc or asc
+	 *
+	 * @return void
 	 */
 	public function setOrderDirection($orderDirection) {
 		if ($orderDirection == 'desc' || $orderDirection == 1) {
@@ -64,10 +71,28 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Sets the query limit
 	 *
 	 * @param integer $limit The limit of elements to show
+	 *
+	 * @return void
 	 */
 	public function setLimit($limit) {
 		if ($limit > 0) {
 			$this->limit = $limit;
+		}
+	}
+
+	/**
+	 * Sets the nav_hide_state flag
+	 *
+	 * @param boolean $showNavHiddenItems TRUE lets show items which should not
+	 *                be visible in navigation. Default is FALSE.
+	 *
+	 * @return void
+	 */
+	public function setShowNavHiddenItems($showNavHiddenItems) {
+		if ($showNavHiddenItems === TRUE) {
+			$this->nav_hide_state = array(0,1);
+		} else {
+			$this->nav_hide_state = array(0);
 		}
 	}
 
@@ -90,12 +115,16 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Returns all objects of this repository which match the pid
 	 *
 	 * @param integer $pid the pid to search for
+	 *
 	 * @return array all found objects, will be empty if there are no objects
 	 */
 	public function findByPid($pid) {
 		$query = $this->createQuery();
 		$query->matching(
-			$query->equals('pid', $pid)
+			$query->logicalAnd(
+				$query->equals('pid', $pid),
+				$query->equals('nav_hide', $this->nav_hide_state)
+			)
 		);
 
 		$this->handleOrderingAndLimit($query);
@@ -107,6 +136,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * pid (recursively)
 	 *
 	 * @param integer $pid the pid to search for recursively
+	 *
 	 * @return array all found objects, will be empty if there are no objects
 	 */
 	public function findByPidRecursively($pid) {
@@ -118,7 +148,10 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 
 		$query = $this->createQuery();
 		$query->matching(
-			$query->in('pid', $pagePids)
+			$query->logicalAnd(
+				$query->in('pid', $pagePids),
+				$query->equals('nav_hide', $this->nav_hide_state)
+			)
 		);
 
 		$this->handleOrderingAndLimit($query);
@@ -129,6 +162,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Returns all objects of this repository which are in the pidlist
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
+	 *
 	 * @return array all found objects, will be empty if there are no objects
 	 */
 	public function findByPidList($pidlist, $orderByPlugin = 0) {
@@ -139,7 +173,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		);
 		$query = $this->createQuery();
 		$query->matching(
-			$query->in('uid', $pagePids)
+			$query->in('uid', $pagePids),
+			$query->equals('nav_hide', '0')
 		);
 
 		$results = $query->execute();
@@ -166,6 +201,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Returns all objects of this repository which are in the pidlist
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
+	 *
 	 * @return array all found objects, will be empty if there are no objects
 	 */
 	public function findChildrenByPidList($pidlist) {
@@ -174,10 +210,12 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 			$pidlist,
 			TRUE
 		);
-
 		$query = $this->createQuery();
 		$query->matching(
-			$query->in('pid', $pagePids)
+			$query->logicalAnd(
+				$query->in('pid', $pagePids),
+				$query->equals('nav_hide', $this->nav_hide_state)
+			)
 		);
 
 		$this->handleOrderingAndLimit($query);
@@ -189,6 +227,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * pidlist (recursively)
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
+	 *
 	 * @return array all found objects, will be empty if there are no objects
 	 */
 	public function findChildrenRecursivelyByPidList($pidlist) {
@@ -220,7 +259,10 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 
 		$query = $this->createQuery();
 		$query->matching(
-			$query->in('pid', $pagePids)
+			$query->logicalAnd(
+				$query->in('pid', $pagePids),
+				$query->equals('nav_hide', $this->nav_hide_state)
+			)
 		);
 
 		$this->handleOrderingAndLimit($query);

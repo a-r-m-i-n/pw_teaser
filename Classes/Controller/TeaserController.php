@@ -74,6 +74,11 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 
 		$this->setOrderingAndLimitation();
 
+		// Set ShowNavHiddenItems to TRUE
+		if ($this->settings['showNavHiddenItems'] == '1') {
+			$this->pageRepository->setShowNavHiddenItems(TRUE);
+		}
+
 		switch ($this->settings['source']) {
 			default:
 			case 'thisChildren':
