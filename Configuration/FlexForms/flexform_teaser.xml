@@ -212,9 +212,9 @@
 						</TCEforms>
 					</view.templateRootPath>
 		
-					<view.partitialRootPath>
+					<view.partialRootPath>
 						<TCEforms>
-							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:partitialRootPath</label>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:partialRootPath</label>
 								<config>
 									<type>input</type>
 									<eval>trim</eval>
@@ -235,7 +235,7 @@
 									</wizards>
 								</config>
 						</TCEforms>
-					</view.partitialRootPath>
+					</view.partialRootPath>
 
 					<view.layoutRootPath>
 						<TCEforms>

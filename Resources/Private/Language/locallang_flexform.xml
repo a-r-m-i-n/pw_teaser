@@ -39,7 +39,7 @@
 			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
 
 			<label index="templateRootPath">Template directory</label>
-			<label index="partitialRootPath">Partitial directory</label>
+			<label index="partialRootPath">Partial directory</label>
 			<label index="layoutRootPath">Layout directory</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -74,9 +74,9 @@
 			<label index="orderdir.desc">Absteigend (Z-A, Älteste als Erstes)</label>
 			<label index="limit">Limit (max. Seitenanzahl)</label>
 			<label index="showNavHiddenItems">Zeige Seiten, welche in der Navigation ausgeblendet sind</label>
-			
+
 			<label index="templateRootPath">Template Verzeichnis</label>
-			<label index="partitialRootPath">Partitial Verzeichnis</label>
+			<label index="partialRootPath">Partial Verzeichnis</label>
 			<label index="layoutRootPath">Layout Verzeichnis</label>
 		</languageKey>
 	</data>

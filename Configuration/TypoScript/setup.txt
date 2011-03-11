@@ -12,7 +12,7 @@ plugin.tx_pwteaser {
 
 	view {
 	#	templateRootPath =
-	#	partitialRootPath =
+	#	partialRootPath =
 	#	layoutRootPath =
 	}
 
