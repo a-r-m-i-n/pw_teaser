@@ -59,7 +59,7 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 
 	/**
 	 * Initilize action of paginate widget controller
-	 * 
+	 *
 	 * @return void
 	 */
 	public function initializeAction() {
@@ -86,7 +86,7 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 
 		$itemsPerPage = (integer)$this->configuration['itemsPerPage'];
 		$modifiedObjects = array();
-		
+
 		if ($this->objectType == 'Tx_Extbase_Persistence_QueryResult') {
 				// Tx_Extbase_Persistence_QueryResult
 				// modify query
@@ -108,9 +108,9 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 				$i++;
 			}
 		}
-
 		$this->view->assign('contentArguments', array(
-			$this->widgetConfiguration['as'] => $modifiedObjects
+			$this->widgetConfiguration['as'] => $modifiedObjects,
+			'pagination' => $this->buildPagination()
 		));
 		$this->view->assign('configuration', $this->configuration);
 		$this->view->assign('pagination', $this->buildPagination());
