@@ -38,6 +38,11 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	protected $pageRepository;
 
 	/**
+	 * @var tslib_cObj
+	 */
+	protected $contentObject = NULL;
+
+	/**
 	 * Injects the page repository.
 	 *
 	 * @param Tx_PwTeaser_Domain_Repository_PageRepository $repository
@@ -63,6 +68,16 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		Tx_PwTeaser_Domain_Repository_ContentRepository $repository
 	) {
 		$this->contentRepository = $repository;
+	}
+
+	/**
+	 * Initialize Action will performed before each action will be executed
+	 *
+	 * @return void
+	 */
+	public function  initializeAction() {
+		$this->contentObject = $this->configurationManager->getContentObject();
+		$this->settings = $this->renderSettings($this->settings);
 	}
 
 	/**
@@ -144,5 +159,51 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		}
 	}
 
+	/**
+	 * Renders TypoScript parts of configuration
+	 *
+	 * @param array $settings The settings
+	 *
+	 * @return array Rendered settings
+	 */
+	protected function renderSettings(array $settings) {
+		$settings = $this->addDotsToConfigurationArrays($settings);
+		foreach($settings as $key => $value) {
+			if (strpos($key, '.')) {
+				$key = substr($key, 0, -1);
+				$settings[$key] = $this->contentObject->cObjGetSingle($settings[$key], $settings[$key . '.']);
+				unset($settings[$key . '.']);
+			}
+		}
+		return $settings;
+	}
+
+	/**
+	 * Formats a given array with typoscript syntax, recursively. Example:
+	 * Before: $array['level1']['level2']['finalLevel'] = 'hello kitty'
+	 * After:  $array['level1.']['level2.']['finalLevel'] = 'hello kitty'
+	 *		   $array['level1'] = 'TEXT'
+	 *
+	 * @param array $configuration Configuration array, without dots after
+	 *              properties, which contains arrays
+	 *
+	 * @return array
+	 *         the same configuration array, but with dots after properties
+	 *         which contains arrays
+	 */
+	protected function addDotsToConfigurationArrays(array $configuration) {
+		$dottedConfiguration = array();
+		foreach ($configuration as $key => $value) {
+			if (is_array($value)) {
+				if (array_key_exists('_typoScriptNodeValue', $value)) {
+					$dottedConfiguration[$key] = $value['_typoScriptNodeValue'];
+				}
+				$dottedConfiguration[$key . '.'] = $this->addDotsToConfigurationArrays($value);
+			} else {
+				$dottedConfiguration[$key] = $value;
+			}
+		}
+		return $dottedConfiguration;
+	}
 }
 ?>

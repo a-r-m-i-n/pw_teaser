@@ -1,5 +1,4 @@
 plugin.tx_pwteaser {
-
 	settings {
 	#	source = thisChildren || thisChildrenRecursively || custom || customChildren || customChildrenRecursively
 	#	customPages = 1,5,9
@@ -9,13 +8,11 @@ plugin.tx_pwteaser {
 	#	orderBy = crdate || tstamp || lastUpdated || sorting || title || uid || random #please update, this list is not actually
 	#	orderDirection = asc || desc
 	}
-
 	view {
 	#	templateRootPath =
 	#	partialRootPath =
 	#	layoutRootPath =
 	}
-
 	persistence {
 		classes {
 			Tx_PwTeaser_Domain_Model_Page {
@@ -48,5 +45,14 @@ plugin.tx_pwteaser {
 		}
 		storagePid =
 	}
+}
 
+lib.pwteaser = USER
+lib.pwteaser {
+	userFunc = tx_extbase_core_bootstrap->run
+	extensionName = PwTeaser
+	pluginName = Pi1
+	settings =< plugin.tx_pwteaser.settings
+	persistence =< plugin.tx_pwteaser.persistence
+	view =< plugin.tx_pwteaser.view
 }
