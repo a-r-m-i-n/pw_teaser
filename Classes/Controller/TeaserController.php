@@ -38,6 +38,21 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	protected $pageRepository;
 
 	/**
+	 * @var Tx_PwComments_Domain_Repository_CommentRepository
+	 */
+	protected $commentRepository;
+
+	/**
+	 * @var Tx_PwTeaser_Domain_Repository_ContentRepository
+	 */
+	protected $contentRepository;
+
+	/**
+	 * @var array
+	 */
+	protected $enabledExtensions = array();
+
+	/**
 	 * @var tslib_cObj
 	 */
 	protected $contentObject = NULL;
@@ -54,6 +69,20 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		Tx_PwTeaser_Domain_Repository_PageRepository $repository
 	) {
 		$this->pageRepository = $repository;
+	}
+
+	/**
+	 * Injects the comment repository, but not automatically!
+	 *
+	 * @param Tx_PwComments_Domain_Repository_CommentRepository $repository
+	 *        the repository to inject
+	 *
+	 * @return void
+	 */
+	public function manualInjectCommentRepository(
+		Tx_PwComments_Domain_Repository_CommentRepository $repository
+	) {
+		$this->commentRepository = $repository;
 	}
 
 	/**
@@ -76,17 +105,25 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 * @return void
 	 */
 	public function  initializeAction() {
-		$this->typoscript = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-		$this->typoscript = $this->typoscript['plugin.']['tx_pwteaser.']['settings.'];
-
+		// Render
+		$typoscript = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+		$typoscript = $typoscript['plugin.']['tx_pwteaser.']['settings.'];
 		foreach($this->settings as $key => $setting) {
-			if ($setting === '' && array_key_exists($key, $this->typoscript)) {
-				$this->settings[$key] = $this->typoscript[$key];
+			if ($setting === '' && array_key_exists($key, $typoscript)) {
+				$this->settings[$key] = $typoscript[$key];
 			}
 		}
-
 		$this->contentObject = $this->configurationManager->getContentObject();
 		$this->settings = $this->renderSettings($this->settings);
+
+		// Fill array of enabled extensions
+		$this->enabledExtensions = t3lib_div::trimExplode(',', t3lib_extMgm::getEnabledExtensionList(), TRUE);
+
+		// Inject comment repository manually, if pw_comments is installed and enabled
+		if (in_array('pw_comments', $this->enabledExtensions)) {
+			$commentRepository = $this->objectManager->get('Tx_PwComments_Domain_Repository_CommentRepository');
+			$this->manualInjectCommentRepository($commentRepository);
+		}
 	}
 
 	/**
@@ -139,12 +176,15 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			shuffle($pages);
 		}
 
-		// Load contents if enabled in configuration
-		if ($this->settings['loadContents'] == '1') {
-			foreach ($pages as $page) {
-				$page->setContents(
-					$this->contentRepository->findByPid($page->getUid())
-				);
+		/* @var $page Tx_PwTeaser_Domain_Model_Page */
+		foreach ($pages as $page) {
+			// Load contents if enabled in configuration
+			if ($this->settings['loadContents'] == '1') {
+				$page->setContents($this->contentRepository->findByPid($page->getUid()));
+			}
+			// Load comments if pw_comments is installed and activated
+			if (in_array('pw_comments', $this->enabledExtensions)) {
+				$page->setComments($this->commentRepository->findByPid($page->getUid()));
 			}
 		}
 

@@ -135,6 +135,12 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 */
 	protected $contents;
 
+	/**
+	 * Comments
+	 * @var array<Tx_PwComments_Domain_Model_Comment>
+	 */
+	protected $comments;
+
 
 	/**
 	 * Setter for contents
@@ -152,6 +158,24 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 */
 	public function getContents() {
 		return $this->contents;
+	}
+
+	/**
+	 * Setter for contents
+	 *
+	 * @param array<Tx_PwComments_Domain_Model_Comment> $contents array of comments
+	 */
+	public function setComments($comments) {
+		$this->comments = $comments;
+	}
+
+	/**
+	 * Getter for contents
+	 *
+	 * @returns array<Tx_PwComments_Domain_Model_Comment> comments
+	 */
+	public function getComments() {
+		return $this->comments;
 	}
 
 
