@@ -5,7 +5,7 @@ plugin.tx_pwteaser {
 	#	orderByPlugin = 0	#should only enabled, if source=custom
 	#	loadContents = 0
 
-	#	orderBy = crdate || tstamp || lastUpdated || sorting || title || uid || random #please update, this list is not actually
+	#	orderBy = crdate || tstamp || lastUpdated || sorting || title || uid || starttime || random #please update, this list is not actually
 	#	orderDirection = asc || desc
 	}
 	view {

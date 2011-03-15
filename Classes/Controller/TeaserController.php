@@ -76,6 +76,15 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 * @return void
 	 */
 	public function  initializeAction() {
+		$this->typoscript = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+		$this->typoscript = $this->typoscript['plugin.']['tx_pwteaser.']['settings.'];
+
+		foreach($this->settings as $key => $setting) {
+			if ($setting === '' && array_key_exists($key, $this->typoscript)) {
+				$this->settings[$key] = $this->typoscript[$key];
+			}
+		}
+
 		$this->contentObject = $this->configurationManager->getContentObject();
 		$this->settings = $this->renderSettings($this->settings);
 	}
