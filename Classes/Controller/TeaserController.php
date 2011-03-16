@@ -268,7 +268,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 				if (array_key_exists('_typoScriptNodeValue', $value)) {
 					$dottedConfiguration[$key] = $value['_typoScriptNodeValue'];
 				}
-				$dottedConfiguration[$key . '.'] = $this->addDotsToConfigurationArrays($value);
+				$dottedConfiguration[$key . '.'] = $this->makeConfigurationArrayRenderable($value);
 			} else {
 				$dottedConfiguration[$key] = $value;
 			}
