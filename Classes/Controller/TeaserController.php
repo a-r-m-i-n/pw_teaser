@@ -105,16 +105,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 * @return void
 	 */
 	public function  initializeAction() {
-		// Render
-		$typoscript = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-		$typoscript = $typoscript['plugin.']['tx_pwteaser.']['settings.'];
-		foreach($this->settings as $key => $setting) {
-			if ($setting === '' && array_key_exists($key, $typoscript)) {
-				$this->settings[$key] = $typoscript[$key];
-			}
-		}
-		$this->contentObject = $this->configurationManager->getContentObject();
-		$this->settings = $this->renderSettings($this->settings);
+		$this->settings = $this->prepareSettings($this->settings);
 
 		// Fill array of enabled extensions
 		$this->enabledExtensions = t3lib_div::trimExplode(',', t3lib_extMgm::getEnabledExtensionList(), TRUE);
@@ -209,18 +200,48 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	}
 
 	/**
-	 * Renders TypoScript parts of configuration
+	 * Prepares the settings of controller for use. Including typoscript will be
+	 * rendered and empty values from flexforms will fallback to typoscript values.
 	 *
-	 * @param array $settings The settings
+	 * @param array $settings The settings to prepare
 	 *
-	 * @return array Rendered settings
+	 * @return array The prepared settings
+	 */
+	protected function prepareSettings(array $settings) {
+		// Fallback to typoscript values, if flexform values are empty
+		$extkey = 'tx_' . strtolower($this->extensionName);
+		$typoscript = $this->configurationManager->getConfiguration(
+			Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+		);
+		$typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
+		foreach($settings as $key => $setting) {
+			if ($setting === '' && array_key_exists($key, $typoscript)) {
+				$settings[$key] = $typoscript[$key];
+			}
+		}
+
+		// Render typoscript parts in settings array
+		$this->contentObject = $this->configurationManager->getContentObject();
+		return $this->renderSettings($settings);
+	}
+
+	/**
+	 * Renders TypoScript parts of configuration. Before this can be done, the
+	 * settings array must be remodeled to work with cObjGetSingle.
+	 *
+	 * @param array $settings The settings to render
+	 *
+	 * @return array The rendered settings
 	 */
 	protected function renderSettings(array $settings) {
-		$settings = $this->addDotsToConfigurationArrays($settings);
+		$settings = $this->makeConfigurationArrayRenderable($settings);
 		foreach($settings as $key => $value) {
 			if (strpos($key, '.')) {
 				$key = substr($key, 0, -1);
-				$settings[$key] = $this->contentObject->cObjGetSingle($settings[$key], $settings[$key . '.']);
+				$settings[$key] = $this->contentObject->cObjGetSingle(
+					$settings[$key],
+					$settings[$key . '.']
+				);
 				unset($settings[$key . '.']);
 			}
 		}
@@ -228,19 +249,19 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	}
 
 	/**
-	 * Formats a given array with typoscript syntax, recursively. Example:
+	 * Formats a given array with typoscript syntax, recursively. After the
+	 * transformation it can be rendered with cObjGetSingle.
+	 *
+	 * Example:
 	 * Before: $array['level1']['level2']['finalLevel'] = 'hello kitty'
 	 * After:  $array['level1.']['level2.']['finalLevel'] = 'hello kitty'
 	 *		   $array['level1'] = 'TEXT'
 	 *
-	 * @param array $configuration Configuration array, without dots after
-	 *              properties, which contains arrays
+	 * @param array $configuration settings array to make renderable
 	 *
-	 * @return array
-	 *         the same configuration array, but with dots after properties
-	 *         which contains arrays
+	 * @return array the renderable settings
 	 */
-	protected function addDotsToConfigurationArrays(array $configuration) {
+	protected function makeConfigurationArrayRenderable(array $configuration) {
 		$dottedConfiguration = array();
 		foreach ($configuration as $key => $value) {
 			if (is_array($value)) {
