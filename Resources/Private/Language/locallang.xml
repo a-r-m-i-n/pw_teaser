@@ -10,6 +10,11 @@
 			<label index="tx_pwteaser_domain_model_teaser.name">name</label>
 			<label index="tx_pwteaser_domain_model_teaser.teaser_that">teaserThat</label>
 			<label index="tx_pwteaser_domain_model_teaser.order_by">orderBy</label>
+
+			<label index="pagination_first">&#171;</label>
+			<label index="pagination_previous">&lt;</label>
+			<label index="pagination_next">&gt;</label>
+			<label index="pagination_last">&#187;</label>
 		</languageKey>
 	</data>
 </T3locallang>
