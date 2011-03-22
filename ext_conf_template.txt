@@ -1,0 +1,2 @@
+# cat=basic//01; type=boolean; label=Enable Cache: Whole plugin will be cached
+ENABLECACHE = 0
