@@ -187,9 +187,58 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
+					<view.templateType>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType</label>
+							<onChange>reload</onChange>
+								<config>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.file</numIndex>
+										<numIndex index="1">file</numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.directory</numIndex>
+										<numIndex index="1">directory</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+									<size>1</size>
+							  </config>
+						</TCEforms>
+					</view.templateType>
+
+					<view.templateRootFile>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateRootFile</label>
+							<displayCond>FIELD:view.templateType:IN:file,</displayCond>
+								<config>
+									<type>input</type>
+									<eval>trim</eval>
+									<default></default>
+									<wizards type="array">
+										<_PADDING>2</_PADDING>
+										<link type="array">
+											<type>popup</type>
+											<title>Link</title>
+											<icon>fileicons/link_popup.gif</icon>
+											<script>browse_links.php?mode=wizard</script>
+											<params type="array">
+												<blindLinkOptions>page,url,mail,spec,folder</blindLinkOptions>
+												<allowedExtensions>htm,html,tmp,tmpl</allowedExtensions>
+											</params>
+											<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+										</link>
+									</wizards>
+								</config>
+						</TCEforms>
+					</view.templateRootFile>
+
 					<view.templateRootPath>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateRootPath</label>
+							<displayCond>FIELD:view.templateType:IN:directory</displayCond>
 								<config>
 									<type>input</type>
 									<eval>trim</eval>
@@ -211,7 +260,7 @@
 								</config>
 						</TCEforms>
 					</view.templateRootPath>
-		
+
 					<view.partialRootPath>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:partialRootPath</label>

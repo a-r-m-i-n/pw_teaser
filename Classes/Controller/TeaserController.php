@@ -33,6 +33,11 @@
 class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
+	 * @var array
+	 */
+	protected $settings = array();
+
+	/**
 	 * @var Tx_PwTeaser_Domain_Repository_PageRepository
 	 */
 	protected $pageRepository;
@@ -121,8 +126,12 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 * Displays all Teasers
 	 */
 	public function indexAction() {
+		/** @var $pages Tx_Extbase_Persistence_QueryResult */
 		$pages = NULL;
 		$pageUid = $GLOBALS['TSFE']->id;
+
+		// Sets template as file if configured
+		$this->performTemplatePathAndFilename();
 
 		$this->setOrderingAndLimitation();
 
@@ -167,7 +176,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			shuffle($pages);
 		}
 
-		/* @var $page Tx_PwTeaser_Domain_Model_Page */
+		/** @var $page Tx_PwTeaser_Domain_Model_Page */
 		foreach ($pages as $page) {
 			// Load contents if enabled in configuration
 			if ($this->settings['loadContents'] == '1') {
@@ -275,5 +284,27 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		}
 		return $dottedConfiguration;
 	}
+
+	/**
+	 * Sets the fluid template to file if file is selected in flexform
+	 * configuration and file exists
+	 *
+	 * @return boolean Returns TRUE if templateType is file and exists,
+	 *         otherwise returns FALSE
+	 */
+	protected function performTemplatePathAndFilename() {
+		$frameworkSettings = $this->configurationManager->getConfiguration(
+			Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+		);
+		$templateType = $frameworkSettings['view']['templateType'];
+		$templateFile = $frameworkSettings['view']['templateRootFile'];
+
+		if ($templateType === 'file' && file_exists(PATH_site . $templateFile)) {
+			$this->view->setTemplatePathAndFilename($templateFile);
+			return TRUE;
+		}
+		return FALSE;
+	}
+
 }
 ?>

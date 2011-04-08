@@ -38,6 +38,11 @@
 			<label index="limit">Limit (number of pages to show maximum)</label>
 			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
 
+			<label index="templateType">Template type:</label>
+			<label index="templateType.file">HTML file</label>
+			<label index="templateType.directory">Fluid template directory</label>
+
+			<label index="templateRootFile">Template file (with path)</label>
 			<label index="templateRootPath">Template directory</label>
 			<label index="partialRootPath">Partial directory</label>
 			<label index="layoutRootPath">Layout directory</label>
