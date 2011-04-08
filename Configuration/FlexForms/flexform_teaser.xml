@@ -222,7 +222,7 @@
 										<link type="array">
 											<type>popup</type>
 											<title>Link</title>
-											<icon>fileicons/link_popup.gif</icon>
+											<icon>i/pages.gif</icon>
 											<script>browse_links.php?mode=wizard</script>
 											<params type="array">
 												<blindLinkOptions>page,url,mail,spec,folder</blindLinkOptions>

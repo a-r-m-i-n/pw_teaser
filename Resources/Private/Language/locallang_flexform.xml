@@ -80,6 +80,11 @@
 			<label index="limit">Limit (max. Seitenanzahl)</label>
 			<label index="showNavHiddenItems">Zeige Seiten, welche in der Navigation ausgeblendet sind</label>
 
+			<label index="templateType">Template-Typ:</label>
+			<label index="templateType.file">HTML-Datei</label>
+			<label index="templateType.directory">Fluid-Template Verzeichnis</label>
+
+			<label index="templateRootFile">Template Datei (mit Pfad)</label>
 			<label index="templateRootPath">Template Verzeichnis</label>
 			<label index="partialRootPath">Partial Verzeichnis</label>
 			<label index="layoutRootPath">Layout Verzeichnis</label>
