@@ -149,9 +149,9 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			if ($this->settings['loadContents'] == '1') {
 				$page->setContents($this->contentRepository->findByPid($page->getUid()));
 			}
-			// Hook 'indexAction' to modify the pages model with other extensions
-			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['indexAction'])) {
-				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['indexAction'] as $_classRef) {
+			// Hook 'modifyPageModel' to modify the pages model with other extensions
+			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['modifyPageModel'])) {
+				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['modifyPageModel'] as $_classRef) {
 					$_procObj = &t3lib_div::getUserObj($_classRef);
 					$_procObj->main($this, $page);
 				}
