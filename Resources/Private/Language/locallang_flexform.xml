@@ -19,8 +19,8 @@
 			<label index="source.customChildren">Childpages of selected pages</label>
 			<label index="source.customChildrenRecursively">Childpages of selected pages (recursively)</label>
 
-			<label index="loadContents">Load content elements of each page for usage in template (needs more performance)</label>
-			<label index="orderByPlugin">Order selected pages like in the list above (this will overwrite the ordering settings in visibility options tab)</label>
+			<label index="loadContents">Load content elements of each page for use in template (requires more performance)</label>
+			<label index="orderByPlugin">Order selected pages as in the list above (this will overwrite the order settings in visibility options tab)</label>
 
 			<label index="orderByLabel">Order by:</label>
 			<label index="order.crdate">Creation Date</label>
@@ -35,7 +35,7 @@
 			<label index="orderDirectionLabel">Order direction:</label>
 			<label index="orderdir.asc">Ascending (A-Z, newest first)</label>
 			<label index="orderdir.desc">Descending (Z-A, oldest first)</label>
-			<label index="limit">Limit (number of pages to show maximum)</label>
+			<label index="limit">Limit (max. number of pages to show)</label>
 			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
 
 			<label index="templateType">Template type:</label>
