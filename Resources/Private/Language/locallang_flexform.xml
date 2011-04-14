@@ -7,20 +7,20 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="general">General preferences</label>
-			<label index="ordering">Order, limit and visibility</label>
+			<label index="ordering">Visibility options</label>
 			<label index="enableFields">EnableFields</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
 			<label index="sourceLabel">Teaser source:</label>
-			<label index="customPagesLabel">Custom Pages (if selected at teaser source):</label>
+			<label index="customPagesLabel">Custom Pages:</label>
 			<label index="source.thisChildren">Childpages of current page</label>
 			<label index="source.thisChildrenRecursively">Childpages of current page (recursively)</label>
 			<label index="source.custom">Selected pages</label>
 			<label index="source.customChildren">Childpages of selected pages</label>
 			<label index="source.customChildrenRecursively">Childpages of selected pages (recursively)</label>
-			<label index="loadContents">Load contents of each page for usage in template (needs more performance)</label>
 
-			<label index="orderByPlugin">Order selected pages like in the list above (this overwrites the order options in ordering tab)</label>
+			<label index="loadContents">Load content elements of each page for usage in template (needs more performance)</label>
+			<label index="orderByPlugin">Order selected pages like in the list above (this will overwrite the ordering settings in visibility options tab)</label>
 
 			<label index="orderByLabel">Order by:</label>
 			<label index="order.crdate">Creation Date</label>
@@ -49,20 +49,20 @@
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="general">Allgemein Einstellungen</label>
-			<label index="ordering">Sortierung, Limitierung und Sichtbarkeit</label>
+			<label index="ordering">Anzeige Einstellungen</label>
 			<label index="enableFields">Aktivierungsfelder</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
 			<label index="sourceLabel">Teaser-Quelle:</label>
-			<label index="customPagesLabel">Bestimmte Seiten (wenn bei Teaser-Quelle gewählt):</label>
+			<label index="customPagesLabel">Bestimmte Seiten:</label>
 			<label index="source.thisChildren">Unterseiten der aktuellen Seite</label>
 			<label index="source.thisChildrenRecursively">Unterseiten der aktuellen Seite (rekursiv)</label>
 			<label index="source.custom">Ausgewählte Seiten</label>
 			<label index="source.customChildren">Unterseiten von ausgewählten Seiten</label>
 			<label index="source.customChildrenRecursively">Unterseiten von ausgewählten Seiten (rekursiv)</label>
-			<label index="loadContents">Lade Inhalte von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance)</label>
-
-			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Einstellungen im Sortierungs-Tab werden hiermit überschrieben)</label>
+			
+			<label index="loadContents">Lade Inhalte (Content-Elemente) von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance)</label>
+			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Sortierungs-Einstellungen im Anzeige-Einstellungen-Tab werden überschrieben)</label>
 
 			<label index="orderByLabel">Sortieren nach:</label>
 			<label index="order.crdate">Erstellungsdatum</label>

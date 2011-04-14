@@ -45,6 +45,15 @@ class Tx_PwTeaser_Domain_Repository_ContentRepository extends Tx_Extbase_Persist
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
+	/**
+	 * Returns all objects of this repository which matches the given pid. This
+	 * overwritten method exists, to perform sorting
+	 *
+	 * @param integer $pid Pid to search for
+	 *
+	 * @return Tx_Extbase_Persistence_QueryResult All found objects, will be
+	 *         empty if there are no objects
+	 */
 	public function findByPid($pid) {
 		$query = $this->createQuery();
 		$query->matching(
@@ -54,7 +63,16 @@ class Tx_PwTeaser_Domain_Repository_ContentRepository extends Tx_Extbase_Persist
 		return $query->execute();
 	}
 
-
+	/**
+	 * Returns all objects of this repository which are located inside the
+	 * given pages
+	 *
+	 * @param array<Tx_PwTeaser_Domain_Model_Page> $pages Pages to get content
+	 *        elements
+	 *
+	 * @return Tx_Extbase_Persistence_QueryResult All found objects, will be
+	 *         empty if there are no objects
+	 */
 	public function findByPages($pages) {
 		$query = $this->createQuery();
 		$constraint = array();

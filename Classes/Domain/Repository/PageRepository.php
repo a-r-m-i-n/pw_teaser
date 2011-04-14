@@ -116,7 +116,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param integer $pid the pid to search for
 	 *
-	 * @return array all found objects, will be empty if there are no objects
+	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
 	 */
 	public function findByPid($pid) {
 		$query = $this->createQuery();
@@ -137,7 +137,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param integer $pid the pid to search for recursively
 	 *
-	 * @return array all found objects, will be empty if there are no objects
+	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
 	 */
 	public function findByPidRecursively($pid) {
 		$pagePids =	t3lib_div::intExplode(
@@ -202,7 +202,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
 	 *
-	 * @return array all found objects, will be empty if there are no objects
+	 * @return Tx_Extbase_Persistence_QueryResult All found objects, will be empty if there are no objects
 	 */
 	public function findChildrenByPidList($pidlist) {
 		$pagePids =	t3lib_div::intExplode(
@@ -228,7 +228,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
 	 *
-	 * @return array all found objects, will be empty if there are no objects
+	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
 	 */
 	public function findChildrenRecursivelyByPidList($pidlist) {
 		$pagePids = array();
