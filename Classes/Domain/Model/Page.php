@@ -136,11 +136,53 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	protected $contents;
 
 	/**
-	 * Comments
-	 * @var array<Tx_PwComments_Domain_Model_Comment>
+	 * custom attributes
+	 * which can be setted by hooks
+	 *
+	 * @var array<mixed>
 	 */
-	protected $comments;
+	protected $_customAttributes;
 
+
+	/**
+	 * Sets a custom attribute
+	 *
+	 * @param string $name The name of the attribute
+	 * @param mixed $value Attribute's value
+	 *
+	 * @return void
+	 */
+	public function setCustomAttribute($name, $value) {
+		$this->_customAttributes[$name] = $value;
+	}
+
+	/**
+	 * Returns the value of a custom attribute
+	 *
+	 * @param $name Name of attribute
+	 *
+	 * @return mixed The value of a custom attribute
+	 */
+	public function getCustomAttribute($name) {
+		return $this->_customAttributes[$name];
+	}
+
+	/**
+	 * Magic method which is called if an unknown method is called. If the unknown
+	 * method starts with 'get' the requested attribute will be taken and returned
+	 * from the _customAttribute array
+	 *
+	 * @param string $name Name of unknown method
+	 * @param array arguments Arguments of call
+	 *
+	 * @return mixed
+	 */
+	public function __call($name, $arguments) {
+		if (substr(strtolower($name), 0, 3) == 'get') {
+			$attribute = strtolower(substr($name, 3));
+			return $this->getCustomAttribute($attribute);
+		}
+	}
 
 	/**
 	 * Setter for contents
@@ -158,24 +200,6 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 */
 	public function getContents() {
 		return $this->contents;
-	}
-
-	/**
-	 * Setter for contents
-	 *
-	 * @param array<Tx_PwComments_Domain_Model_Comment> $contents array of comments
-	 */
-	public function setComments($comments) {
-		$this->comments = $comments;
-	}
-
-	/**
-	 * Getter for contents
-	 *
-	 * @returns array<Tx_PwComments_Domain_Model_Comment> comments
-	 */
-	public function getComments() {
-		return $this->comments;
 	}
 
 

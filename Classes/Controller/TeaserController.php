@@ -43,19 +43,9 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	protected $pageRepository;
 
 	/**
-	 * @var Tx_PwComments_Domain_Repository_CommentRepository
-	 */
-	protected $commentRepository;
-
-	/**
 	 * @var Tx_PwTeaser_Domain_Repository_ContentRepository
 	 */
 	protected $contentRepository;
-
-	/**
-	 * @var array
-	 */
-	protected $enabledExtensions = array();
 
 	/**
 	 * @var tslib_cObj
@@ -74,20 +64,6 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		Tx_PwTeaser_Domain_Repository_PageRepository $repository
 	) {
 		$this->pageRepository = $repository;
-	}
-
-	/**
-	 * Injects the comment repository, but not automatically!
-	 *
-	 * @param Tx_PwComments_Domain_Repository_CommentRepository $repository
-	 *        the repository to inject
-	 *
-	 * @return void
-	 */
-	public function manualInjectCommentRepository(
-		Tx_PwComments_Domain_Repository_CommentRepository $repository
-	) {
-		$this->commentRepository = $repository;
 	}
 
 	/**
@@ -111,15 +87,6 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 */
 	public function  initializeAction() {
 		$this->settings = $this->prepareSettings($this->settings);
-
-		// Fill array of enabled extensions
-		$this->enabledExtensions = t3lib_div::trimExplode(',', t3lib_extMgm::getEnabledExtensionList(), TRUE);
-
-		// Inject comment repository manually, if pw_comments is installed and enabled
-		if (in_array('pw_comments', $this->enabledExtensions)) {
-			$commentRepository = $this->objectManager->get('Tx_PwComments_Domain_Repository_CommentRepository');
-			$this->manualInjectCommentRepository($commentRepository);
-		}
 	}
 
 	/**
@@ -182,9 +149,12 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			if ($this->settings['loadContents'] == '1') {
 				$page->setContents($this->contentRepository->findByPid($page->getUid()));
 			}
-			// Load comments if pw_comments is installed and activated
-			if (in_array('pw_comments', $this->enabledExtensions)) {
-				$page->setComments($this->commentRepository->findByPid($page->getUid()));
+			// Hook 'indexAction' to modify the pages model with other extensions
+			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['indexAction'])) {
+				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['indexAction'] as $_classRef) {
+					$_procObj = &t3lib_div::getUserObj($_classRef);
+					$_procObj->main($this, $page);
+				}
 			}
 		}
 
