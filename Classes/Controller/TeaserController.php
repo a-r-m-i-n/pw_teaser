@@ -269,7 +269,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		$templateType = $frameworkSettings['view']['templateType'];
 		$templateFile = $frameworkSettings['view']['templateRootFile'];
 
-		if ($templateType === 'file' && file_exists(PATH_site . $templateFile)) {
+		if ($templateType === 'file' && !empty($templateFile) && file_exists(PATH_site . $templateFile)) {
 			$this->view->setTemplatePathAndFilename($templateFile);
 			return TRUE;
 		}
