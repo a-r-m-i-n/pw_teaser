@@ -159,12 +159,15 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	/**
 	 * Returns the value of a custom attribute
 	 *
-	 * @param $name Name of attribute
+	 * @param string $name Name of attribute
 	 *
 	 * @return mixed The value of a custom attribute
 	 */
-	public function getCustomAttribute($name) {
-		return $this->_customAttributes[$name];
+	public function getCustomAttribute($name = NULL) {
+		if ($name !== NULL) {
+			return $this->_customAttributes[$name];
+		}
+		return NULL;
 	}
 
 	/**
@@ -178,7 +181,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return mixed
 	 */
 	public function __call($name, $arguments) {
-		if (substr(strtolower($name), 0, 3) == 'get') {
+		if (substr(strtolower($name), 0, 3) == 'get' && strlen($name) > 3) {
 			$attribute = strtolower(substr($name, 3));
 			return $this->getCustomAttribute($attribute);
 		}
