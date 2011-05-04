@@ -143,12 +143,21 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			shuffle($pages);
 		}
 
+		// Convert to Array
+		if (!is_array($pages)) {
+			$pages = $pages->toArray();
+		}
+
 		/** @var $page Tx_PwTeaser_Domain_Model_Page */
 		foreach ($pages as $index => $page) {
-			// Hide current page and not containing doktypes from list
+			// Hide current page, not containing doktypes and uids to ignore from list
 			$doktypesToShow = t3lib_div::trimExplode(',', $this->settings['showDoktypes'], TRUE);
-			if (($this->settings['hideCurrentPage'] == '1' && $page->getUid() === $pageUid)
-				|| (count($doktypesToShow) > 0 && !in_array($page->getDoktype(), $doktypesToShow))) {
+			$ignoreUids = t3lib_div::trimExplode(',', $this->settings['ignoreUids'], TRUE);
+			if (
+				($this->settings['hideCurrentPage'] == '1' && $page->getUid() === $pageUid)
+				|| (count($doktypesToShow) > 0 && !in_array($page->getDoktype(), $doktypesToShow))
+				|| (count($ignoreUids) > 0 && in_array($page->getUid(), $ignoreUids))
+			) {
 				unset($pages[$index]);
 				continue;
 			}

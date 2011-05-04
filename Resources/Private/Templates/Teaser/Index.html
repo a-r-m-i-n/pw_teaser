@@ -11,7 +11,7 @@
 					<f:for each="{pageObject}" as="page">
 						<li>
 							<fieldset>
-								<legend><b>Title:</b> <f:link.page pageUid="{page.uid}">{page.title}</f:link.page></legend>
+								<legend><b>Title:</b> <f:link.page pageUid="{page.uid}">{page.title}</f:link.page> (uid: {page.uid})</legend>
 								<ul>
 									<li><b>subtitle:</b> {page.subtitle}</li>
 									<li><b>navTitle:</b> {page.navTitle}</li>
@@ -26,7 +26,7 @@
 									<li><b>description:</b> {page.description}</li>
 									<li><b>abstract:</b> {page.abstract}</li>
 									<li><b>alias:</b> {page.alias}</li>
-									<li><b>media:</b> 
+									<li><b>media:</b>
 										<f:if condition="{f:count(subject:'{page.media}')}">
 											<f:then>
 												<ul>

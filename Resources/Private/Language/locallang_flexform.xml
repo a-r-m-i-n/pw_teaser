@@ -39,6 +39,7 @@
 			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
 			<label index="hideCurrentPage">Hide current page from list</label>
 			<label index="showDoktypes">Show pages with doktypes (comma separated)</label>
+			<label index="ignoreUids">Ignore the following pages by uid (comma separated)</label>
 
 			<label index="templateType">Template type:</label>
 			<label index="templateType.file">HTML file</label>
@@ -83,6 +84,7 @@
 			<label index="showNavHiddenItems">Zeige Seiten, welche in der Navigation ausgeblendet sind</label>
 			<label index="hideCurrentPage">Verstecke die aktuelle Seite von der Liste</label>
 			<label index="showDoktypes">Zeige Seiten mit dem Doktype (kommagetrennt)</label>
+			<label index="ignoreUids">Ignoriere die folgenden Seiten nach Ihrer UID (kommagetrennt)</label>
 
 			<label index="templateType">Template-Typ:</label>
 			<label index="templateType.file">HTML-Datei</label>

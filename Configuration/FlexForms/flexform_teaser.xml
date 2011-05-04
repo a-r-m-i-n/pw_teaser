@@ -198,6 +198,16 @@
 								</config>
 						</TCEforms>
 					</settings.showDoktypes>
+					<settings.ignoreUids>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:ignoreUids</label>
+								<config>
+									<type>input</type>
+									<eval>trim</eval>
+									<size>8</size>
+								</config>
+						</TCEforms>
+					</settings.ignoreUids>
 				</el>
 			</ROOT>
 		</orderingsheet>
