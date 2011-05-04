@@ -144,11 +144,20 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		}
 
 		/** @var $page Tx_PwTeaser_Domain_Model_Page */
-		foreach ($pages as $page) {
+		foreach ($pages as $index => $page) {
+			// Hide current page and not containing doktypes from list
+			$doktypesToShow = t3lib_div::trimExplode(',', $this->settings['showDoktypes'], TRUE);
+			if (($this->settings['hideCurrentPage'] == '1' && $page->getUid() === $pageUid)
+				|| (count($doktypesToShow) > 0 && !in_array($page->getDoktype(), $doktypesToShow))) {
+				unset($pages[$index]);
+				continue;
+			}
+
 			// Load contents if enabled in configuration
 			if ($this->settings['loadContents'] == '1') {
 				$page->setContents($this->contentRepository->findByPid($page->getUid()));
 			}
+
 			// Hook 'modifyPageModel' to modify the pages model with other extensions
 			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['modifyPageModel'])) {
 				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['modifyPageModel'] as $_classRef) {

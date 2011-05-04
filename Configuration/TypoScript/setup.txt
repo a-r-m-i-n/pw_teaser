@@ -19,6 +19,7 @@ plugin.tx_pwteaser {
 				mapping {
 					tableName = pages
 					columns {
+						doktype.mapOnProperty = doktype
 						navTitle.mapOnProperty = nav_title
 						authorEmail.mapOnProperty = author_email
 						tstamp.mapOnProperty = tstamp

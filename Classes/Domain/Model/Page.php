@@ -33,6 +33,12 @@
 class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
+	 * doktype
+	 * @var integer
+	 */
+	protected $doktype;
+
+	/**
 	 * title
 	 * @var string
 	 * @validate NotEmpty
@@ -528,6 +534,26 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 */
 	public function getAuthor() {
 		return $this->author;
+	}
+
+	/**
+	 * Getter for doktype
+	 *
+	 * @return integer the doktype
+	 */
+	public function getDoktype() {
+		return $this->doktype;
+	}
+
+	/**
+	 * Setter for doktype
+	 *
+	 * @param integer $doktype the doktype
+	 *
+	 * @return void
+	 */
+	public function setDoktype($doktype) {
+		$this->doktype = $doktype;
 	}
 
 }

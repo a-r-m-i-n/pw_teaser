@@ -37,6 +37,8 @@
 			<label index="orderdir.desc">Descending (Z-A, oldest first)</label>
 			<label index="limit">Limit (max. number of pages to show)</label>
 			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
+			<label index="hideCurrentPage">Hide current page from list</label>
+			<label index="showDoktypes">Show pages with doktypes (comma separated)</label>
 
 			<label index="templateType">Template type:</label>
 			<label index="templateType.file">HTML file</label>
@@ -60,7 +62,7 @@
 			<label index="source.custom">Ausgewählte Seiten</label>
 			<label index="source.customChildren">Unterseiten von ausgewählten Seiten</label>
 			<label index="source.customChildrenRecursively">Unterseiten von ausgewählten Seiten (rekursiv)</label>
-			
+
 			<label index="loadContents">Lade Inhalte (Content-Elemente) von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance)</label>
 			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Sortierungs-Einstellungen im Anzeige-Einstellungen-Tab werden überschrieben)</label>
 
@@ -79,6 +81,8 @@
 			<label index="orderdir.desc">Absteigend (Z-A, Älteste als Erstes)</label>
 			<label index="limit">Limit (max. Seitenanzahl)</label>
 			<label index="showNavHiddenItems">Zeige Seiten, welche in der Navigation ausgeblendet sind</label>
+			<label index="hideCurrentPage">Verstecke die aktuelle Seite von der Liste</label>
+			<label index="showDoktypes">Zeige Seiten mit dem Doktype (kommagetrennt)</label>
 
 			<label index="templateType">Template-Typ:</label>
 			<label index="templateType.file">HTML-Datei</label>

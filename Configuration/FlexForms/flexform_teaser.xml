@@ -166,6 +166,7 @@
 									<type>input</type>
 									<eval>trim,num</eval>
 									<default></default>
+									<size>2</size>
 								</config>
 						</TCEforms>
 					</settings.limit>
@@ -177,6 +178,26 @@
 								</config>
 						</TCEforms>
 					</settings.showNavHiddenItems>
+					<settings.hideCurrentPage>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:hideCurrentPage</label>
+								<config>
+									<type>check</type>
+									<default>1</default>
+								</config>
+						</TCEforms>
+					</settings.hideCurrentPage>
+					<settings.showDoktypes>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:showDoktypes</label>
+								<config>
+									<type>input</type>
+									<eval>trim</eval>
+									<size>5</size>
+									<default>1,2</default>
+								</config>
+						</TCEforms>
+					</settings.showDoktypes>
 				</el>
 			</ROOT>
 		</orderingsheet>
