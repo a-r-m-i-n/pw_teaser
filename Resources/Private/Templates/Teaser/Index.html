@@ -17,11 +17,13 @@
 									<li><b>navTitle:</b> {page.navTitle}</li>
 									<li><b>keywords as String:</b> {page.keywordsAsString}</li>
 									<li><b>keywords:</b>
-										<ul>
-											<f:for each="{page.keywords}" as="keyword" iteration="iterator">
-												<li<f:if condition="{iterator.isLast} == 1"> class="isLast"</f:if>>{keyword}</li>
-											</f:for>
-										</ul>
+										<f:if condition="{page.keywords}">
+											<ul>
+												<f:for each="{page.keywords}" as="keyword" iteration="iterator">
+													<li><f:if condition="{iterator.isLast} == 1"> class="isLast"</f:if>>{keyword}</li>
+												</f:for>
+											</ul>
+										</f:if>
 									</li>
 									<li><b>description:</b> {page.description}</li>
 									<li><b>abstract:</b> {page.abstract}</li>
@@ -49,7 +51,7 @@
 									<li><b>isNew:</b> <f:if condition="{page.isNew}"><f:then>Yes, it is new :D</f:then><f:else>No, it is old :(</f:else></f:if></li>
 									<li><b>author:</b> {page.author}</li>
 									<li><b>authorEmail:</b> {page.authorEmail}</li>
-								<ul>
+								</ul>
 							</fieldset>
 							<b></b><br />
 							<br /><br />
