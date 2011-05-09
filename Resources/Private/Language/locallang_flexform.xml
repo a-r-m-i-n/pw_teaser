@@ -33,8 +33,8 @@
 			<label index="order.random">Random</label>
 
 			<label index="orderDirectionLabel">Order direction:</label>
-			<label index="orderdir.asc">Ascending (A-Z, newest first)</label>
-			<label index="orderdir.desc">Descending (Z-A, oldest first)</label>
+			<label index="orderdir.asc">Ascending (A-Z, oldest first)</label>
+			<label index="orderdir.desc">Descending (Z-A, newest first)</label>
 			<label index="limit">Limit (max. number of pages to show)</label>
 			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
 			<label index="hideCurrentPage">Hide current page from list</label>
@@ -78,8 +78,8 @@
 			<label index="order.random">Zufällige Sortierung</label>
 
 			<label index="orderDirectionLabel">Sortierrichtung:</label>
-			<label index="orderdir.asc">Aufsteigend (A-Z, Neuste als Erstes)</label>
-			<label index="orderdir.desc">Absteigend (Z-A, Älteste als Erstes)</label>
+			<label index="orderdir.asc">Aufsteigend (A-Z, Älteste als Erstes)</label>
+			<label index="orderdir.desc">Absteigend (Z-A, Neuste als Erstes)</label>
 			<label index="limit">Limit (max. Seitenanzahl)</label>
 			<label index="showNavHiddenItems">Zeige Seiten, welche in der Navigation ausgeblendet sind</label>
 			<label index="hideCurrentPage">Verstecke die aktuelle Seite von der Liste</label>
