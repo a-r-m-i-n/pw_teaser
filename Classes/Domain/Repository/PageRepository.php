@@ -140,11 +140,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
 	 */
 	public function findByPidRecursively($pid) {
-		$pagePids =	t3lib_div::intExplode(
-			',',
-			Tx_PwTeaser_Utilities_oelibdb::createRecursivePageList($pid, 255),
-			TRUE
-		);
+		$pagePids = $this->getRecursivePageList($pid);
 
 		$query = $this->createQuery();
 		$query->matching(
@@ -231,31 +227,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
 	 */
 	public function findChildrenRecursivelyByPidList($pidlist) {
-		$pagePids = array();
-
-		$pids =	t3lib_div::intExplode(
-			',',
-			$pidlist,
-			TRUE
-		);
-
-		foreach ($pids as $pid) {
-			$pageList = Tx_PwTeaser_Utilities_oelibdb::createRecursivePageList(
-				$pid,
-				255
-			);
-			$pageList =	t3lib_div::intExplode(
-				',',
-				Tx_PwTeaser_Utilities_oelibdb::createRecursivePageList(
-					$pid,
-					255
-				),
-				TRUE
-			);
-			array_push($pagePids, $pageList);
-		}
-
-		$pagePids = array_unique($pagePids[0]);
+		$pagePids = $this->getRecursivePageList($pidlist);
 
 		$query = $this->createQuery();
 		$query->matching(
@@ -269,6 +241,33 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		return $query->execute();
 	}
 
+
+	/**
+	 * Get subpages recursivley of given pid(s).
+	 *
+	 * @param string $pidlist List of pageUids to get subpages of. May contain a single uid.
+	 *
+	 * @return array Found subpages, recursivley
+	 */
+	protected function getRecursivePageList($pidlist) {
+		$pagePids = array();
+		$pids = t3lib_div::intExplode(',', $pidlist, TRUE);
+
+		foreach ($pids as $pid) {
+			$pageList = t3lib_div::intExplode(
+				',',
+				Tx_PwTeaser_Utilities_oelibdb::createRecursivePageList(
+					$pid,
+					255
+				),
+				TRUE
+			);
+			$pagePids = array_merge($pagePids, $pageList);
+		}
+
+		return array_unique($pagePids);
+	}
+
 	/**
 	 * Adds handle of ordering and limitation to query object
 	 *
@@ -276,7 +275,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @return void
 	 */
-	private function handleOrderingAndLimit(Tx_Extbase_Persistence_QueryInterface $query) {
+	protected function handleOrderingAndLimit(Tx_Extbase_Persistence_QueryInterface $query) {
 		$query->setOrderings(array($this->orderBy => $this->orderDirection));
 		if (!empty($this->limit)) {
 			$query->setLimit($this->limit);
