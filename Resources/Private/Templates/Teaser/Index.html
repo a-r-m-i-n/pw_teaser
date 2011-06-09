@@ -20,7 +20,9 @@
 										<f:if condition="{page.keywords}">
 											<ul>
 												<f:for each="{page.keywords}" as="keyword" iteration="iterator">
-													<li><f:if condition="{iterator.isLast} == 1"> class="isLast"</f:if>>{keyword}</li>
+													<li{f:if(condition:'{iterator.isLast} == 1', then:' class="isLast"')}>
+														{keyword}
+													</li>
 												</f:for>
 											</ul>
 										</f:if>

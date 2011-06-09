@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 Tx_Extbase_Utility_Extension::registerPlugin(
 	$_EXTKEY,
 	'Pi1',
-	'Teaser (pw_teaser)'
+	'Page Teaser (pw_teaser)'
 );
 
 $extensionName = t3lib_div::underscoredToUpperCamelCase($_EXTKEY);
