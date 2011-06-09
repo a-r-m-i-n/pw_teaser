@@ -133,11 +133,11 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		switch ($this->settings['source']) {
 			default:
 			case 'thisChildren':
-				$this->pages = $this->pagesRepository->findByPid($currentPageUid);
+				$this->pages = $this->pagesRepository->findByPid($this->currentPageUid);
 				break;
 
 			case 'thisChildrenRecursively':
-				$this->pages = $this->pagesRepository->findByPidRecursively($currentPageUid);
+				$this->pages = $this->pagesRepository->findByPidRecursively($this->currentPageUid);
 				break;
 
 			case 'custom':
