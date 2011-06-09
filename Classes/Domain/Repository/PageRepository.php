@@ -26,7 +26,6 @@
 /**
  * Repository for Tx_PwTeaser_Domain_Model_Page
  *
- * @version $Id$
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
