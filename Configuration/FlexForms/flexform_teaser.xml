@@ -193,7 +193,7 @@
 								<config>
 									<type>input</type>
 									<eval>trim</eval>
-									<size>5</size>
+									<size>8</size>
 									<default>1,2</default>
 								</config>
 						</TCEforms>
@@ -204,7 +204,7 @@
 								<config>
 									<type>input</type>
 									<eval>trim</eval>
-									<size>8</size>
+									<size>16</size>
 								</config>
 						</TCEforms>
 					</settings.ignoreUids>
