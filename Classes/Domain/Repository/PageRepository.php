@@ -32,10 +32,31 @@
  */
 class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
 
-	private $orderBy = 'uid';
-	private $orderDirection = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
-	private $limit = NULL;
-	private $nav_hide_state = array(0);
+	/**
+	 * page attribute to order by
+	 * @var string
+	 */
+	protected $orderBy = 'uid';
+
+	/**
+	 * Direction to order. Default is ascending.
+	 * @var string
+	 */
+	protected $orderDirection = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+
+	/**
+	 * Limitation of results. If is NULL there is no limitation
+	 * @var integer|NULL
+	 */
+	protected $limit = NULL;
+
+	/**
+	 * Handles the show of pages which are hidden for navigation. Per default the array contains only zero which means,
+	 * only pages with nav_hide=0 are included in teaser. Contains 0,1 if pages which are hidden for navigation should
+	 * be shown, too
+	 * @var array
+	 */
+	protected $nav_hide_state = array(0);
 
 	/**
 	 * Sets the order by which is used by all find methods
@@ -45,7 +66,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * @return void
 	 */
 	public function setOrderBy($orderBy) {
-		if ($orderBy != 'random') {
+		if ($orderBy !== 'random') {
 			$this->orderBy = $orderBy;
 		}
 	}
@@ -83,8 +104,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	/**
 	 * Sets the nav_hide_state flag
 	 *
-	 * @param boolean $showNavHiddenItems TRUE lets show items which should not
-	 *                be visible in navigation. Default is FALSE.
+	 * @param boolean $showNavHiddenItems If TRUE lets show items which should not be visible in navigation.
+	 *        Default is FALSE.
 	 *
 	 * @return void
 	 */
@@ -116,7 +137,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param integer $pid the pid to search for
 	 *
-	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
+	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findByPid($pid) {
 		$query = $this->createQuery();
@@ -126,9 +147,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 				$query->equals('nav_hide', $this->nav_hide_state)
 			)
 		);
-
 		$this->handleOrderingAndLimit($query);
-		return $query->execute();
+		return $query->execute()->toArray();
 	}
 
 	/**
@@ -137,7 +157,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param integer $pid the pid to search for recursively
 	 *
-	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
+	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findByPidRecursively($pid) {
 		$pagePids = $this->getRecursivePageList($pid);
@@ -149,56 +169,67 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 				$query->equals('nav_hide', $this->nav_hide_state)
 			)
 		);
-
 		$this->handleOrderingAndLimit($query);
-		return $query->execute();
+		return $query->execute()->toArray();
 	}
 
 	/**
 	 * Returns all objects of this repository which are in the pidlist
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
+	 * @param boolean $orderByPlugin setting of ordering by plugin
 	 *
-	 * @return array all found objects, will be empty if there are no objects
+	 * @return array All found pages, will be empty if the result is empty
 	 */
-	public function findByPidList($pidlist, $orderByPlugin = 0) {
-		$pagePids =	t3lib_div::intExplode(
-			',',
-			$pidlist,
-			TRUE
-		);
+	public function findByPidList($pidlist, $orderByPlugin = FALSE) {
+		$pagePids =	t3lib_div::intExplode(',', $pidlist, TRUE);
+
 		$query = $this->createQuery();
 		$query->matching(
-			$query->in('uid', $pagePids),
-			$query->equals('nav_hide', '0')
+			$query->logicalAnd(
+				$query->in('uid', $pagePids),
+				$query->equals('nav_hide', $this->nav_hide_state)
+			)
 		);
 
-		$results = $query->execute();
-
-		if ($orderByPlugin == 1) {
-			$results = $results->toArray();
-
-			$sortedResults = $this->objectManager->create('Tx_Extbase_Persistence_ObjectStorage');
-			foreach ($pagePids as $pagePid) {
-				foreach ($results as $result) {
-					if ($pagePid == $result->getUid()) {
-						$sortedResults->attach($result);
-						continue;
-					}
-				}
-			}
-			return $sortedResults;
+		if ($orderByPlugin == FALSE) {
+			$this->handleOrderingAndLimit($query);
 		}
+		$results = $query->execute()->toArray();
 
+		if ($orderByPlugin == TRUE) {
+			return $this->orderByPlugin($pagePids, $results);
+		}
 		return $results;
 	}
 
 	/**
+	 * Creates array of result items, with the order of given pagePids
+	 *
+	 * @param array $pagePids pagePids to order for
+	 * @param array $results results to reorder
+	 *
+	 * @return array results ordered by plugin
+	 */
+	protected function orderByPlugin(array $pagePids, array $results) {
+		$sortedResults = array();
+		foreach ($pagePids as $pagePid) {
+			foreach ($results as $result) {
+				if ($pagePid === $result->getUid()) {
+					$sortedResults[] = $result;
+					continue;
+				}
+			}
+		}
+		return $sortedResults;
+	}
+
+	/**
 	 * Returns all objects of this repository which are in the pidlist
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
 	 *
-	 * @return Tx_Extbase_Persistence_QueryResult All found objects, will be empty if there are no objects
+	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findChildrenByPidList($pidlist) {
 		$pagePids =	t3lib_div::intExplode(
@@ -213,9 +244,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 				$query->equals('nav_hide', $this->nav_hide_state)
 			)
 		);
-
 		$this->handleOrderingAndLimit($query);
-		return $query->execute();
+		return $query->execute()->toArray();
 	}
 
 	/**
@@ -224,7 +254,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
 	 *
-	 * @return Tx_Extbase_Persistence_QueryResult all found objects, will be empty if there are no objects
+	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findChildrenRecursivelyByPidList($pidlist) {
 		$pagePids = $this->getRecursivePageList($pidlist);
@@ -236,9 +266,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 				$query->equals('nav_hide', $this->nav_hide_state)
 			)
 		);
-
 		$this->handleOrderingAndLimit($query);
-		return $query->execute();
+		return $query->execute()->toArray();
 	}
 
 
@@ -264,7 +293,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 			);
 			$pagePids = array_merge($pagePids, $pageList);
 		}
-
 		return array_unique($pagePids);
 	}
 
@@ -277,7 +305,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 */
 	protected function handleOrderingAndLimit(Tx_Extbase_Persistence_QueryInterface $query) {
 		$query->setOrderings(array($this->orderBy => $this->orderDirection));
-		if (!empty($this->limit)) {
+		if ($this->limit !== NULL) {
 			$query->setLimit($this->limit);
 		}
 	}

@@ -139,13 +139,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 
 		// Make random if selected on queryResult, cause Extbase doesn't support it
 		if ($this->settings['orderBy'] == 'random') {
-			$pages = $pages->toArray();
 			shuffle($pages);
-		}
-
-		// Convert to Array
-		if (!is_array($pages)) {
-			$pages = $pages->toArray();
 		}
 
 		/** @var $page Tx_PwTeaser_Domain_Model_Page */
