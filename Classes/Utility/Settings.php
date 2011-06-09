@@ -65,32 +65,55 @@ class Tx_PwTeaser_Utility_Settings {
 	 * Renders a given typoscript configuration and returns the whole array with
 	 * calculated values.
 	 *
-	 * @param array $typoscript the typoscript configuration array
+	 * @param array $settings the typoscript configuration array
 	 *
 	 * @author Benjamin Schulte <benjamin.schulte@diemedialen.de>
 	 *
 	 * @return array the configuration array with the rendered typoscript
 	 */
-	public function renderConfigurationArray(array $typoscript) {
+	public function renderConfigurationArray(array $settings) {
+		$settings = $this->enhanceSettingsWithTypoScript($settings);
 		$result = array();
-		foreach ($typoscript as $key => $value) {
+
+		foreach ($settings as $key => $value) {
 			if (substr($key, -1) === '.') {
 				$keyWithoutDot = substr($key, 0, -1);
-				if (array_key_exists($keyWithoutDot, $typoscript)) {
+				if (array_key_exists($keyWithoutDot, $settings)) {
 					$result[$keyWithoutDot] = $this->contentObject->cObjGetSingle(
-						$typoscript[$keyWithoutDot],
+						$settings[$keyWithoutDot],
 						$value
 					);
 				} else {
 					$result[$keyWithoutDot] = $this->renderConfigurationArray($value);
 				}
 			} else {
-				if (!array_key_exists($key . '.', $typoscript)) {
+				if (!array_key_exists($key . '.', $settings)) {
 					$result[$key] = $value;
 				}
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Overwrite flexform values with typoscript if flexform value is empty and typoscript value exists.
+	 *
+	 * @param array $settings Settings from flexform
+	 *
+	 * @return array enhanced settings
+	 */
+	protected function enhanceSettingsWithTypoScript(array $settings) {
+		$extkey = 'tx_pwteaser';
+		$typoscript = $this->configurationManager->getConfiguration(
+			Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+		);
+		$typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
+		foreach($settings as $key => $setting) {
+			if ($setting === '' && array_key_exists($key, $typoscript)) {
+				$settings[$key] = $typoscript[$key];
+			}
+		}
+		return $settings;
 	}
 }
 ?>
