@@ -13,6 +13,7 @@
 							<fieldset>
 								<legend><b>Title:</b> <f:link.page pageUid="{page.uid}">{page.title}</f:link.page> (uid: {page.uid})</legend>
 								<ul>
+									<li><b>isCurrentPage:</b> <f:if condition="{page.isCurrentPage}"><f:then>Yes</f:then><f:else>No</f:else></f:if></li>
 									<li><b>subtitle:</b> {page.subtitle}</li>
 									<li><b>navTitle:</b> {page.navTitle}</li>
 									<li><b>keywords as String:</b> {page.keywordsAsString}</li>
@@ -50,7 +51,7 @@
 									<li><b>starttime:</b> <f:format.date date="{page.starttime}" format="U" /></li>
 									<li><b>endtime:</b> <f:format.date date="{page.endtime}" format="U" /></li>
 									<li><b>newUntil:</b> <f:format.date date="{page.newUntil}" format="d.m.Y" /></li>
-									<li><b>isNew:</b> <f:if condition="{page.isNew}"><f:then>Yes, it is new :D</f:then><f:else>No, it is old :(</f:else></f:if></li>
+									<li><b>isNew:</b> <f:if condition="{page.isNew}"><f:then>Yes</f:then><f:else>No</f:else></f:if></li>
 									<li><b>author:</b> {page.author}</li>
 									<li><b>authorEmail:</b> {page.authorEmail}</li>
 								</ul>

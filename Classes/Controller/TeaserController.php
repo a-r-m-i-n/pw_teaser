@@ -164,6 +164,10 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 				continue;
 			}
 
+			if ($page->getUid() === $this->currentPageUid) {
+				$page->setIsCurrentPage(TRUE);
+			}
+
 			// Load contents if enabled in configuration
 			if ($this->settings['loadContents'] == '1') {
 				$page->setContents($this->contentRepository->findByPid($page->getUid()));

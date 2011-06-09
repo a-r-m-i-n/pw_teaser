@@ -38,6 +38,12 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	protected $doktype;
 
 	/**
+	 * isCurrentPage
+	 * @var boolean
+	 */
+	protected $isCurrentPage = FALSE;
+
+	/**
 	 * title
 	 * @var string
 	 * @validate NotEmpty
@@ -210,6 +216,23 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 		return $this->contents;
 	}
 
+	/**
+	 * Getter for isCurrentPage
+	 *
+	 * @return boolean
+	 */
+	public function getIsCurrentPage() {
+		return $this->isCurrentPage;
+	}
+
+	/**
+	 * Setter for isCurrentPage
+	 *
+	 * @param boolean $isCurrentPage
+	 */
+	public function setIsCurrentPage($isCurrentPage) {
+		$this->isCurrentPage = $isCurrentPage;
+	}
 
 	/**
 	 * Setter for authorEmail
