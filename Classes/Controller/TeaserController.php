@@ -37,6 +37,11 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	protected $settings = array();
 
 	/**
+	 * @var integer
+	 */
+	protected $currentPageUid = NULL;
+
+	/**
 	 * @var Tx_PwTeaser_Domain_Repository_PageRepository
 	 */
 	protected $pageRepository;
@@ -57,6 +62,11 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	protected $contentObject = NULL;
 
 	/**
+	 * @var array
+	 */
+	protected $pages = array();
+
+	/**
 	 * Injects the page repository.
 	 *
 	 * @param Tx_PwTeaser_Domain_Repository_PageRepository $repository
@@ -67,7 +77,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	public function injectPageRepository(
 		Tx_PwTeaser_Domain_Repository_PageRepository $repository
 	) {
-		$this->pageRepository = $repository;
+		$this->pagesRepository = $repository;
 	}
 
 	/**
@@ -108,9 +118,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 * Displays all Teasers
 	 */
 	public function indexAction() {
-		/** @var $pages array */
-		$pages = array();
-		$currentPageUid = $GLOBALS['TSFE']->id;
+		$this->currentPageUid = $GLOBALS['TSFE']->id;
 
 		// Sets template as file if configured
 		$this->performTemplatePathAndFilename();
@@ -119,48 +127,40 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 
 		// Set ShowNavHiddenItems to TRUE
 		if ($this->settings['showNavHiddenItems'] == '1') {
-			$this->pageRepository->setShowNavHiddenItems(TRUE);
+			$this->pagesRepository->setShowNavHiddenItems(TRUE);
 		}
 
 		switch ($this->settings['source']) {
 			default:
 			case 'thisChildren':
-				$pages = $this->pageRepository->findByPid($currentPageUid);
+				$this->pages = $this->pagesRepository->findByPid($currentPageUid);
 				break;
 
 			case 'thisChildrenRecursively':
-				$pages = $this->pageRepository->findByPidRecursively($currentPageUid);
+				$this->pages = $this->pagesRepository->findByPidRecursively($currentPageUid);
 				break;
 
 			case 'custom':
-				$pages = $this->pageRepository->findByPidList($this->settings['customPages'], $this->settings['orderByPlugin']);
+				$this->pages = $this->pagesRepository->findByPidList($this->settings['customPages'], $this->settings['orderByPlugin']);
 				break;
 
 			case 'customChildren':
-				$pages = $this->pageRepository->findChildrenByPidList($this->settings['customPages']);
+				$this->pages = $this->pagesRepository->findChildrenByPidList($this->settings['customPages']);
 				break;
 
 			case 'customChildrenRecursively':
-				$pages = $this->pageRepository->findChildrenRecursivelyByPidList($this->settings['customPages']);
+				$this->pages = $this->pagesRepository->findChildrenRecursivelyByPidList($this->settings['customPages']);
 				break;
 		}
 
 		// Make random if selected on queryResult, cause Extbase doesn't support it
 		if ($this->settings['orderBy'] == 'random') {
-			shuffle($pages);
+			shuffle($this->pages);
 		}
 
 		/** @var $page Tx_PwTeaser_Domain_Model_Page */
-		foreach ($pages as $index => $page) {
-			// Hide current page, not containing doktypes and uids to ignore from list
-			$doktypesToShow = t3lib_div::trimExplode(',', $this->settings['showDoktypes'], TRUE);
-			$ignoreUids = t3lib_div::trimExplode(',', $this->settings['ignoreUids'], TRUE);
-			if (
-				($this->settings['hideCurrentPage'] == '1' && $page->getUid() === $currentPageUid)
-				|| (count($doktypesToShow) > 0 && !in_array($page->getDoktype(), $doktypesToShow))
-				|| (count($ignoreUids) > 0 && in_array($page->getUid(), $ignoreUids))
-			) {
-				unset($pages[$index]);
+		foreach ($this->pages as $index => $page) {
+			if ($this->performVisibilityFilters($page, $index) === TRUE) {
 				continue;
 			}
 
@@ -178,7 +178,59 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			}
 		}
 
-		$this->view->assign('pages', $pages);
+		$this->view->assign('pages', $this->pages);
+	}
+
+	/**
+	 * Performs visibility filters and removes pages which not matches the filters. The different filters always returns
+	 * TRUE if the page doesn't match their criteria.
+	 *
+	 * @param Tx_PwTeaser_Domain_Model_Page $page page to perform filters on
+	 * @param integer $index Position of page in pages array
+	 *
+	 * @return boolean Returns TRUE if the page is filtered out, otherwise FALSE
+	 */
+	protected function performVisibilityFilters(Tx_PwTeaser_Domain_Model_Page $page, $index) {
+		if ($this->filterHideCurrentPage($page) || $this->filterByDokTypes($page) || $this->filterIgnoredUids($page)) {
+			unset($this->pages[$index]);
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	/**
+	 * Filter current page
+	 *
+	 * @param Tx_PwTeaser_Domain_Model_Page $page Page to check
+	 *
+	 * @return boolean Returns TRUE if the page is filtered out, otherwise FALSE
+	 */
+	protected function filterHideCurrentPage(Tx_PwTeaser_Domain_Model_Page $page) {
+		return ($this->settings['hideCurrentPage'] == '1' && $page->getUid() === $this->currentPageUid);
+	}
+
+	/**
+	 * Filter by DokType
+	 *
+	 * @param Tx_PwTeaser_Domain_Model_Page $page Page to check
+	 *
+	 * @return boolean Returns TRUE if the page is filtered out, otherwise FALSE
+	 */
+	protected function filterByDokTypes(Tx_PwTeaser_Domain_Model_Page $page) {
+		$doktypesToShow = t3lib_div::trimExplode(',', $this->settings['showDoktypes'], TRUE);
+		return (count($doktypesToShow) > 0 && !in_array($page->getDoktype(), $doktypesToShow));
+	}
+
+	/**
+	 * Filter by ignoredUids
+	 *
+	 * @param Tx_PwTeaser_Domain_Model_Page $page Page to check
+	 *
+	 * @return boolean Returns TRUE if the page is filtered out, otherwise FALSE
+	 */
+	protected function filterIgnoredUids(Tx_PwTeaser_Domain_Model_Page $page) {
+		$uidsToIgnore = t3lib_div::trimExplode(',', $this->settings['ignoreUids'], TRUE);
+		return (count($uidsToIgnore) > 0 && in_array($page->getUid(), $uidsToIgnore));
 	}
 
 	/**
@@ -186,15 +238,15 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 */
 	protected function setOrderingAndLimitation() {
 		if (!empty($this->settings['orderBy'])) {
-			$this->pageRepository->setOrderBy($this->settings['orderBy']);
+			$this->pagesRepository->setOrderBy($this->settings['orderBy']);
 		}
 
 		if (!empty($this->settings['orderDirection'])) {
-			$this->pageRepository->setOrderDirection($this->settings['orderDirection']);
+			$this->pagesRepository->setOrderDirection($this->settings['orderDirection']);
 		}
 
 		if (!empty($this->settings['limit'])) {
-			$this->pageRepository->setLimit(intval($this->settings['limit']));
+			$this->pagesRepository->setLimit(intval($this->settings['limit']));
 		}
 	}
 
@@ -218,6 +270,5 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		}
 		return FALSE;
 	}
-
 }
 ?>
