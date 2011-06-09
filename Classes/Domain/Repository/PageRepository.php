@@ -284,7 +284,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		foreach ($pids as $pid) {
 			$pageList = t3lib_div::intExplode(
 				',',
-				Tx_PwTeaser_Utilities_oelibdb::createRecursivePageList(
+				Tx_PwTeaser_Utility_oelibdb::createRecursivePageList(
 					$pid,
 					255
 				),

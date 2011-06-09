@@ -47,6 +47,11 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	protected $contentRepository;
 
 	/**
+	 * @var Tx_PwTeaser_Utility_Settings
+	 */
+	protected $settingsUtility;
+
+	/**
 	 * @var tslib_cObj
 	 */
 	protected $contentObject = NULL;
@@ -80,21 +85,32 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	}
 
 	/**
+	 * Injects the settings utility.
+	 *
+	 * @param Tx_PwTeaser_Utility_Settings $utility the utility to inject
+	 *
+	 * @return void
+	 */
+	public function injectSettingsUtility(Tx_PwTeaser_Utility_Settings $utility) {
+		$this->settingsUtility = $utility;
+	}
+
+	/**
 	 * Initialize Action will performed before each action will be executed
 	 *
 	 * @return void
 	 */
 	public function  initializeAction() {
-		$this->settings = $this->prepareSettings($this->settings);
+		$this->settings = $this->settingsUtility->renderConfigurationArray($this->settings);
 	}
 
 	/**
 	 * Displays all Teasers
 	 */
 	public function indexAction() {
-		/** @var $pages Tx_Extbase_Persistence_QueryResult */
-		$pages = NULL;
-		$pageUid = $GLOBALS['TSFE']->id;
+		/** @var $pages array */
+		$pages = array();
+		$currentPageUid = $GLOBALS['TSFE']->id;
 
 		// Sets template as file if configured
 		$this->performTemplatePathAndFilename();
@@ -109,30 +125,23 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		switch ($this->settings['source']) {
 			default:
 			case 'thisChildren':
-				$pages = $this->pageRepository->findByPid($pageUid);
+				$pages = $this->pageRepository->findByPid($currentPageUid);
 				break;
 
 			case 'thisChildrenRecursively':
-				$pages = $this->pageRepository->findByPidRecursively($pageUid);
+				$pages = $this->pageRepository->findByPidRecursively($currentPageUid);
 				break;
 
 			case 'custom':
-				$pages = $this->pageRepository->findByPidList(
-					$this->settings['customPages'],
-					$this->settings['orderByPlugin']
-				);
+				$pages = $this->pageRepository->findByPidList($this->settings['customPages'], $this->settings['orderByPlugin']);
 				break;
 
 			case 'customChildren':
-				$pages = $this->pageRepository->findChildrenByPidList(
-					$this->settings['customPages']
-				);
+				$pages = $this->pageRepository->findChildrenByPidList($this->settings['customPages']);
 				break;
 
 			case 'customChildrenRecursively':
-				$pages = $this->pageRepository->findChildrenRecursivelyByPidList(
-					$this->settings['customPages']
-				);
+				$pages = $this->pageRepository->findChildrenRecursivelyByPidList($this->settings['customPages']);
 				break;
 		}
 
@@ -147,7 +156,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			$doktypesToShow = t3lib_div::trimExplode(',', $this->settings['showDoktypes'], TRUE);
 			$ignoreUids = t3lib_div::trimExplode(',', $this->settings['ignoreUids'], TRUE);
 			if (
-				($this->settings['hideCurrentPage'] == '1' && $page->getUid() === $pageUid)
+				($this->settings['hideCurrentPage'] == '1' && $page->getUid() === $currentPageUid)
 				|| (count($doktypesToShow) > 0 && !in_array($page->getDoktype(), $doktypesToShow))
 				|| (count($ignoreUids) > 0 && in_array($page->getUid(), $ignoreUids))
 			) {
@@ -187,83 +196,6 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		if (!empty($this->settings['limit'])) {
 			$this->pageRepository->setLimit(intval($this->settings['limit']));
 		}
-	}
-
-	/**
-	 * Prepares the settings of controller for use. Including typoscript will be
-	 * rendered and empty values from flexforms will fallback to typoscript values.
-	 *
-	 * @param array $settings The settings to prepare
-	 *
-	 * @return array The prepared settings
-	 */
-	protected function prepareSettings(array $settings) {
-		// Fallback to typoscript values, if flexform values are empty
-		$extkey = 'tx_' . strtolower($this->extensionName);
-		$typoscript = $this->configurationManager->getConfiguration(
-			Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
-		);
-		$typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
-		foreach($settings as $key => $setting) {
-			if ($setting === '' && array_key_exists($key, $typoscript)) {
-				$settings[$key] = $typoscript[$key];
-			}
-		}
-
-		// Render typoscript parts in settings array
-		$this->contentObject = $this->configurationManager->getContentObject();
-		return $this->renderSettings($settings);
-	}
-
-	/**
-	 * Renders TypoScript parts of configuration. Before this can be done, the
-	 * settings array must be remodeled to work with cObjGetSingle.
-	 *
-	 * @param array $settings The settings to render
-	 *
-	 * @return array The rendered settings
-	 */
-	protected function renderSettings(array $settings) {
-		$settings = $this->makeConfigurationArrayRenderable($settings);
-		foreach($settings as $key => $value) {
-			if (strpos($key, '.')) {
-				$key = substr($key, 0, -1);
-				$settings[$key] = $this->contentObject->cObjGetSingle(
-					$settings[$key],
-					$settings[$key . '.']
-				);
-				unset($settings[$key . '.']);
-			}
-		}
-		return $settings;
-	}
-
-	/**
-	 * Formats a given array with typoscript syntax, recursively. After the
-	 * transformation it can be rendered with cObjGetSingle.
-	 *
-	 * Example:
-	 * Before: $array['level1']['level2']['finalLevel'] = 'hello kitty'
-	 * After:  $array['level1.']['level2.']['finalLevel'] = 'hello kitty'
-	 *		   $array['level1'] = 'TEXT'
-	 *
-	 * @param array $configuration settings array to make renderable
-	 *
-	 * @return array the renderable settings
-	 */
-	protected function makeConfigurationArrayRenderable(array $configuration) {
-		$dottedConfiguration = array();
-		foreach ($configuration as $key => $value) {
-			if (is_array($value)) {
-				if (array_key_exists('_typoScriptNodeValue', $value)) {
-					$dottedConfiguration[$key] = $value['_typoScriptNodeValue'];
-				}
-				$dottedConfiguration[$key . '.'] = $this->makeConfigurationArrayRenderable($value);
-			} else {
-				$dottedConfiguration[$key] = $value;
-			}
-		}
-		return $dottedConfiguration;
 	}
 
 	/**

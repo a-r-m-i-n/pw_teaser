@@ -36,7 +36,7 @@ require_once(PATH_t3lib . 'class.t3lib_page.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @see http://typo3.org/extensions/repository/view/oelib/current/
  */
-class Tx_PwTeaser_Utilities_oelibdb {
+class Tx_PwTeaser_Utility_oelibdb {
 	/**
 	 * @var t3lib_pageSelect page object which we will use to call
 	 *                       enableFields on
