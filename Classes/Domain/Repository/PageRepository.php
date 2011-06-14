@@ -44,10 +44,15 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	protected $orderDirection = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
 
 	/**
-	 * Limitation of results. If is NULL there is no limitation
-	 * @var integer|NULL
+	 * @var Tx_Extbase_Persistence_QueryInterface
 	 */
-	protected $limit = NULL;
+	protected $query = NULL;
+
+	/**
+	 * @var array
+	 */
+	protected $queryConstraints = array();
+
 
 	/**
 	 * Handles the show of pages which are hidden for navigation. Per default the array contains only zero which means,
@@ -95,9 +100,18 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * @return void
 	 */
 	public function setLimit($limit) {
-		if ($limit > 0) {
-			$this->limit = $limit;
-		}
+		$this->query->setLimit($limit);
+	}
+
+	/**
+	 * Sets the query offset
+	 *
+	 * @param integer $offset The offset of elements to show
+	 *
+	 * @return void
+	 */
+	public function setOffset($offset) {
+		$this->query->setOffset($offset);
 	}
 
 	/**
@@ -110,10 +124,34 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 */
 	public function setShowNavHiddenItems($showNavHiddenItems) {
 		if ($showNavHiddenItems === TRUE) {
-			$this->nav_hide_state = array(0,1);
+			$this->addQueryConstraint($this->query->equals('nav_hide', array(0,1)));
 		} else {
-			$this->nav_hide_state = array(0);
+			$this->addQueryConstraint($this->query->equals('nav_hide', array(0)));
 		}
+	}
+
+	/**
+	 * Sets doktypes to filter for
+	 *
+	 * @param array $dokTypesToFilterFor doktypes as array, may be empty
+	 *
+	 * @return void
+	 */
+	public function setFilteredDokType(array $dokTypesToFilterFor) {
+		if (count($dokTypesToFilterFor) > 0) {
+			$this->addQueryConstraint($this->query->equals('doktype', $dokTypesToFilterFor));
+		}
+	}
+
+	/**
+	 * Ignores given uid
+	 *
+	 * @param integer $currentPageUid Uid to ignore
+	 *
+	 * @return void
+	 */
+	public function setIgnoreOfCurrentPage($currentPageUid) {
+		$this->addQueryConstraint($this->query->logicalNot($this->query->equals('uid', $currentPageUid)));
 	}
 
 	/**
@@ -129,6 +167,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		);
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->setDefaultQuerySettings($querySettings);
+
+		$this->query = $this->createQuery();
 	}
 
 	/**
@@ -139,15 +179,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findByPid($pid) {
-		$query = $this->createQuery();
-		$query->matching(
-			$query->logicalAnd(
-				$query->equals('pid', $pid),
-				$query->equals('nav_hide', $this->nav_hide_state)
-			)
-		);
-		$this->handleOrderingAndLimit($query);
-		return $query->execute()->toArray();
+		$this->addQueryConstraint($this->query->equals('pid', $pid));
+		return $this->executeQuery();
 	}
 
 	/**
@@ -161,15 +194,8 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	public function findByPidRecursively($pid) {
 		$pagePids = $this->getRecursivePageList($pid);
 
-		$query = $this->createQuery();
-		$query->matching(
-			$query->logicalAnd(
-				$query->in('pid', $pagePids),
-				$query->equals('nav_hide', $this->nav_hide_state)
-			)
-		);
-		$this->handleOrderingAndLimit($query);
-		return $query->execute()->toArray();
+		$this->addQueryConstraint($this->query->in('pid', $pagePids));
+		return $this->executeQuery();
 	}
 
 	/**
@@ -183,16 +209,16 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	public function findByPidList($pidlist, $orderByPlugin = FALSE) {
 		$pagePids =	t3lib_div::intExplode(',', $pidlist, TRUE);
 
-		$query = $this->createQuery();
+		$query = $this->query;
+		$this->addQueryConstraint($query->in('uid', $pagePids));
 		$query->matching(
 			$query->logicalAnd(
-				$query->in('uid', $pagePids),
-				$query->equals('nav_hide', $this->nav_hide_state)
+				$this->queryConstraints
 			)
 		);
 
 		if ($orderByPlugin == FALSE) {
-			$this->handleOrderingAndLimit($query);
+			$this->handleOrdering($query);
 		}
 		$results = $query->execute()->toArray();
 
@@ -236,15 +262,9 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 			$pidlist,
 			TRUE
 		);
-		$query = $this->createQuery();
-		$query->matching(
-			$query->logicalAnd(
-				$query->in('pid', $pagePids),
-				$query->equals('nav_hide', $this->nav_hide_state)
-			)
-		);
-		$this->handleOrderingAndLimit($query);
-		return $query->execute()->toArray();
+
+		$this->addQueryConstraint($this->query->in('pid', $pagePids));
+		return $this->executeQuery();
 	}
 
 	/**
@@ -258,17 +278,45 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	public function findChildrenRecursivelyByPidList($pidlist) {
 		$pagePids = $this->getRecursivePageList($pidlist);
 
-		$query = $this->createQuery();
-		$query->matching(
-			$query->logicalAnd(
-				$query->in('pid', $pagePids),
-				$query->equals('nav_hide', $this->nav_hide_state)
-			)
-		);
-		$this->handleOrderingAndLimit($query);
+		$this->addQueryConstraint($this->query->in('pid', $pagePids));
+		return $this->executeQuery();
+	}
+
+	/**
+	 * Adds query constraint to array
+	 *
+	 * @param Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint Constraint to add
+	 *
+	 * @return void
+	 */
+	protected function addQueryConstraint(Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint) {
+		$this->queryConstraints[] = $constraint;
+	}
+
+	/**
+	 * Finalize given query constraints and executes the query
+	 *
+	 * @return array|Tx_Extbase_Persistence_QueryResultInterface Result of query
+	 */
+	protected function executeQuery() {
+		$query = $this->query;
+		$query->matching($query->logicalAnd($this->queryConstraints));
+		$this->handleOrdering($query);
 		return $query->execute()->toArray();
 	}
 
+	/**
+	 * Executes given query but without respecting offset and limit
+	 *
+	 * @return integer Count of result without offset and limit
+	 */
+	public function executeAndCountQuery() {
+		$query = $this->query;
+		$query->matching($query->logicalAnd($this->queryConstraints));
+		$query->setOffset(0);
+		$query->setLimit(999999999);
+		return $query->execute()->count();
+	}
 
 	/**
 	 * Get subpages recursivley of given pid(s).
@@ -296,17 +344,14 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	}
 
 	/**
-	 * Adds handle of ordering and limitation to query object
+	 * Adds handle of ordering to query object
 	 *
 	 * @param Tx_Extbase_Persistence_QueryInterface $query
 	 *
 	 * @return void
 	 */
-	protected function handleOrderingAndLimit(Tx_Extbase_Persistence_QueryInterface $query) {
+	protected function handleOrdering(Tx_Extbase_Persistence_QueryInterface $query) {
 		$query->setOrderings(array($this->orderBy => $this->orderDirection));
-		if ($this->limit !== NULL) {
-			$query->setLimit($this->limit);
-		}
 	}
 }
 ?>
