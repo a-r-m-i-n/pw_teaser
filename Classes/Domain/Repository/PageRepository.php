@@ -55,95 +55,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 
 
 	/**
-	 * Handles the show of pages which are hidden for navigation. Per default the array contains only zero which means,
-	 * only pages with nav_hide=0 are included in teaser. Contains 0,1 if pages which are hidden for navigation should
-	 * be shown, too
-	 * @var array
-	 */
-	protected $nav_hide_state = array(0);
-
-	/**
-	 * Sets the order by which is used by all find methods
-	 *
-	 * @param string $orderBy property to order by
-	 *
-	 * @return void
-	 */
-	public function setOrderBy($orderBy) {
-		if ($orderBy !== 'random') {
-			$this->orderBy = $orderBy;
-		}
-	}
-
-	/**
-	 * Sets the order direction which is used by all find methods
-	 *
-	 * @param string $orderDirection the direction to order, may be desc or asc
-	 *
-	 * @return void
-	 */
-	public function setOrderDirection($orderDirection) {
-		if ($orderDirection == 'desc' || $orderDirection == 1) {
-			$this->orderDirection
-				= Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
-		} else {
-			$this->orderDirection
-				= Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
-		}
-	}
-
-	/**
-	 * Sets the query limit
-	 *
-	 * @param integer $limit The limit of elements to show
-	 *
-	 * @return void
-	 */
-	public function setLimit($limit) {
-		$this->query->setLimit($limit);
-	}
-
-	/**
-	 * Sets the nav_hide_state flag
-	 *
-	 * @param boolean $showNavHiddenItems If TRUE lets show items which should not be visible in navigation.
-	 *        Default is FALSE.
-	 *
-	 * @return void
-	 */
-	public function setShowNavHiddenItems($showNavHiddenItems) {
-		if ($showNavHiddenItems === TRUE) {
-			$this->addQueryConstraint($this->query->equals('nav_hide', array(0,1)));
-		} else {
-			$this->addQueryConstraint($this->query->equals('nav_hide', array(0)));
-		}
-	}
-
-	/**
-	 * Sets doktypes to filter for
-	 *
-	 * @param array $dokTypesToFilterFor doktypes as array, may be empty
-	 *
-	 * @return void
-	 */
-	public function setFilteredDokType(array $dokTypesToFilterFor) {
-		if (count($dokTypesToFilterFor) > 0) {
-			$this->addQueryConstraint($this->query->equals('doktype', $dokTypesToFilterFor));
-		}
-	}
-
-	/**
-	 * Ignores given uid
-	 *
-	 * @param integer $currentPageUid Uid to ignore
-	 *
-	 * @return void
-	 */
-	public function setIgnoreOfCurrentPage($currentPageUid) {
-		$this->addQueryConstraint($this->query->logicalNot($this->query->equals('uid', $currentPageUid)));
-	}
-
-	/**
 	 * Initializes the repository.
 	 *
 	 * @return void
@@ -315,6 +226,87 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 			$pagePids = array_merge($pagePids, $pageList);
 		}
 		return array_unique($pagePids);
+	}
+
+	/**
+	 * Sets the order by which is used by all find methods
+	 *
+	 * @param string $orderBy property to order by
+	 *
+	 * @return void
+	 */
+	public function setOrderBy($orderBy) {
+		if ($orderBy !== 'random') {
+			$this->orderBy = $orderBy;
+		}
+	}
+
+	/**
+	 * Sets the order direction which is used by all find methods
+	 *
+	 * @param string $orderDirection the direction to order, may be desc or asc
+	 *
+	 * @return void
+	 */
+	public function setOrderDirection($orderDirection) {
+		if ($orderDirection == 'desc' || $orderDirection == 1) {
+			$this->orderDirection
+				= Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
+		} else {
+			$this->orderDirection
+				= Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+		}
+	}
+
+	/**
+	 * Sets the query limit
+	 *
+	 * @param integer $limit The limit of elements to show
+	 *
+	 * @return void
+	 */
+	public function setLimit($limit) {
+		$this->query->setLimit($limit);
+	}
+
+	/**
+	 * Sets the nav_hide_state flag
+	 *
+	 * @param boolean $showNavHiddenItems If TRUE lets show items which should not be visible in navigation.
+	 *        Default is FALSE.
+	 *
+	 * @return void
+	 */
+	public function setShowNavHiddenItems($showNavHiddenItems) {
+		if ($showNavHiddenItems === TRUE) {
+			$this->addQueryConstraint($this->query->equals('nav_hide', array(0,1)));
+		} else {
+			$this->addQueryConstraint($this->query->equals('nav_hide', array(0)));
+		}
+	}
+
+	/**
+	 * Sets doktypes to filter for
+	 *
+	 * @param array $dokTypesToFilterFor doktypes as array, may be empty
+	 *
+	 * @return void
+	 */
+	public function setFilteredDokType(array $dokTypesToFilterFor) {
+		if (count($dokTypesToFilterFor) > 0) {
+			$this->addQueryConstraint($this->query->equals('doktype', $dokTypesToFilterFor));
+		}
+	}
+
+	/**
+	 * Ignores given uid
+	 *
+	 * @param integer $currentPageUid Uid to ignore
+	 *
+	 * @return void
+	 */
+	public function setIgnoreOfCurrentPage($currentPageUid) {
+		$this->addQueryConstraint($this->query->logicalNot($this->query->equals('uid', $currentPageUid)));
 	}
 
 	/**
