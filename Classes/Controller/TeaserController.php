@@ -175,10 +175,6 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			}
 		}
 
-		if ($this->settings['limit']) {
-			$pages = $this->addPlaceholderPages($pages);
-		}
-
 		$this->view->assign('pages', $pages);
 	}
 
@@ -196,11 +192,6 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 
 		if (!empty($this->settings['limit'])) {
 			$this->pageRepository->setLimit(intval($this->settings['limit']));
-		}
-
-		$offset = $this->getCurrentPaginationValue();
-		if ($offset > 0 && intval($this->settings['limit']) > 0) {
-			$this->pageRepository->setOffset(intval($this->settings['limit']) * $offset);
 		}
 	}
 
@@ -223,45 +214,6 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			return TRUE;
 		}
 		return FALSE;
-	}
-
-
-	/**
-	 * Adds placeholder pages before and after pages array to use the benefits of limit but keep pagination
-	 * widget working.
-	 *
-	 * @param array $pages array with containing pages
-	 *
-	 * @return array pages array with pages and placeholders before and after the pages
-	 */
-	protected function addPlaceholderPages(array $pages) {
-		$pagesWithPlaceholder = $pages;
-		$placeholderPage = '';
-
-		$addCountBefore = $this->getCurrentPaginationValue() * intval($this->settings['limit']) - intval($this->settings['limit']);
-		$addCountBefore = ($addCountBefore < 0 ) ? 0 : $addCountBefore;
-
-		$addCountAfter = $this->pageRepository->executeAndCountQuery() - $addCountBefore - intval($this->settings['limit']);
-		$addCountAfter = ($addCountAfter < 0 ) ? 0 : $addCountAfter;
-
-		for ($i = 1; $i <= $addCountBefore; $i++) {
-			array_unshift($pagesWithPlaceholder, $placeholderPage);
-		}
-		for ($i = 1; $i < $addCountAfter; $i++) {
-			$pagesWithPlaceholder[] = $placeholderPage;
-		}
-
-		return $pagesWithPlaceholder;
-	}
-
-	/**
-	 * Returns the current page of pagination
-	 *
-	 * @return integer Current page. Zero if there is no page given.
-	 */
-	protected function getCurrentPaginationValue() {
-		$arguments = $this->request->getArguments();
-		return intval($arguments['__widget_0']['currentPage']);
 	}
 }
 ?>

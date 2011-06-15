@@ -104,17 +104,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	}
 
 	/**
-	 * Sets the query offset
-	 *
-	 * @param integer $offset The offset of elements to show
-	 *
-	 * @return void
-	 */
-	public function setOffset($offset) {
-		$this->query->setOffset($offset);
-	}
-
-	/**
 	 * Sets the nav_hide_state flag
 	 *
 	 * @param boolean $showNavHiddenItems If TRUE lets show items which should not be visible in navigation.
@@ -162,9 +151,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * @see Tx_Extbase_Persistence_Repository::initializeObject()
 	 */
 	public function initializeObject() {
-		$querySettings = $this->objectManager->create(
-			'Tx_Extbase_Persistence_Typo3QuerySettings'
-		);
+		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->setDefaultQuerySettings($querySettings);
 
@@ -303,19 +290,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		$query->matching($query->logicalAnd($this->queryConstraints));
 		$this->handleOrdering($query);
 		return $query->execute()->toArray();
-	}
-
-	/**
-	 * Executes given query but without respecting offset and limit
-	 *
-	 * @return integer Count of result without offset and limit
-	 */
-	public function executeAndCountQuery() {
-		$query = $this->query;
-		$query->matching($query->logicalAnd($this->queryConstraints));
-		$query->setOffset(0);
-		$query->setLimit(999999999);
-		return $query->execute()->count();
 	}
 
 	/**
