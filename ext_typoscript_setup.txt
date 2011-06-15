@@ -1,0 +1,35 @@
+plugin.tx_pwteaser {
+	persistence {
+		classes {
+			Tx_PwTeaser_Domain_Model_Page {
+				mapping {
+					tableName = pages
+					columns {
+						doktype.mapOnProperty = doktype
+						navTitle.mapOnProperty = nav_title
+						authorEmail.mapOnProperty = author_email
+						tstamp.mapOnProperty = tstamp
+						crdate.mapOnProperty = crdate
+						lastUpdated.mapOnProperty = lastUpdated
+						starttime.mapOnProperty = starttime
+						endtime.mapOnProperty = endtime
+						newUntil.mapOnProperty = newUntil
+					}
+				}
+			}
+			Tx_PwTeaser_Domain_Model_Content {
+				mapping {
+					tableName = tt_content
+					columns {
+						pid.mapOnProperty = pid
+						colPos.mapOnProperty = colPos
+						ctype.mapOnProperty = CType
+						tstamp.mapOnProperty = tstamp
+						crdate.mapOnProperty = crdate
+					}
+				}
+			}
+		}
+		storagePid =
+	}
+}
