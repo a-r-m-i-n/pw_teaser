@@ -65,7 +65,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->setDefaultQuerySettings($querySettings);
-
 		$this->query = $this->createQuery();
 	}
 
@@ -119,6 +118,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 			$this->handleOrdering($query);
 		}
 		$results = $query->execute()->toArray();
+		$this->resetQuery();
 
 		if ($orderByPlugin == TRUE) {
 			return $this->orderByPlugin($pagePids, $results);
@@ -200,7 +200,11 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 		$query = $this->query;
 		$query->matching($query->logicalAnd($this->queryConstraints));
 		$this->handleOrdering($query);
-		return $query->execute()->toArray();
+
+		$queryResult = $query->execute()->toArray();
+		$this->resetQuery();
+
+		return $queryResult;
 	}
 
 	/**
@@ -318,6 +322,18 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 */
 	protected function handleOrdering(Tx_Extbase_Persistence_QueryInterface $query) {
 		$query->setOrderings(array($this->orderBy => $this->orderDirection));
+	}
+
+	/**
+	 * Resets query and queryConstraints after execution
+	 *
+	 * @return void
+	 */
+	protected function resetQuery() {
+		unset($this->query);
+		$this->query = $this->createQuery();
+		unset($this->queryConstraints);
+		$this->queryConstraints = array();
 	}
 }
 ?>
