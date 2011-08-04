@@ -153,6 +153,9 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		// Make random if selected on queryResult, cause Extbase doesn't support it
 		if ($this->settings['orderBy'] == 'random') {
 			shuffle($pages);
+			if (!empty($this->settings['limit'])) {
+				$pages = array_slice($pages, 0, $this->settings['limit']);
+			}
 		}
 
 		/** @var $page Tx_PwTeaser_Domain_Model_Page */
@@ -190,7 +193,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			$this->pageRepository->setOrderDirection($this->settings['orderDirection']);
 		}
 
-		if (!empty($this->settings['limit'])) {
+		if (!empty($this->settings['limit']) && $this->settings['orderBy'] !== 'random') {
 			$this->pageRepository->setLimit(intval($this->settings['limit']));
 		}
 	}
