@@ -186,7 +186,11 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 */
 	protected function setOrderingAndLimitation() {
 		if (!empty($this->settings['orderBy'])) {
-			$this->pageRepository->setOrderBy($this->settings['orderBy']);
+			if ($this->settings['orderBy'] === 'customField') {
+				$this->pageRepository->setOrderBy($this->settings['orderByCustomField']);
+			} else {
+				$this->pageRepository->setOrderBy($this->settings['orderBy']);
+			}
 		}
 
 		if (!empty($this->settings['orderDirection'])) {

@@ -129,15 +129,31 @@
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.random</numIndex>
 										<numIndex index="1">random</numIndex>
 									  </numIndex>
+									  <numIndex index="9" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order.customField</numIndex>
+										<numIndex index="1">customField</numIndex>
+									  </numIndex>
 									</items>
 									<maxitems>1</maxitems>
 							  </config>
 						</TCEforms>
 					</settings.orderBy>
+					<settings.orderByCustomField>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByCustomFieldLabel</label>
+							<displayCond>FIELD:settings.orderBy:IN:customField</displayCond>
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+								<default></default>
+								<size>16</size>
+							</config>
+						</TCEforms>
+					</settings.orderByCustomField>
 					<settings.orderDirection>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderDirectionLabel</label>
-							<displayCond>FIELD:settings.orderBy:IN:title,sorting,crdate,tstamp,starttime,endtime</displayCond>
+							<displayCond>FIELD:settings.orderBy:IN:title,sorting,crdate,tstamp,starttime,endtime,customField</displayCond>
 								<config>
 									<type>select</type>
 									<items type="array">
