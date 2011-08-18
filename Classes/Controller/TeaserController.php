@@ -220,6 +220,12 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			$this->view->setTemplatePathAndFilename($templateFile);
 			return TRUE;
 		}
+
+		$templatePathAndFilename = $frameworkSettings['view']['templatePathAndFilename'];
+		if ($templateType === NULL && !empty($templatePathAndFilename) && file_exists(PATH_site . $templatePathAndFilename)) {
+			$this->view->setTemplatePathAndFilename($templatePathAndFilename);
+			return TRUE;
+		}
 		return FALSE;
 	}
 }
