@@ -89,7 +89,7 @@ class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractE
 	/**
 	 * Setter for bodytext
 	 *
-	 * @param integer $bodytext bodytext
+	 * @param string $bodytext bodytext
 	 */
 	public function setBodytext($bodytext) {
 		$this->bodytext = $bodytext;
@@ -98,7 +98,7 @@ class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractE
 	/**
 	 * Getter for bodytext
 	 *
-	 * @return integer bodytext
+	 * @return string bodytext
 	 */
 	public function getBodytext() {
 		return $this->bodytext;
