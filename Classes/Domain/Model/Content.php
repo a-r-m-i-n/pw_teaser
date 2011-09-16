@@ -62,28 +62,28 @@ class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractE
 
 
 	/**
-	 * Setter for image
+	 * Setter for image(s)
 	 *
-	 * @param integer $image image
+	 * @param string $image image
 	 */
 	public function setImage($image) {
 		$this->image = $image;
 	}
 
 	/**
-	 * Getter for image
+	 * Getter for images
 	 *
-	 * @return integer image
+	 * @return array images
 	 */
 	public function getImage() {
 		$defaultDirectory = 'uploads/pics/';
-		$image = $this->image;
+		$images = t3lib_div::trimExplode(',', $this->image, TRUE);
 
-		if (!empty($image)) {
-			$image = $defaultDirectory . $image;
+		foreach ($images as $key => $imgage) {
+			$images[$key] = $defaultDirectory . $imgage;
 		}
 
-		return $image;
+		return $images;
 	}
 
 	/**
