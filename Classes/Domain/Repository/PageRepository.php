@@ -309,7 +309,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @return void
 	 */
-	public function setIgnoreOfCurrentPage($currentPageUid) {
+	public function setIgnoreOfUid($currentPageUid) {
 		$this->addQueryConstraint($this->query->logicalNot($this->query->equals('uid', $currentPageUid)));
 	}
 

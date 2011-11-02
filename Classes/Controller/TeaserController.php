@@ -124,7 +124,12 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 		$this->pageRepository->setShowNavHiddenItems(($this->settings['showNavHiddenItems'] == '1'));
 		$this->pageRepository->setFilteredDokType(t3lib_div::trimExplode(',', $this->settings['showDoktypes'], TRUE));
 		if ($this->settings['hideCurrentPage'] == '1') {
-			$this->pageRepository->setIgnoreOfCurrentPage($this->currentPageUid);
+			$this->pageRepository->setIgnoreOfUid($this->currentPageUid);
+		}
+
+		if ($this->settings['ignoreUids']) {
+			$ignoringUids = t3lib_div::trimExplode(',', $this->settings['ignoreUids'], TRUE);
+			array_map(array($this->pageRepository, 'setIgnoreOfUid'), $ignoringUids);
 		}
 
 		switch ($this->settings['source']) {
