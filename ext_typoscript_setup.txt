@@ -5,9 +5,8 @@ plugin.tx_pwteaser {
 				mapping {
 					tableName = pages
 					columns {
-						doktype.mapOnProperty = doktype
-						navTitle.mapOnProperty = nav_title
-						authorEmail.mapOnProperty = author_email
+						nav_title.mapOnProperty = navTitle
+						author_email.mapOnProperty = authorEmail
 						tstamp.mapOnProperty = tstamp
 						crdate.mapOnProperty = crdate
 						lastUpdated.mapOnProperty = lastUpdated
@@ -23,7 +22,7 @@ plugin.tx_pwteaser {
 					columns {
 						pid.mapOnProperty = pid
 						colPos.mapOnProperty = colPos
-						ctype.mapOnProperty = CType
+						CType.mapOnProperty = ctype
 						tstamp.mapOnProperty = tstamp
 						crdate.mapOnProperty = crdate
 					}
