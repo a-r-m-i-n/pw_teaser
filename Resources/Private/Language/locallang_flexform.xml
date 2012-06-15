@@ -11,6 +11,8 @@
 			<label index="enableFields">EnableFields</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
+			<label index="yes">Ja</label>
+			<label index="no">Nein</label>
 			<label index="sourceLabel">Teaser source:</label>
 			<label index="customPagesLabel">Custom Pages:</label>
 			<label index="source.thisChildren">Childpages of current page</label>
@@ -58,6 +60,8 @@
 			<label index="enableFields">Aktivierungsfelder</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
+			<label index="yes">Ja</label>
+			<label index="no">Nein</label>
 			<label index="sourceLabel">Teaser-Quelle:</label>
 			<label index="customPagesLabel">Bestimmte Seiten:</label>
 			<label index="source.thisChildren">Unterseiten der aktuellen Seite</label>

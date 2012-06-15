@@ -64,7 +64,23 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByPlugin</label>
 							<displayCond>FIELD:settings.source:IN:custom</displayCond>
 								<config>
-									<type>check</type>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:yes</numIndex>
+										<numIndex index="1">1</numIndex>
+									  </numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:no</numIndex>
+										<numIndex index="1">0</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+									<size>1</size>
 								</config>
 						</TCEforms>
 					</settings.orderByPlugin>
@@ -72,7 +88,23 @@
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:loadContents</label>
 								<config>
-									<type>check</type>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:yes</numIndex>
+										<numIndex index="1">1</numIndex>
+									  </numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:no</numIndex>
+										<numIndex index="1">0</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+									<size>1</size>
 								</config>
 						</TCEforms>
 					</settings.loadContents>
@@ -190,7 +222,23 @@
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:showNavHiddenItems</label>
 								<config>
-									<type>check</type>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:yes</numIndex>
+										<numIndex index="1">1</numIndex>
+									  </numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:no</numIndex>
+										<numIndex index="1">0</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+									<size>1</size>
 								</config>
 						</TCEforms>
 					</settings.showNavHiddenItems>
@@ -198,7 +246,23 @@
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:hideCurrentPage</label>
 								<config>
-									<type>check</type>
+									<type>select</type>
+									<items type="array">
+									  <numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									  </numIndex>
+									  <numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:yes</numIndex>
+										<numIndex index="1">1</numIndex>
+									  </numIndex>
+									  <numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:no</numIndex>
+										<numIndex index="1">0</numIndex>
+									  </numIndex>
+									</items>
+									<maxitems>1</maxitems>
+									<size>1</size>
 									<default>1</default>
 								</config>
 						</TCEforms>
