@@ -55,6 +55,7 @@ class Tx_PwTeaser_ViewHelpers_GetContentViewHelper extends Tx_Fluid_Core_ViewHel
 		$breakNow = FALSE;
 		$asHasBeenSet = FALSE;
 
+		/** @var $content Tx_PwTeaser_Domain_Model_Content */
 		foreach ($contents as $content) {
 			$contentCtype = $content->getCtype();
 			$contentColPos = $content->getColPos();
@@ -68,7 +69,7 @@ class Tx_PwTeaser_ViewHelpers_GetContentViewHelper extends Tx_Fluid_Core_ViewHel
 						if ($indexCount == $index) {
 							$this->templateVariableContainer->add($as, $content);
 							$asHasBeenSet = TRUE;
-							$breakNow == TRUE;
+							$breakNow = TRUE;
 						}
 					}
 				}
@@ -83,7 +84,7 @@ class Tx_PwTeaser_ViewHelpers_GetContentViewHelper extends Tx_Fluid_Core_ViewHel
 			if ($breakNow) {
 				break;
 			} else {
-				if ($contentCtype == $cType) {
+				if ($cType === NULL || $contentCtype == $cType) {
 					$indexCount++;
 				}
 			}
