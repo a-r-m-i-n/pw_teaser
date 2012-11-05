@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Page Teaser (with Fluid)',
-	'description' => 'Create powerful, dynamic page teasers with data from page properties and its content elements. pw_teaser based on Extbase and Fluid Template Engine.',
+	'description' => 'Create powerful, dynamic page teasers with data from page properties and its content elements. Based on Extbase and Fluid Template Engine.',
 	'category' => 'plugin',
 	'shy' => 0,
 	'version' => '2.2.6',
@@ -28,8 +28,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearcacheonload' => 1,
 	'lockType' => '',
 	'author' => 'Armin Ruediger Vieweg',
-	'author_email' => 'info@professorweb.de',
-	'author_company' => 'Professor Web',
+	'author_email' => 'armin@v.ieweg.de',
+	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
 	'constraints' => array(
