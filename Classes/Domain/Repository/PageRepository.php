@@ -283,9 +283,9 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 */
 	public function setShowNavHiddenItems($showNavHiddenItems) {
 		if ($showNavHiddenItems === TRUE) {
-			$this->addQueryConstraint($this->query->equals('nav_hide', array(0,1)));
+			$this->addQueryConstraint($this->query->in('nav_hide', array(0,1)));
 		} else {
-			$this->addQueryConstraint($this->query->equals('nav_hide', array(0)));
+			$this->addQueryConstraint($this->query->equals('nav_hide', 0));
 		}
 	}
 
@@ -298,7 +298,7 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 */
 	public function setFilteredDokType(array $dokTypesToFilterFor) {
 		if (count($dokTypesToFilterFor) > 0) {
-			$this->addQueryConstraint($this->query->equals('doktype', $dokTypesToFilterFor));
+			$this->addQueryConstraint($this->query->in('doktype', $dokTypesToFilterFor));
 		}
 	}
 
