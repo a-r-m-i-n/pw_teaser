@@ -5,7 +5,7 @@ if (!defined ('TYPO3_MODE')) {
 
 $extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
 $actionNotToCache = '';
-if ($extConfiguration['ENABLECACHE'] == '0') {
+if ($extConfiguration['ENABLECACHE'] != '1') {
 	$actionNotToCache = 'index';
 }
 
