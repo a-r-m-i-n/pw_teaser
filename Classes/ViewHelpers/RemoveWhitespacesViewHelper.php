@@ -1,8 +1,10 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\ViewHelpers;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
 *
 *  All rights reserved
 *
@@ -27,11 +29,11 @@
  * This view helper removes whitespaces which are annoying the HTML output,
  * cause some browsers are interpreting tabs and new lines.
  *
- * @author     Armin Rüdiger Vieweg <info@professorweb.de>
- * @copyright  2011 Copyright belongs to the respective authors
- * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @copyright Copyright belongs to the respective authors
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_ViewHelpers_RemoveWhitespacesViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class RemoveWhitespacesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+
 	/**
 	 * Returns the content without dispensable whitespaces
 	 *

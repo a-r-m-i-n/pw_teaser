@@ -1,8 +1,12 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\Domain\Model;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+*                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+*                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
 *
 *  All rights reserved
 *
@@ -29,7 +33,8 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractEntity {
+class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+
 	/**
 	 * ctype
 	 * @var string
@@ -60,7 +65,6 @@ class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractE
 	 */
 	protected $image;
 
-
 	/**
 	 * Setter for image(s)
 	 *
@@ -77,7 +81,7 @@ class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractE
 	 */
 	public function getImage() {
 		$defaultDirectory = 'uploads/pics/';
-		$images = t3lib_div::trimExplode(',', $this->image, TRUE);
+		$images = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->image, TRUE);
 
 		foreach ($images as $key => $imgage) {
 			$images[$key] = $defaultDirectory . $imgage;
@@ -157,6 +161,5 @@ class Tx_PwTeaser_Domain_Model_Content extends Tx_Extbase_DomainObject_AbstractE
 	public function getHeader() {
 		return $this->header;
 	}
-
 }
 ?>

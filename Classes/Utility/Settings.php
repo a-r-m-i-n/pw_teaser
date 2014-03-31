@@ -1,9 +1,11 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
- *  (c) 2011 Benjamin Schulte <benjamin.schulte@diemedialen.de>
+ *  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *                Benjamin Schulte <benjamin.schulte@diemedialen.de>
  *
  *  All rights reserved
  *
@@ -30,27 +32,17 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_Utility_Settings {
+class Settings {
 	/**
-	 * @var tslib_cObj
+	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
 	protected $contentObject;
 
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+	 * @inject
 	 */
 	protected $configurationManager = NULL;
-
-	/**
-	 * Injects the configurationManager
-	 *
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
-	 *
-	 * @return void
-	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
-	}
 
 	/**
 	 * Initialize this settings utility
@@ -66,9 +58,6 @@ class Tx_PwTeaser_Utility_Settings {
 	 * calculated values.
 	 *
 	 * @param array $settings the typoscript configuration array
-	 *
-	 * @author Benjamin Schulte <benjamin.schulte@diemedialen.de>
-	 *
 	 * @return array the configuration array with the rendered typoscript
 	 */
 	public function renderConfigurationArray(array $settings) {
@@ -99,16 +88,15 @@ class Tx_PwTeaser_Utility_Settings {
 	 * Overwrite flexform values with typoscript if flexform value is empty and typoscript value exists.
 	 *
 	 * @param array $settings Settings from flexform
-	 *
 	 * @return array enhanced settings
 	 */
 	protected function enhanceSettingsWithTypoScript(array $settings) {
 		$extkey = 'tx_pwteaser';
 		$typoscript = $this->configurationManager->getConfiguration(
-			Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+			\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
 		);
 		$typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
-		foreach($settings as $key => $setting) {
+		foreach ($settings as $key => $setting) {
 			if ($setting === '' && array_key_exists($key, $typoscript)) {
 				$settings[$key] = $typoscript[$key];
 			}
@@ -126,7 +114,6 @@ class Tx_PwTeaser_Utility_Settings {
 	 *		   $array['level1'] = 'TEXT'
 	 *
 	 * @param array $configuration settings array to make renderable
-	 *
 	 * @return array the renderable settings
 	 */
 	protected function makeConfigurationArrayRenderable(array $configuration) {

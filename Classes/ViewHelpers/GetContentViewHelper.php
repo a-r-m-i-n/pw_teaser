@@ -1,8 +1,12 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\ViewHelpers;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+*                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+*                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
 *
 *  All rights reserved
 *
@@ -27,12 +31,10 @@
  * This class creates links to social bookmark services, recommending the
  * current front-end page.
  *
- * @author     Armin Rüdiger Vieweg <info@professorweb.de>
- * @copyright  2011 Copyright belongs to the respective authors
- * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @copyright Copyright belongs to the respective authors
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_ViewHelpers_GetContentViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
-
+class GetContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
 	 * Get content
 	 *
@@ -42,7 +44,6 @@ class Tx_PwTeaser_ViewHelpers_GetContentViewHelper extends Tx_Fluid_Core_ViewHel
 	 * @param string $cType the cType to filter content elements for, default is NULL
 	 * @param integer $index limits the output to n-th element. default is NULL which disables the limitation, 0 would
 	 *        limit the output to the first found content element
-	 *
 	 * @return string Rendered string
 	 */
 	public function render($contents, $as, $colPos = 0, $cType = NULL, $index = NULL) {
@@ -91,6 +92,5 @@ class Tx_PwTeaser_ViewHelpers_GetContentViewHelper extends Tx_Fluid_Core_ViewHel
 		}
 		return $output;
 	}
-
 }
 ?>

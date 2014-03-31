@@ -1,8 +1,10 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\ViewHelpers\Widget\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+ *  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
  *
  *  All rights reserved
  *
@@ -27,13 +29,10 @@
  * This view helper uses the technology of paginate widget but works with arrays
  * and the assigned objects don't need the QueryResultInterface.
  *
- * @package    Typo3
- *
- * @author     Armin Rüdiger Vieweg <info@professorweb.de>
- * @author     Benjamin Schulte <benjamin.schulte@diemedialen.de>
- * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @copyright Copyright belongs to the respective authors
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
+class PaginateController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetController {
 	/**
 	 * @var array
 	 */
@@ -66,7 +65,11 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 	 */
 	public function initializeAction() {
 		$this->objects = $this->widgetConfiguration['objects'];
-		$this->configuration = t3lib_div::array_merge_recursive_overrule($this->configuration, $this->widgetConfiguration['configuration'], TRUE);
+		$this->configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule(
+			$this->configuration,
+			$this->widgetConfiguration['configuration'],
+			TRUE
+		);
 	}
 
 	/**
@@ -82,7 +85,6 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 	 * Sets the items per page
 	 *
 	 * @param integer $itemsPerPage the items per page
-	 *
 	 * @return void
 	 */
 	public function setItemsPerPage($itemsPerPage) {
@@ -106,7 +108,6 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 	 * Sets the number of pages
 	 *
 	 * @param integer $numberOfPages the number of pages
-	 *
 	 * @return void
 	 */
 	public function setNumberOfPages($numberOfPages) {
@@ -126,7 +127,6 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 	 * Sets the current page and limits it between 1 and $this->numberOfPages.
 	 *
 	 * @param integer $currentPage the current page
-	 *
 	 * @return void
 	 */
 	public function setCurrentPage($currentPage) {
@@ -141,8 +141,7 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 	/**
 	 * Returns all visible objects within a range, depending on itemsPerPage and the currentPage.
 	 *
-	 * @param Tx_Extbase_Persistence_QueryResult|array $objects the list of objects
-	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult|array $objects the list of objects
 	 * @return array<mixed> the list of visible objects
 	 */
 	public function getVisibleObjects($objects) {
@@ -157,7 +156,6 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 			}
 			$i++;
 		}
-
 		return $modifiedObjects;
 	}
 
@@ -166,7 +164,6 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 	 *
 	 * @param integer $currentPage
 	 * @param integer $itemsPerPage
-	 *
 	 * @return void
 	 */
 	public function indexAction($currentPage = 1, $itemsPerPage = 0) {
@@ -212,7 +209,6 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 			'isFirstPage' => ($this->currentPage == 1),
 			'isLastPage' => ($this->currentPage == $this->numberOfPages)
 		);
-
 		return $this->addPreviousAndNextPage($pagination);
 	}
 
@@ -221,7 +217,6 @@ class Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController extends Tx_Fl
 	 *
 	 * @param array $pagination the pagination array which get previous and
 	 *        next page
-	 *
 	 * @return array the pagination array which contains some meta data and
 	 *         another array which are the pages
 	 */

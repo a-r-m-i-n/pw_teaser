@@ -1,8 +1,12 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\Domain\Repository;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+*                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+*                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
 *
 *  All rights reserved
 *
@@ -29,17 +33,17 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_Domain_Repository_ContentRepository extends Tx_Extbase_Persistence_Repository {
+class ContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 * Initializes the repository.
 	 *
 	 * @return void
-	 *
-	 * @see Tx_Extbase_Persistence_Repository::initializeObject()
+	 * @see \TYPO3\CMS\Extbase\Persistence\Repository::initializeObject()
 	 */
 	public function initializeObject() {
-		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $querySettings */
+		$querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface');
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->setDefaultQuerySettings($querySettings);
 	}
@@ -49,8 +53,7 @@ class Tx_PwTeaser_Domain_Repository_ContentRepository extends Tx_Extbase_Persist
 	 * overwritten method exists, to perform sorting
 	 *
 	 * @param integer $pid Pid to search for
-	 *
-	 * @return Tx_Extbase_Persistence_QueryResult All found objects, will be
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult All found objects, will be
 	 *         empty if there are no objects
 	 */
 	public function findByPid($pid) {
@@ -58,7 +61,9 @@ class Tx_PwTeaser_Domain_Repository_ContentRepository extends Tx_Extbase_Persist
 		$query->matching(
 			$query->equals('pid', $pid)
 		);
-		$query->setOrderings(array('sorting' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+		$query->setOrderings(array(
+			'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+		));
 		return $query->execute();
 	}
 
@@ -66,10 +71,8 @@ class Tx_PwTeaser_Domain_Repository_ContentRepository extends Tx_Extbase_Persist
 	 * Returns all objects of this repository which are located inside the
 	 * given pages
 	 *
-	 * @param array<Tx_PwTeaser_Domain_Model_Page> $pages Pages to get content
-	 *        elements
-	 *
-	 * @return Tx_Extbase_Persistence_QueryResult All found objects, will be
+	 * @param array<\PwTeaserTeam\PwTeaser\Domain\Model\Page> $pages Pages to get content elements
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult All found objects, will be
 	 *         empty if there are no objects
 	 */
 	public function findByPages($pages) {
@@ -86,6 +89,5 @@ class Tx_PwTeaser_Domain_Repository_ContentRepository extends Tx_Extbase_Persist
 
 		return $query->execute();
 	}
-
 }
 ?>

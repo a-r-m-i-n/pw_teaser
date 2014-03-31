@@ -1,8 +1,10 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\ViewHelpers\Widget;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
 *
 *  All rights reserved
 *
@@ -27,32 +29,20 @@
  * This widget is a copy of the fluid paginate widget. Now it's possible to
  * use arrays with paginate, not only query results.
  *
- * @author     Armin Rüdiger Vieweg <info@professorweb.de>
- * @copyright  2011 Copyright belongs to the respective authors
- * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @copyright Copyright belongs to the respective authors
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_ViewHelpers_Widget_PaginateViewHelper extends Tx_Fluid_Core_Widget_AbstractWidgetViewHelper {
-
+class PaginateViewHelper extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper  {
 	/**
-	 * @var Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController
+	 * @var \PwTeaserTeam\PwTeaser\ViewHelpers\Widget\Controller\PaginateController
+	 * @inject
 	 */
 	protected $controller;
 
 	/**
-	 * Injection of widget controller
-	 * 
-	 * @param Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController $controller
-	 * @return void
-	 */
-	public function injectController(Tx_PwTeaser_ViewHelpers_Widget_Controller_PaginateController $controller) {
-		$this->controller = $controller;
-	}
-
-	/**
 	 * The render method of widget
 	 *
-	 * @param mixed $objects Tx_Extbase_Persistence_QueryResultInterface,
-	 *        Tx_Extbase_Persistence_ObjectStorage object or array
+	 * @param mixed $objects
 	 * @param string $as
 	 * @param array $configuration
 	 * @return string
@@ -61,5 +51,4 @@ class Tx_PwTeaser_ViewHelpers_Widget_PaginateViewHelper extends Tx_Fluid_Core_Wi
 		return $this->initiateSubRequest();
 	}
 }
-
 ?>

@@ -1,22 +1,24 @@
 plugin.tx_pwteaser {
 	persistence {
 		classes {
-			Tx_PwTeaser_Domain_Model_Page {
+			PwTeaserTeam\PwTeaser\Domain\Model\Page {
 				mapping {
 					tableName = pages
 					columns {
 						nav_title.mapOnProperty = navTitle
 						author_email.mapOnProperty = authorEmail
 						tstamp.mapOnProperty = tstamp
-						crdate.mapOnProperty = crdate
+						crdate.mapOnProperty = creationDate
 						lastUpdated.mapOnProperty = lastUpdated
 						starttime.mapOnProperty = starttime
 						endtime.mapOnProperty = endtime
 						newUntil.mapOnProperty = newUntil
+						//localization
+						l18n_cfg.mapOnProperty = l18nConfiguration
 					}
 				}
 			}
-			Tx_PwTeaser_Domain_Model_Content {
+			PwTeaserTeam\PwTeaser\Domain\Model\Content {
 				mapping {
 					tableName = tt_content
 					columns {
@@ -32,3 +34,5 @@ plugin.tx_pwteaser {
 		storagePid =
 	}
 }
+
+

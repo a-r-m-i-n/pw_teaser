@@ -1,8 +1,12 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\Domain\Model;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+*                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+*                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
 *
 *  All rights reserved
 *
@@ -29,7 +33,16 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
+class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+	/** Translation constant: Show page always */
+	const L18N_SHOW_ALWAYS = 0;
+	/** Translation constant: Hide page on default language */
+	const L18N_HIDE_DEFAULT_LANGUAGE = 1;
+	/** Translation constant: Hide page on foreign language if no translation exists */
+	const L18N_HIDE_IF_NO_TRANSLATION_EXISTS = 2;
+	/** Translation constant: Hide page always, but show on foreign langauge if translation exists */
+	const L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS = 3;
+
 
 	/**
 	 * doktype
@@ -88,7 +101,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 
 	/**
 	 * media
-	 * @var string
+	 * @var array
 	 */
 	protected $media;
 
@@ -96,7 +109,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * creation date
 	 * @var integer
 	 */
-	protected $crdate;
+	protected $creationDate;
 
 	/**
 	 * timestamp
@@ -111,13 +124,13 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	protected $lastUpdated;
 
 	/**
-	 * starttime
+	 * start time
 	 * @var integer
 	 */
 	protected $starttime;
 
 	/**
-	 * endtime
+	 * end time
 	 * @var integer
 	 */
 	protected $endtime;
@@ -142,18 +155,28 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 
 	/**
 	 * contents
-	 * @var array<Tx_PwTeaser_Domain_Model_Content>
+	 * @var array<\PwTeaserTeam\PwTeaser\Domain\Model\Content>
 	 */
 	protected $contents;
 
 	/**
-	 * custom attributes
-	 * which can be setted by hooks
+	 * @var integer
+	 */
+	protected $l18nConfiguration;
+
+	/**
+	 * Custom Attributes
+	 * which can be set by hooks
 	 *
 	 * @var array<mixed>
 	 */
 	protected $_customAttributes;
 
+	/**
+     * @var \TYPO3\CMS\Core\Resource\FileRepository
+     * @inject
+     */
+    protected $fileRepository;
 
 	/**
 	 * Sets a custom attribute
@@ -164,6 +187,9 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return void
 	 */
 	public function setCustomAttribute($name, $value) {
+		if($this->_customAttributes === NULL) {
+			$this->_customAttributes = array();
+		}
 		$this->_customAttributes[$name] = $value;
 	}
 
@@ -201,7 +227,8 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	/**
 	 * Setter for contents
 	 *
-	 * @param array<Tx_PwTeaser_Domain_Model_Content> $contents array of contents
+	 * @param array<\PwTeaserTeam\PwTeaser\Domain\Model\Content> $contents array of contents
+	 * @return void
 	 */
 	public function setContents($contents) {
 		$this->contents = $contents;
@@ -210,7 +237,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	/**
 	 * Getter for contents
 	 *
-	 * @returns array<Tx_PwTeaser_Domain_Model_Content> contents
+	 * @returns array<\PwTeaserTeam\PwTeaser\Domain\Model\Content> contents
 	 */
 	public function getContents() {
 		return $this->contents;
@@ -229,6 +256,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for isCurrentPage
 	 *
 	 * @param boolean $isCurrentPage
+	 * @return void
 	 */
 	public function setIsCurrentPage($isCurrentPage) {
 		$this->isCurrentPage = $isCurrentPage;
@@ -238,6 +266,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for authorEmail
 	 *
 	 * @param string $authorEmail authorEmail
+	 * @return void
 	 */
 	public function setAuthorEmail($authorEmail) {
 		$this->authorEmail = $authorEmail;
@@ -256,10 +285,10 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for keywords
 	 *
 	 * @param string $keywords keywords
+	 * @return void
 	 */
 	public function setKeywords($keywords) {
-		var_dump($this->metaKeywords);
-		$this->metaKeywords = $keywords;
+		$this->keywords = $keywords;
 	}
 
 	/**
@@ -268,8 +297,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return array array of keywords
 	 */
 	public function getKeywords() {
-
-		return(t3lib_div::trimExplode(',', $this->keywords, TRUE));
+		return(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->keywords, TRUE));
 	}
 
 	/**
@@ -286,15 +314,16 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for description
 	 *
 	 * @param string $description description
+	 * @return void
 	 */
 	public function setDescription($description) {
-		$this->metaDescription = $description;
+		$this->description = $description;
 	}
 
 	/**
-	 * Getter for metaDescription
+	 * Getter for description
 	 *
-	 * @return string metaDescription
+	 * @return string description
 	 */
 	public function getDescription() {
 		return $this->description;
@@ -304,6 +333,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for alias
 	 *
 	 * @param string $alias alias
+	 * @return void
 	 */
 	public function setAlias($alias) {
 		$this->alias = $alias;
@@ -322,6 +352,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for navTitle
 	 *
 	 * @param string $navTitle navTitle
+	 * @return void
 	 */
 	public function setNavTitle($navTitle) {
 		$this->navTitle = $navTitle;
@@ -340,6 +371,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for abstract
 	 *
 	 * @param string $abstract abstract
+	 * @return void
 	 */
 	public function setAbstract($abstract) {
 		$this->abstract = $abstract;
@@ -358,6 +390,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for subtitle
 	 *
 	 * @param string $subtitle subtitle
+	 * @return void
 	 */
 	public function setSubtitle($subtitle) {
 		$this->subtitle = $subtitle;
@@ -376,6 +409,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for title
 	 *
 	 * @param string $title title
+	 * @return void
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
@@ -393,31 +427,41 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	/**
 	 * Setter for media
 	 *
-	 * @param string $media media
+	 * @param array $media media
+	 * @return void
 	 */
-	public function setMedia($media) {
+	public function setMedia(array $media) {
 		$this->media = $media;
 	}
 
 	/**
 	 * Getter for media
 	 *
-	 * @return string media
+	 * @return array media
 	 */
 	public function getMedia() {
-		$defaultMediaDirectory = 'uploads/media/';
-		$media = t3lib_div::trimExplode(',', $this->media, TRUE);
-
-		foreach ($media as $key => $medium) {
-			$media[$key] = $defaultMediaDirectory . $medium;
+		if (count($this->media) > 0) {
+			return $this->media;
 		}
-		return $media;
+
+		$media = $this->fileRepository->findByRelation(
+			'pages',
+			'media',
+			($this->_localizedUid) ? $this->_localizedUid : $this->getUid()
+		);
+
+		/** @var \TYPO3\CMS\Core\Resource\FileReference $medium */
+		foreach ($media as $medium) {
+			$this->media[] = $medium->toArray();
+		}
+		return $this->media;
 	}
 
 	/**
 	 * Setter for newUntil
 	 *
 	 * @param integer $newUntil newUntil
+	 * @return void
 	 */
 	public function setNewUntil($newUntil) {
 		$this->newUntil = $newUntil;
@@ -429,49 +473,45 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return integer newUntil
 	 */
 	public function getNewUntil() {
-		return '@' . $this->newUntil;
+		return $this->newUntil;
 	}
 
 	/**
-	 * isNew
+	 * Return TRUE if the page is marked as new
 	 *
-	 * @return boolean true if the page is new
+	 * @return boolean TRUE if the page is marked as new, otherwise FALSE
 	 */
 	public function getIsNew() {
-		if (!empty($this->newUntil) && $this->newUntil != 0) {
-			return TRUE;
-			if ($this->newUntil < time()) {
-				return TRUE;
-			} else {
-				return FALSE;
-			}
-		} else {
-			return FALSE;
+		if (!empty($this->newUntil) && $this->newUntil !== 0) {
+			return $this->newUntil < time();
 		}
+		return FALSE;
 	}
 
 	/**
-	 * Setter for crdate
+	 * Setter for creationDate
 	 *
-	 * @param integer $crdate crdate
+	 * @param integer $creationDate creationDate
+	 * @return void
 	 */
-	public function setCrdate($crdate) {
-		$this->crdate = $crdate;
+	public function setCreationDate($creationDate) {
+		$this->creationDate = $creationDate;
 	}
 
 	/**
-	 * Getter for crdate
+	 * Getter for creationDate
 	 *
-	 * @return integer crdate
+	 * @return integer creationDate
 	 */
-	public function getCrdate() {
-		return '@' . $this->crdate;
+	public function getCreationDate() {
+		return $this->creationDate;
 	}
 
 	/**
 	 * Setter for tstamp
 	 *
 	 * @param integer $tstamp tstamp
+	 * @return void
 	 */
 	public function setTstamp($tstamp) {
 		$this->tstamp = $tstamp;
@@ -483,13 +523,14 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return integer tstamp
 	 */
 	public function getTstamp() {
-		return '@' . $this->tstamp;
+		return $this->tstamp;
 	}
 
 	/**
 	 * Setter for lastUpdated
 	 *
 	 * @param integer $lastUpdated lastUpdated
+	 * @return void
 	 */
 	public function setLastUpdated($lastUpdated) {
 		$this->lastUpdated = $lastUpdated;
@@ -501,13 +542,14 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return integer lastUpdated
 	 */
 	public function getLastUpdated() {
-		return '@' . $this->lastUpdated;
+		return $this->lastUpdated;
 	}
 
 	/**
 	 * Setter for starttime
 	 *
-	 * @param integer $starttime starttime
+	 * @param integer $starttime
+	 * @return void
 	 */
 	public function setStarttime($starttime) {
 		$this->starttime = $starttime;
@@ -519,16 +561,7 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return integer starttime
 	 */
 	public function getStarttime() {
-		return '@' . $this->starttime;
-	}
-
-	/**
-	 * Setter for endtime
-	 *
-	 * @param integer $endtime endtime
-	 */
-	public function setEndtime($endtime) {
-		$this->endtime = $endtime;
+		return $this->starttime;
 	}
 
 	/**
@@ -537,16 +570,17 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * @return integer endtime
 	 */
 	public function getEndtime() {
-		return '@' . $this->endtime;
+		return $this->endtime;
 	}
 
 	/**
-	 * Setter for author
+	 * Setter for endtime
 	 *
-	 * @param string $author author
+	 * @param integer $endtime endtime
+	 * @return void
 	 */
-	public function setAuthor($author) {
-		$this->author = $author;
+	public function setEndtime($endtime) {
+		$this->endtime = $endtime;
 	}
 
 	/**
@@ -556,6 +590,16 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 */
 	public function getAuthor() {
 		return $this->author;
+	}
+
+	/**
+	 * Setter for author
+	 *
+	 * @param string $author author
+	 * @return void
+	 */
+	public function setAuthor($author) {
+		$this->author = $author;
 	}
 
 	/**
@@ -571,12 +615,29 @@ class Tx_PwTeaser_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnti
 	 * Setter for doktype
 	 *
 	 * @param integer $doktype the doktype
-	 *
 	 * @return void
 	 */
 	public function setDoktype($doktype) {
 		$this->doktype = $doktype;
 	}
 
+	/**
+	* Getter for l18nConfiguration
+	*
+	* @return integer
+	*/
+	public function getL18nConfiguration() {
+		return $this->l18nConfiguration;
+	}
+
+	/**
+	* Setter for l18nConfiguration
+	*
+	* @param integer $l18nCfg
+	* @return void
+	*/
+	public function setL18nConfiguration($l18nCfg) {
+		$this->l18nConfiguration = $l18nCfg;
+	}
 }
 ?>

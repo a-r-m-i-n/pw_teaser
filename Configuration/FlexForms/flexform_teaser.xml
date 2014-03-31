@@ -319,7 +319,6 @@
 							  </config>
 						</TCEforms>
 					</view.templateType>
-
 					<view.templateRootFile>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateRootFile</label>
@@ -345,7 +344,6 @@
 								</config>
 						</TCEforms>
 					</view.templateRootFile>
-
 					<view.templateRootPath>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateRootPath</label>
@@ -354,24 +352,9 @@
 									<type>input</type>
 									<eval>trim</eval>
 									<default></default>
-									<wizards type="array">
-										<_PADDING>2</_PADDING>
-										<link type="array">
-											<type>popup</type>
-											<title>Link</title>
-											<icon>fileicons/folder.gif</icon>
-											<script>browse_links.php?mode=wizard&amp;act=folder</script>
-											<params type="array">
-												<blindLinkOptions>page,url,mail,spec,file</blindLinkOptions>
-												<allowedExtensions></allowedExtensions>
-											</params>
-											<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-										</link>
-									</wizards>
 								</config>
 						</TCEforms>
 					</view.templateRootPath>
-
 					<view.partialRootPath>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:partialRootPath</label>
@@ -379,24 +362,9 @@
 									<type>input</type>
 									<eval>trim</eval>
 									<default></default>
-									<wizards type="array">
-										<_PADDING>2</_PADDING>
-										<link type="array">
-											<type>popup</type>
-											<title>Link</title>
-											<icon>fileicons/folder.gif</icon>
-											<script>browse_links.php?mode=wizard&amp;act=folder</script>
-											<params type="array">
-												<blindLinkOptions>page,url,mail,spec,file</blindLinkOptions>
-												<allowedExtensions></allowedExtensions>
-											</params>
-											<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-										</link>
-									</wizards>
 								</config>
 						</TCEforms>
 					</view.partialRootPath>
-
 					<view.layoutRootPath>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:layoutRootPath</label>
@@ -404,20 +372,6 @@
 									<type>input</type>
 									<eval>trim</eval>
 									<default></default>
-									<wizards type="array">
-										<_PADDING>2</_PADDING>
-										<link type="array">
-											<type>popup</type>
-											<title>Link</title>
-											<icon>fileicons/folder.gif</icon>
-											<script>browse_links.php?mode=wizard&amp;act=folder</script>
-											<params type="array">
-												<blindLinkOptions>page,url,mail,spec,file</blindLinkOptions>
-												<allowedExtensions></allowedExtensions>
-											</params>
-											<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-										</link>
-									</wizards>
 								</config>
 						</TCEforms>
 					</view.layoutRootPath>

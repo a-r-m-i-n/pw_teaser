@@ -49,10 +49,10 @@
 			<label index="templateType.file">HTML file</label>
 			<label index="templateType.directory">Fluid template directory</label>
 
-			<label index="templateRootFile">Template file (with path)</label>
-			<label index="templateRootPath">Template directory</label>
-			<label index="partialRootPath">Partial directory</label>
-			<label index="layoutRootPath">Layout directory</label>
+			<label index="templateRootFile">Template file (with fullpath, example: fileadmin/templates/pw_teaser/Example.html)</label>
+			<label index="templateRootPath">Template directory (with fullpath, example: fileadmin/templates/pw_teaser/)</label>
+			<label index="partialRootPath">Partial directory (with fullpath, example: fileadmin/templates/pw_teaser/Partials/)</label>
+			<label index="layoutRootPath">Layouts directory (with fullpath, example: fileadmin/templates/pw_teaser/Layouts/)</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="general">Allgemein Einstellungen</label>

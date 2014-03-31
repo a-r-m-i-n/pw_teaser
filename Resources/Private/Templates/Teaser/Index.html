@@ -1,4 +1,4 @@
-{namespace pw=Tx_PwTeaser_ViewHelpers}
+{namespace pw=PwTeaserTeam\PwTeaser\ViewHelpers}
 <f:layout name="default" />
 
 <f:section name="main">
@@ -32,17 +32,16 @@
 									<li><b>abstract:</b> {page.abstract}</li>
 									<li><b>alias:</b> {page.alias}</li>
 									<li><b>media:</b>
-										<f:if condition="{f:count(subject:'{page.media}')}">
+										<f:if condition="{page.media}">
 											<f:then>
 												<ul>
-													<f:for each="{page.media}" as="media">
-														<li><a href="{media}"><f:image src="{media}" alt="{media}" width="140" /></a></li>
+													<f:for each="{page.media}" as="mediaItem">
+														<li>
+															<f:image src="{mediaItem.url}" alt="{mediaItem.title}" width="140" />
+														</li>
 													</f:for>
 												</ul>
 											</f:then>
-											<f:else>
-												<i>No media attached</i>
-											</f:else>
 										</f:if>
 									</li>
 									<li><b>crdate:</b> <f:format.date date="{page.crdate}" format="d.m.Y" /></li>

@@ -5,12 +5,12 @@ if (!defined ('TYPO3_MODE')) {
 
 $extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
 $actionNotToCache = '';
-if ($extConfiguration['ENABLECACHE'] != '1') {
+if ($extConfiguration['ENABLECACHE'] == '0') {
 	$actionNotToCache = 'index';
 }
 
-Tx_Extbase_Utility_Extension::configurePlugin(
-	$_EXTKEY,
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'PwTeaserTeam.' . $_EXTKEY,
 	'Pi1',
 	array(
 		'Teaser' => 'index',

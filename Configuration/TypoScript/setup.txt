@@ -1,7 +1,7 @@
-lib.pwteaser = USER
-lib.pwteaser {
+lib.tx_pwteaser = USER
+lib.tx_pwteaser {
 	userFunc = tx_extbase_core_bootstrap->run
-	extensionName = PwTeaser
+	extensionName = pw_teaser
 	pluginName = Pi1
 	settings =< plugin.tx_pwteaser.settings
 	persistence =< plugin.tx_pwteaser.persistence

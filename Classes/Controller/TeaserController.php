@@ -1,9 +1,13 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\Controller;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
-*
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+*                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+*                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
+ *
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,7 +33,7 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_ActionController {
+class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var array
@@ -42,17 +46,20 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	protected $currentPageUid = NULL;
 
 	/**
-	 * @var Tx_PwTeaser_Domain_Repository_PageRepository
+	 * @var \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository
+	 * @inject
 	 */
 	protected $pageRepository;
 
 	/**
-	 * @var Tx_PwTeaser_Domain_Repository_ContentRepository
+	 * @var \PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository
+	 * @inject
 	 */
 	protected $contentRepository;
 
 	/**
-	 * @var Tx_PwTeaser_Utility_Settings
+	 * @var \PwTeaserTeam\PwTeaser\Utility\Settings
+	 * @inject
 	 */
 	protected $settingsUtility;
 
@@ -60,45 +67,6 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 * @var tslib_cObj
 	 */
 	protected $contentObject = NULL;
-
-	/**
-	 * Injects the page repository.
-	 *
-	 * @param Tx_PwTeaser_Domain_Repository_PageRepository $repository
-	 *        the repository to inject
-	 *
-	 * @return void
-	 */
-	public function injectPageRepository(
-		Tx_PwTeaser_Domain_Repository_PageRepository $repository
-	) {
-		$this->pageRepository = $repository;
-	}
-
-	/**
-	 * Injects the content repository.
-	 *
-	 * @param Tx_PwTeaser_Domain_Repository_ContentRepository $repository
-	 *        the repository to inject
-	 *
-	 * @return void
-	 */
-	public function injectContentRepository(
-		Tx_PwTeaser_Domain_Repository_ContentRepository $repository
-	) {
-		$this->contentRepository = $repository;
-	}
-
-	/**
-	 * Injects the settings utility.
-	 *
-	 * @param Tx_PwTeaser_Utility_Settings $utility the utility to inject
-	 *
-	 * @return void
-	 */
-	public function injectSettingsUtility(Tx_PwTeaser_Utility_Settings $utility) {
-		$this->settingsUtility = $utility;
-	}
 
 	/**
 	 * Initialize Action will performed before each action will be executed
@@ -122,13 +90,18 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 
 		// Set ShowNavHiddenItems to TRUE
 		$this->pageRepository->setShowNavHiddenItems(($this->settings['showNavHiddenItems'] == '1'));
-		$this->pageRepository->setFilteredDokType(t3lib_div::trimExplode(',', $this->settings['showDoktypes'], TRUE));
+		$this->pageRepository->setFilteredDokType(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+			',',
+			$this->settings['showDoktypes'],
+			TRUE
+		));
+
 		if ($this->settings['hideCurrentPage'] == '1') {
 			$this->pageRepository->setIgnoreOfUid($this->currentPageUid);
 		}
 
 		if ($this->settings['ignoreUids']) {
-			$ignoringUids = t3lib_div::trimExplode(',', $this->settings['ignoreUids'], TRUE);
+			$ignoringUids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['ignoreUids'], TRUE);
 			array_map(array($this->pageRepository, 'setIgnoreOfUid'), $ignoringUids);
 		}
 
@@ -155,7 +128,7 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 				break;
 		}
 
-		// Make random if selected on queryResult, cause Extbase doesn't support it
+			// Make random if selected on queryResult, cause Extbase doesn't support it
 		if ($this->settings['orderBy'] == 'random') {
 			shuffle($pages);
 			if (!empty($this->settings['limit'])) {
@@ -163,26 +136,25 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 			}
 		}
 
-		/** @var $page Tx_PwTeaser_Domain_Model_Page */
+		/** @var $page \PwTeaserTeam\PwTeaser\Domain\Model\Page */
 		foreach ($pages as $page) {
 			if ($page->getUid() === $this->currentPageUid) {
 				$page->setIsCurrentPage(TRUE);
 			}
 
-			// Load contents if enabled in configuration
+				// Load contents if enabled in configuration
 			if ($this->settings['loadContents'] == '1') {
 				$page->setContents($this->contentRepository->findByPid($page->getUid()));
 			}
 
-			// Hook 'modifyPageModel' to modify the pages model with other extensions
+				// Hook 'modifyPageModel' to modify the pages model with other extensions
 			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['modifyPageModel'])) {
 				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pw_teaser']['modifyPageModel'] as $_classRef) {
-					$_procObj = &t3lib_div::getUserObj($_classRef);
+					$_procObj = &\TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 					$_procObj->main($this, $page);
 				}
 			}
 		}
-
 		$this->view->assign('pages', $pages);
 	}
 
@@ -216,21 +188,44 @@ class Tx_PwTeaser_Controller_TeaserController extends Tx_Extbase_MVC_Controller_
 	 */
 	protected function performTemplatePathAndFilename() {
 		$frameworkSettings = $this->configurationManager->getConfiguration(
-			Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+			\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
 		);
 		$templateType = $frameworkSettings['view']['templateType'];
 		$templateFile = $frameworkSettings['view']['templateRootFile'];
+		$layoutRootPath = $frameworkSettings['view']['layoutRootPath'];
+		$partialRootPath = $frameworkSettings['view']['partialRootPath'];
 
+		/**
+		 * Setup layout root path.
+		 */
+		if ($layoutRootPath != NULL && !empty($layoutRootPath) && file_exists(PATH_site . $layoutRootPath)) {
+    		$this->view->setLayoutRootPath($layoutRootPath);
+  		}
+
+ 		/**
+ 		 * Setup partials root path.
+ 		 */
+ 		if ($partialRootPath != NULL && !empty($partialRootPath) && file_exists(PATH_site . $partialRootPath)) {
+    		$this->view->setPartialRootPath($partialRootPath);
+  		}
+
+  		/**
+  		 * If templateType is 'file', then setup templateFile.
+  		 */
 		if ($templateType === 'file' && !empty($templateFile) && file_exists(PATH_site . $templateFile)) {
 			$this->view->setTemplatePathAndFilename($templateFile);
 			return TRUE;
 		}
 
+		/**
+		 * If templateFile is set and is not file, then setup template path.
+		 */
 		$templatePathAndFilename = $frameworkSettings['view']['templatePathAndFilename'];
 		if ($templateType === NULL && !empty($templatePathAndFilename) && file_exists(PATH_site . $templatePathAndFilename)) {
 			$this->view->setTemplatePathAndFilename($templatePathAndFilename);
 			return TRUE;
 		}
+
 		return FALSE;
 	}
 }

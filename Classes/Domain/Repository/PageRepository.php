@@ -1,8 +1,12 @@
 <?php
+namespace PwTeaserTeam\PwTeaser\Domain\Repository;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Armin Ruediger Vieweg <info@professorweb.de>
+*  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+*                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+*                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
 *
 *  All rights reserved
 *
@@ -24,12 +28,12 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_PwTeaser_Domain_Model_Page
+ * Repository for \PwTeaserTeam\PwTeaser\Domain\Model\Page
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
+class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 * page attribute to order by
@@ -41,10 +45,10 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Direction to order. Default is ascending.
 	 * @var string
 	 */
-	protected $orderDirection = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+	protected $orderDirection = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
 
 	/**
-	 * @var Tx_Extbase_Persistence_QueryInterface
+	 * @var \TYPO3\CMS\Extbase\Persistence\QueryInterface
 	 */
 	protected $query = NULL;
 
@@ -53,16 +57,16 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 */
 	protected $queryConstraints = array();
 
-
 	/**
 	 * Initializes the repository.
 	 *
 	 * @return void
 	 *
-	 * @see Tx_Extbase_Persistence_Repository::initializeObject()
+	 * @see \TYPO3\CMS\Extbase\Persistence\Repository::initializeObject()
 	 */
 	public function initializeObject() {
-		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $querySettings */
+		$querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface');
 		$querySettings->setRespectStoragePage(FALSE);
 		$this->setDefaultQuerySettings($querySettings);
 		$this->query = $this->createQuery();
@@ -72,7 +76,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Returns all objects of this repository which match the pid
 	 *
 	 * @param integer $pid the pid to search for
-	 *
 	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findByPid($pid) {
@@ -85,7 +88,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * pid (recursively)
 	 *
 	 * @param integer $pid the pid to search for recursively
-	 *
 	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findByPidRecursively($pid) {
@@ -100,11 +102,10 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
 	 * @param boolean $orderByPlugin setting of ordering by plugin
-	 *
 	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findByPidList($pidlist, $orderByPlugin = FALSE) {
-		$pagePids =	t3lib_div::intExplode(',', $pidlist, TRUE);
+		$pagePids =	\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pidlist, TRUE);
 
 		$query = $this->query;
 		$this->addQueryConstraint($query->in('uid', $pagePids));
@@ -116,13 +117,14 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 
 		if ($orderByPlugin == FALSE) {
 			$this->handleOrdering($query);
-		}
-		$results = $query->execute()->toArray();
-		$this->resetQuery();
-
-		if ($orderByPlugin == TRUE) {
+			$results = $query->execute();
+		} else {
+			$results = $query->execute()->toArray();
+			$results = $this->handlePageLocalization($results);
 			return $this->orderByPlugin($pagePids, $results);
 		}
+		$results = $this->handlePageLocalization($results);
+		$this->resetQuery();
 		return $results;
 	}
 
@@ -131,7 +133,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param array $pagePids pagePids to order for
 	 * @param array $results results to reorder
-	 *
 	 * @return array results ordered by plugin
 	 */
 	protected function orderByPlugin(array $pagePids, array $results) {
@@ -151,11 +152,10 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Returns all objects of this repository which are in the pidlist
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
-	 *
 	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findChildrenByPidList($pidlist) {
-		$pagePids =	t3lib_div::intExplode(
+		$pagePids =	\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(
 			',',
 			$pidlist,
 			TRUE
@@ -170,7 +170,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * pidlist (recursively)
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
-	 *
 	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findChildrenRecursivelyByPidList($pidlist) {
@@ -183,51 +182,92 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	/**
 	 * Adds query constraint to array
 	 *
-	 * @param Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint Constraint to add
-	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $constraint Constraint to add
 	 * @return void
 	 */
-	protected function addQueryConstraint(Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint) {
+	protected function addQueryConstraint(\TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $constraint) {
 		$this->queryConstraints[] = $constraint;
 	}
 
 	/**
 	 * Finalize given query constraints and executes the query
 	 *
-	 * @return array|Tx_Extbase_Persistence_QueryResultInterface Result of query
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface Result of query
 	 */
 	protected function executeQuery() {
 		$query = $this->query;
 		$query->matching($query->logicalAnd($this->queryConstraints));
 		$this->handleOrdering($query);
 
-		$queryResult = $query->execute()->toArray();
+		$queryResult = $query->execute();
 		$this->resetQuery();
 
+		$queryResult = $this->handlePageLocalization($queryResult);
 		return $queryResult;
+	}
+
+	/**
+	 * Handles page localization
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $pages
+	 * @return array<\PwTeaserTeam\PwTeaser\Domain\Model\Page>
+	 */
+	protected function handlePageLocalization(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $pages) {
+		$currentLangUid = (int) $GLOBALS['TSFE']->sys_page->sys_language_uid;
+		$displayedPages = array();
+
+		/** @var \PwTeaserTeam\PwTeaser\Domain\Model\Page $page */
+		foreach ($pages as $page) {
+			if ($currentLangUid === 0) {
+				if ($page->getL18nConfiguration() !== \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_DEFAULT_LANGUAGE
+						&& $page->getL18nConfiguration() !== \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS) {
+					$displayedPages[] = $page;
+				}
+			} else {
+					/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+				$pageSelect = $GLOBALS['TSFE']->sys_page;
+				$pageRowWithOverlays = $pageSelect->getPage($page->getUid());
+
+				if ((boolean) $GLOBALS['TYPO3_CONF_VARS']['FE']['hidePagesIfNotTranslatedByDefault'] === FALSE) {
+					if (($page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS
+						|| $page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS)
+						&& !isset($pageRowWithOverlays['_PAGES_OVERLAY'])
+					) {
+						$displayedPages[] = $page;
+					}
+				} else {
+					if (($page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS
+						|| $page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS)
+						&& !isset($pageRowWithOverlays['_PAGES_OVERLAY']) || isset($pageRowWithOverlays['_PAGES_OVERLAY'])
+					) {
+						$displayedPages[] = $page;
+					}
+				}
+			}
+		}
+		return $displayedPages;
 	}
 
 	/**
 	 * Get subpages recursivley of given pid(s).
 	 *
 	 * @param string $pidlist List of pageUids to get subpages of. May contain a single uid.
-	 *
 	 * @return array Found subpages, recursivley
 	 */
 	protected function getRecursivePageList($pidlist) {
-		$pagePids = array();
-		$pids = t3lib_div::intExplode(',', $pidlist, TRUE);
+		/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObjectRenderer */
+		$contentObjectRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 
+		$pagePids = array();
+		$pids = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pidlist, TRUE);
 		foreach ($pids as $pid) {
-			$pageList = t3lib_div::intExplode(
+			$pageList = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(
 				',',
-				Tx_PwTeaser_Utility_oelibdb::createRecursivePageList(
-					$pid,
-					255
-				),
+				$contentObjectRenderer->getTreeList($pid, 255),
 				TRUE
 			);
 			$pagePids = array_merge($pagePids, $pageList);
+			array_unshift($pagePids, $pid);
 		}
 		return array_unique($pagePids);
 	}
@@ -236,7 +276,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Sets the order by which is used by all find methods
 	 *
 	 * @param string $orderBy property to order by
-	 *
 	 * @return void
 	 */
 	public function setOrderBy($orderBy) {
@@ -249,16 +288,13 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Sets the order direction which is used by all find methods
 	 *
 	 * @param string $orderDirection the direction to order, may be desc or asc
-	 *
 	 * @return void
 	 */
 	public function setOrderDirection($orderDirection) {
 		if ($orderDirection == 'desc' || $orderDirection == 1) {
-			$this->orderDirection
-				= Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
+			$this->orderDirection = \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::ORDER_DESCENDING;
 		} else {
-			$this->orderDirection
-				= Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+			$this->orderDirection = \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::ORDER_ASCENDING;
 		}
 	}
 
@@ -266,7 +302,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Sets the query limit
 	 *
 	 * @param integer $limit The limit of elements to show
-	 *
 	 * @return void
 	 */
 	public function setLimit($limit) {
@@ -278,14 +313,13 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 *
 	 * @param boolean $showNavHiddenItems If TRUE lets show items which should not be visible in navigation.
 	 *        Default is FALSE.
-	 *
 	 * @return void
 	 */
 	public function setShowNavHiddenItems($showNavHiddenItems) {
 		if ($showNavHiddenItems === TRUE) {
 			$this->addQueryConstraint($this->query->in('nav_hide', array(0,1)));
 		} else {
-			$this->addQueryConstraint($this->query->equals('nav_hide', 0));
+			$this->addQueryConstraint($this->query->in('nav_hide', array(0)));
 		}
 	}
 
@@ -293,7 +327,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Sets doktypes to filter for
 	 *
 	 * @param array $dokTypesToFilterFor doktypes as array, may be empty
-	 *
 	 * @return void
 	 */
 	public function setFilteredDokType(array $dokTypesToFilterFor) {
@@ -306,7 +339,6 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	 * Ignores given uid
 	 *
 	 * @param integer $currentPageUid Uid to ignore
-	 *
 	 * @return void
 	 */
 	public function setIgnoreOfUid($currentPageUid) {
@@ -316,11 +348,10 @@ class Tx_PwTeaser_Domain_Repository_PageRepository extends Tx_Extbase_Persistenc
 	/**
 	 * Adds handle of ordering to query object
 	 *
-	 * @param Tx_Extbase_Persistence_QueryInterface $query
-	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query
 	 * @return void
 	 */
-	protected function handleOrdering(Tx_Extbase_Persistence_QueryInterface $query) {
+	protected function handleOrdering(\TYPO3\CMS\Extbase\Persistence\QueryInterface $query) {
 		$query->setOrderings(array($this->orderBy => $this->orderDirection));
 	}
 
