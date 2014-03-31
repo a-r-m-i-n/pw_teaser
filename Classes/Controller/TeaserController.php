@@ -28,13 +28,12 @@ namespace PwTeaserTeam\PwTeaser\Controller;
 ***************************************************************/
 
 /**
- * Controller for the Teaser object
+ * Controller for the teaser object
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
-
 	/**
 	 * @var array
 	 */
@@ -58,6 +57,12 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	protected $contentRepository;
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
+	 * @inject
+	 */
+	protected $categoryRepository;
+
+	/**
 	 * @var \PwTeaserTeam\PwTeaser\Utility\Settings
 	 * @inject
 	 */
@@ -78,32 +83,16 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	}
 
 	/**
-	 * Displays all Teasers
+	 * Displays teasers
+	 *
+	 * @return void
 	 */
 	public function indexAction() {
 		$this->currentPageUid = $GLOBALS['TSFE']->id;
 
-		// Sets template as file if configured
 		$this->performTemplatePathAndFilename();
-
 		$this->setOrderingAndLimitation();
-
-		// Set ShowNavHiddenItems to TRUE
-		$this->pageRepository->setShowNavHiddenItems(($this->settings['showNavHiddenItems'] == '1'));
-		$this->pageRepository->setFilteredDokType(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
-			',',
-			$this->settings['showDoktypes'],
-			TRUE
-		));
-
-		if ($this->settings['hideCurrentPage'] == '1') {
-			$this->pageRepository->setIgnoreOfUid($this->currentPageUid);
-		}
-
-		if ($this->settings['ignoreUids']) {
-			$ignoringUids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['ignoreUids'], TRUE);
-			array_map(array($this->pageRepository, 'setIgnoreOfUid'), $ignoringUids);
-		}
+		$this->performPluginConfigurations();
 
 		switch ($this->settings['source']) {
 			default:
@@ -160,6 +149,8 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 	/**
 	 * Sets ordering and limitation settings from $this->settings
+	 *
+	 * @return void
 	 */
 	protected function setOrderingAndLimitation() {
 		if (!empty($this->settings['orderBy'])) {
@@ -195,38 +186,68 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$layoutRootPath = $frameworkSettings['view']['layoutRootPath'];
 		$partialRootPath = $frameworkSettings['view']['partialRootPath'];
 
-		/**
-		 * Setup layout root path.
-		 */
 		if ($layoutRootPath != NULL && !empty($layoutRootPath) && file_exists(PATH_site . $layoutRootPath)) {
-    		$this->view->setLayoutRootPath($layoutRootPath);
-  		}
-
- 		/**
- 		 * Setup partials root path.
- 		 */
- 		if ($partialRootPath != NULL && !empty($partialRootPath) && file_exists(PATH_site . $partialRootPath)) {
-    		$this->view->setPartialRootPath($partialRootPath);
-  		}
-
-  		/**
-  		 * If templateType is 'file', then setup templateFile.
-  		 */
+			$this->view->setLayoutRootPath($layoutRootPath);
+		}
+		if ($partialRootPath != NULL && !empty($partialRootPath) && file_exists(PATH_site . $partialRootPath)) {
+			$this->view->setPartialRootPath($partialRootPath);
+		}
 		if ($templateType === 'file' && !empty($templateFile) && file_exists(PATH_site . $templateFile)) {
 			$this->view->setTemplatePathAndFilename($templateFile);
 			return TRUE;
 		}
 
-		/**
-		 * If templateFile is set and is not file, then setup template path.
-		 */
 		$templatePathAndFilename = $frameworkSettings['view']['templatePathAndFilename'];
 		if ($templateType === NULL && !empty($templatePathAndFilename) && file_exists(PATH_site . $templatePathAndFilename)) {
 			$this->view->setTemplatePathAndFilename($templatePathAndFilename);
 			return TRUE;
 		}
-
 		return FALSE;
+	}
+
+	/**
+	 * Performs configurations from plugin settings (flexform)
+	 *
+	 * @return void
+	 */
+	protected function performPluginConfigurations() {
+			// Set ShowNavHiddenItems to TRUE
+		$this->pageRepository->setShowNavHiddenItems(($this->settings['showNavHiddenItems'] == '1'));
+		$this->pageRepository->setFilteredDokType(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['showDoktypes'], TRUE));
+
+		if ($this->settings['hideCurrentPage'] == '1') {
+			$this->pageRepository->setIgnoreOfUid($this->currentPageUid);
+		}
+
+		if ($this->settings['ignoreUids']) {
+			$ignoringUids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['ignoreUids'], TRUE);
+			array_map(array($this->pageRepository, 'setIgnoreOfUid'), $ignoringUids);
+		}
+
+		if ($this->settings['categoriesList'] && $this->settings['categoryMode']) {
+			$categories = array();
+			foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $this->settings['categoriesList'], TRUE) as $categoryUid) {
+				$categories[] = $this->categoryRepository->findByUid($categoryUid);
+			}
+
+			switch ((int)$this->settings['categoryMode']) {
+				case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_OR:
+				case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_OR_NOT:
+					$isAnd = FALSE;
+					break;
+				default:
+					$isAnd = TRUE;
+			}
+			switch ((int)$this->settings['categoryMode']) {
+				case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_AND_NOT:
+				case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_OR_NOT:
+					$isNot = TRUE;
+					break;
+				default:
+					$isNot = FALSE;
+			}
+			$this->pageRepository->addCategoryConstraint($categories, $isAnd, $isNot);
+		}
 	}
 }
 ?>

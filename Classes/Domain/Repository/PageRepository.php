@@ -34,6 +34,14 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+	/** Category Mode: Or */
+	CONST CATEGORY_MODE_OR = 1;
+	/** Category Mode: And */
+	CONST CATEGORY_MODE_AND = 2;
+	/** Category Mode: Or Not */
+	CONST CATEGORY_MODE_OR_NOT = 3;
+	/** Category Mode: And Not */
+	CONST CATEGORY_MODE_AND_NOT = 4;
 
 	/**
 	 * page attribute to order by
@@ -187,6 +195,55 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	protected function addQueryConstraint(\TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $constraint) {
 		$this->queryConstraints[] = $constraint;
+	}
+
+	/**
+	 * Add category constraint
+	 *
+	 * @param array $categories
+	 * @param boolean $isAnd If TRUE categories get a logicalAnd. Otherwise a logicalOr.
+	 * @param boolean $isNot If TRUE categories get a logicalNot operator. Otherwise not.
+	 * @return void
+	 */
+	public function addCategoryConstraint(array $categories, $isAnd = TRUE, $isNot = FALSE) {
+		if ($isAnd === TRUE && $isNot === FALSE) {
+			$this->queryConstraints[] = $this->query->logicalAnd(
+				$this->buildCategoryConstraint($categories)
+			);
+		}
+		if ($isAnd === TRUE && $isNot === TRUE) {
+			$this->queryConstraints[] = $this->query->logicalNot(
+				$this->query->logicalAnd(
+					$this->buildCategoryConstraint($categories)
+				)
+			);
+		}
+		if ($isAnd === FALSE && $isNot === FALSE) {
+			$this->queryConstraints[] = $this->query->logicalOr(
+				$this->buildCategoryConstraint($categories)
+			);
+		}
+		if ($isAnd === FALSE && $isNot === TRUE) {
+			$this->queryConstraints[] = $this->query->logicalNot(
+				$this->query->logicalOr(
+					$this->buildCategoryConstraint($categories)
+				)
+			);
+		}
+	}
+
+	/**
+	 * Build category constraint for each category (contains)
+	 *
+	 * @param array $categories
+	 * @return array
+	 */
+	protected function buildCategoryConstraint(array $categories) {
+		$contraints = array();
+		foreach ($categories as $category) {
+			$contraints[] = $this->query->contains('categories', $category);
+		}
+		return $contraints;
 	}
 
 	/**
