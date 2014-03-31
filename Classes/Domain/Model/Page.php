@@ -160,6 +160,13 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $contents;
 
 	/**
+	 * Categories
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
+	 */
+	protected $categories;
+
+
+	/**
 	 * @var integer
 	 */
 	protected $l18nConfiguration;
@@ -222,6 +229,13 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			$attribute = strtolower(substr($name, 3));
 			return $this->getCustomAttribute($attribute);
 		}
+	}
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
@@ -638,6 +652,37 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	*/
 	public function setL18nConfiguration($l18nCfg) {
 		$this->l18nConfiguration = $l18nCfg;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 */
+	public function getCategories() {
+		return $this->categories;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories
+	 * @return void
+	 */
+	public function setCategories($categories) {
+		$this->categories = $categories;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+	 * @return void
+	 */
+	public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
+		$this->categories->attach($category);
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+	 * @return void
+	 */
+	public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
+		$this->categories->detach($category);
 	}
 }
 ?>

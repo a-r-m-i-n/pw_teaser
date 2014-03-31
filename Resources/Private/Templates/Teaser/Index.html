@@ -44,6 +44,23 @@
 											</f:then>
 										</f:if>
 									</li>
+									<li>
+										<b>categories:</b>
+										<f:if condition="{page.categories}">
+											<f:then>
+												<ul>
+													<f:for each="{page.categories}" as="category">
+														<li>
+															<b>{category.title}</b>
+															<f:if condition="{category.description}">
+																<p>{category.description -> f:format.nl2br()}</p>
+															</f:if>
+														</li>
+													</f:for>
+												</ul>
+											</f:then>
+										</f:if>
+									</li>
 									<li><b>crdate:</b> <f:format.date date="{page.crdate}" format="d.m.Y" /></li>
 									<li><b>tstamp:</b> <f:format.date date="{page.tstamp}" format="r" /></li>
 									<li><b>lastUpdated:</b> <f:format.date date="{page.lastupdated}" format="l, d.m.Y" /></li>
