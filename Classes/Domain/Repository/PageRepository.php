@@ -96,10 +96,11 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * pid (recursively)
 	 *
 	 * @param integer $pid the pid to search for recursively
+	 * @param integer $recursionDepth Depth of recursion
 	 * @return array All found pages, will be empty if the result is empty
 	 */
-	public function findByPidRecursively($pid) {
-		$pagePids = $this->getRecursivePageList($pid);
+	public function findByPidRecursively($pid, $recursionDepth) {
+		$pagePids = $this->getRecursivePageList($pid, $recursionDepth);
 
 		$this->addQueryConstraint($this->query->in('pid', $pagePids));
 		return $this->executeQuery();
@@ -178,10 +179,11 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * pidlist (recursively)
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
+	 * @param integer $recursionDepth Depth of recursion
 	 * @return array All found pages, will be empty if the result is empty
 	 */
-	public function findChildrenRecursivelyByPidList($pidlist) {
-		$pagePids = $this->getRecursivePageList($pidlist);
+	public function findChildrenRecursivelyByPidList($pidlist, $recursionDepth) {
+		$pagePids = $this->getRecursivePageList($pidlist, $recursionDepth);
 
 		$this->addQueryConstraint($this->query->in('pid', $pagePids));
 		return $this->executeQuery();
@@ -309,9 +311,10 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Get subpages recursivley of given pid(s).
 	 *
 	 * @param string $pidlist List of pageUids to get subpages of. May contain a single uid.
+	 * @param integer $recursionDepth Depth of recursion
 	 * @return array Found subpages, recursivley
 	 */
-	protected function getRecursivePageList($pidlist) {
+	protected function getRecursivePageList($pidlist, $recursionDepth) {
 		/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObjectRenderer */
 		$contentObjectRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 
@@ -320,7 +323,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		foreach ($pids as $pid) {
 			$pageList = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(
 				',',
-				$contentObjectRenderer->getTreeList($pid, 255),
+				$contentObjectRenderer->getTreeList($pid, $recursionDepth),
 				TRUE
 			);
 			$pagePids = array_merge($pagePids, $pageList);
