@@ -67,6 +67,12 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $image;
 
+	/**
+	 * Categories
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
+	 */
+	protected $categories;
+
 
 	/**
 	 * Constructor
@@ -198,6 +204,37 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getHeader() {
 		return $this->header;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 */
+	public function getCategories() {
+		return $this->categories;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories
+	 * @return void
+	 */
+	public function setCategories($categories) {
+		$this->categories = $categories;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+	 * @return void
+	 */
+	public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
+		$this->categories->attach($category);
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+	 * @return void
+	 */
+	public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
+		$this->categories->detach($category);
 	}
 }
 ?>
