@@ -11,8 +11,8 @@
 			<label index="enableFields">EnableFields</label>
 			<label index="template">Template</label>
 			<label index="default"></label>
-			<label index="yes">Ja</label>
-			<label index="no">Nein</label>
+			<label index="yes">Yes</label>
+			<label index="no">No</label>
 			<label index="sourceLabel">Teaser source:</label>
 			<label index="source.thisChildren">Childpages of current page</label>
 			<label index="source.thisChildrenRecursively">Childpages of current page (recursively)</label>
