@@ -286,9 +286,9 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 				$pageRowWithOverlays = $pageSelect->getPage($page->getUid());
 
 				if ((boolean) $GLOBALS['TYPO3_CONF_VARS']['FE']['hidePagesIfNotTranslatedByDefault'] === FALSE) {
-					if (($page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS
+					if (!($page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS
 						|| $page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS)
-						&& !isset($pageRowWithOverlays['_PAGES_OVERLAY'])
+						|| isset($pageRowWithOverlays['_PAGES_OVERLAY'])
 					) {
 						$displayedPages[] = $page;
 					}
