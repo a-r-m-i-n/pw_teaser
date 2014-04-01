@@ -56,7 +56,7 @@ class GetContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		$breakNow = FALSE;
 		$asHasBeenSet = FALSE;
 
-		/** @var $content Tx_PwTeaser_Domain_Model_Content */
+		/** @var $content \PwTeaserTeam\PwTeaser\Domain\Model\Content */
 		foreach ($contents as $content) {
 			$contentCtype = $content->getCtype();
 			$contentColPos = $content->getColPos();

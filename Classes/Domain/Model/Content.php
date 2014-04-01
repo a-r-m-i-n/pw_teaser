@@ -61,39 +61,74 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * image
-	 * @var string
+	 * It may contain multiple images, but TYPO3 called this field just "image"
+	 *
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
 	 */
 	protected $image;
+
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->image = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	}
 
 	/**
 	 * Setter for image(s)
 	 *
-	 * @param string $image image
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $image
+	 * @return void
 	 */
-	public function setImage($image) {
+	public function setImage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $image) {
 		$this->image = $image;
 	}
 
 	/**
 	 * Getter for images
 	 *
-	 * @return array images
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage images
 	 */
 	public function getImage() {
-		$defaultDirectory = 'uploads/pics/';
-		$images = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->image, TRUE);
+		return $this->image;
+	}
 
-		foreach ($images as $key => $imgage) {
-			$images[$key] = $defaultDirectory . $imgage;
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+	 * @return void
+	 */
+	public function addImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image) {
+		$this->image->attach($image);
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+	 * @return void
+	 */
+	public function removeImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image) {
+		$this->image->detach($image);
+	}
+
+	/**
+	 * Returns image files as array (with all attributes)
+	 *
+	 * @return array
+	 */
+	public function getImageFiles() {
+		$imageFiles = array();
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $image */
+		foreach ($this->getImage() as $image) {
+			$imageFiles[] = $image->getOriginalResource()->toArray();
 		}
-
-		return $images;
+		return $imageFiles;
 	}
 
 	/**
 	 * Setter for bodytext
 	 *
 	 * @param string $bodytext bodytext
+	 * @return void
 	 */
 	public function setBodytext($bodytext) {
 		$this->bodytext = $bodytext;
@@ -112,6 +147,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Setter for ctype
 	 *
 	 * @param string $ctype ctype
+	 * @return void
 	 */
 	public function setCtype($ctype) {
 		$this->ctype = $ctype;
@@ -130,6 +166,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Setter for colPos
 	 *
 	 * @param integer $colPos colPos
+	 * @return void
 	 */
 	public function setColPos($colPos) {
 		$this->colPos = $colPos;
@@ -148,6 +185,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Setter for header
 	 *
 	 * @param string $header header
+	 * @return void
 	 */
 	public function setHeader($header) {
 		$this->header = $header;

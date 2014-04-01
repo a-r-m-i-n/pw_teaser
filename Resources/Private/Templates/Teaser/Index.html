@@ -37,7 +37,7 @@
 												<ul>
 													<f:for each="{page.mediaFiles}" as="mediaFile">
 														<li>
-															<f:image src="{mediaFile.url}" alt="{mediaFile.title}" width="140" />
+															<f:image src="{mediaFile.url}" alt="{mediaFile.title}" maxWidth="200" maxHeight="200" />
 														</li>
 													</f:for>
 												</ul>
@@ -71,10 +71,17 @@
 									<li><b>author:</b> {page.author}</li>
 									<li><b>authorEmail:</b> {page.authorEmail}</li>
 									<li><b>rootLineDepth:</b> {page.rootLineDepth}</li>
+									<f:if condition="{settings.loadContents}">
+										<li>
+											<b>First image (of content elements, column 0)</b>: <br />
+											<pw:getContent contents="{page.contents}" as="content" cType="image" index="0">
+												<f:image src="{content.imageFiles.0.url}" alt="{content.imageFiles.0.title}" maxWidth="200" maxHeight="200" />
+											</pw:getContent>
+										</li>
+									</f:if>
 								</ul>
 							</fieldset>
-							<b></b><br />
-							<br /><br />
+							<br />
 						</li>
 					</f:for>
 				</ul>
