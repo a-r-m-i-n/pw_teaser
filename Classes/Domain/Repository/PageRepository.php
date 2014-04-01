@@ -128,7 +128,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			$this->handleOrdering($query);
 			$results = $query->execute();
 		} else {
-			$results = $query->execute()->toArray();
+			$results = $query->execute();
 			$results = $this->handlePageLocalization($results);
 			return $this->orderByPlugin($pagePids, $results);
 		}
@@ -268,10 +268,10 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Handles page localization
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult|array $pages
+	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $pages
 	 * @return array<\PwTeaserTeam\PwTeaser\Domain\Model\Page>
 	 */
-	protected function handlePageLocalization($pages) {
+	protected function handlePageLocalization(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $pages) {
 		$currentLangUid = (int) $GLOBALS['TSFE']->sys_page->sys_language_uid;
 		$displayedPages = array();
 
