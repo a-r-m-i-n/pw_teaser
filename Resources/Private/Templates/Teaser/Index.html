@@ -32,12 +32,12 @@
 									<li><b>abstract:</b> {page.abstract}</li>
 									<li><b>alias:</b> {page.alias}</li>
 									<li><b>media:</b>
-										<f:if condition="{page.media}">
+										<f:if condition="{page.mediaFiles}">
 											<f:then>
 												<ul>
-													<f:for each="{page.media}" as="mediaItem">
+													<f:for each="{page.mediaFiles}" as="mediaFile">
 														<li>
-															<f:image src="{mediaItem.url}" alt="{mediaItem.title}" width="140" />
+															<f:image src="{mediaFile.url}" alt="{mediaFile.title}" width="140" />
 														</li>
 													</f:for>
 												</ul>

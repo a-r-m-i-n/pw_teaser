@@ -101,7 +101,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * media
-	 * @var array
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
 	 */
 	protected $media;
 
@@ -236,6 +236,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function __construct() {
 		$this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->media = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
@@ -441,34 +442,50 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Setter for media
 	 *
-	 * @param array $media media
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $media
 	 * @return void
 	 */
-	public function setMedia(array $media) {
+	public function setMedia(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $media) {
 		$this->media = $media;
 	}
 
 	/**
-	 * Getter for media
+	 * Getter for media (returns FileReference objects)
 	 *
-	 * @return array media
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
 	 */
 	public function getMedia() {
-		if (count($this->media) > 0) {
-			return $this->media;
-		}
-
-		$media = $this->fileRepository->findByRelation(
-			'pages',
-			'media',
-			($this->_localizedUid) ? $this->_localizedUid : $this->getUid()
-		);
-
-		/** @var \TYPO3\CMS\Core\Resource\FileReference $medium */
-		foreach ($media as $medium) {
-			$this->media[] = $medium->toArray();
-		}
 		return $this->media;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium
+	 * @return void
+	 */
+	public function addMedium(\TYPO3\CMS\Extbase\Domain\Model\FileReference $medium) {
+		$this->media->attach($medium);
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium
+	 * @return void
+	 */
+	public function removeMedium(\TYPO3\CMS\Extbase\Domain\Model\FileReference $medium) {
+		$this->media->detach($medium);
+	}
+
+	/**
+	 * Returns media files as array (with all attributes)
+	 *
+	 * @return array
+	 */
+	public function getMediaFiles() {
+		$mediaFiles = array();
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium */
+		foreach ($this->getMedia() as $medium) {
+			$mediaFiles[] = $medium->getOriginalResource()->toArray();
+		}
+		return $mediaFiles;
 	}
 
 	/**
