@@ -268,10 +268,10 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Handles page localization
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $pages
+	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult|array $pages
 	 * @return array<\PwTeaserTeam\PwTeaser\Domain\Model\Page>
 	 */
-	protected function handlePageLocalization(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $pages) {
+	protected function handlePageLocalization($pages) {
 		$currentLangUid = (int) $GLOBALS['TSFE']->sys_page->sys_language_uid;
 		$displayedPages = array();
 
