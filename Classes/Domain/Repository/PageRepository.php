@@ -283,7 +283,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 					$displayedPages[] = $page;
 				}
 			} else {
-					/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+				/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
 				$pageSelect = $GLOBALS['TSFE']->sys_page;
 				$pageRowWithOverlays = $pageSelect->getPage($page->getUid());
 

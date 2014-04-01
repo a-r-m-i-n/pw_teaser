@@ -701,5 +701,26 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
 		$this->categories->detach($category);
 	}
+
+	/**
+	 * Returns rootLine of this page
+	 *
+	 * @return array
+	 */
+	public function getRootLine() {
+		/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+		$pageSelect = $GLOBALS['TSFE']->sys_page;
+		return $pageSelect->getRootLine($this->getUid());
+	}
+
+	/**
+	 * Returns amount of parent pages, including this page itself.
+	 * The root page (not id=0) got depth 1.
+	 *
+	 * @return integer
+	 */
+	public function getRootLineDepth() {
+		return count($this->getRootLine());
+	}
 }
 ?>
