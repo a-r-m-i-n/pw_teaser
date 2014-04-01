@@ -393,20 +393,6 @@
 								<type>input</type>
 								<eval>trim</eval>
 								<default></default>
-								<wizards type="array">
-									<_PADDING>2</_PADDING>
-									<link type="array">
-										<type>popup</type>
-										<title>Link</title>
-										<icon>i/pages.gif</icon>
-										<script>browse_links.php?mode=wizard</script>
-										<params type="array">
-											<blindLinkOptions>page,url,mail,spec,folder</blindLinkOptions>
-											<allowedExtensions>htm,html,tmp,tmpl</allowedExtensions>
-										</params>
-										<JSopenParams>height=400,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
-									</link>
-								</wizards>
 							</config>
 						</TCEforms>
 					</view.templateRootFile>
