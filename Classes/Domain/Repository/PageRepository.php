@@ -351,9 +351,9 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	public function setOrderDirection($orderDirection) {
 		if ($orderDirection == 'desc' || $orderDirection == 1) {
-			$this->orderDirection = \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::ORDER_DESCENDING;
+			$this->orderDirection = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
 		} else {
-			$this->orderDirection = \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::ORDER_ASCENDING;
+			$this->orderDirection = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
 		}
 	}
 
