@@ -721,5 +721,18 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function getRootLineDepth() {
 		return count($this->getRootLine());
 	}
+
+	/**
+	 * Returns string of sortings of all root pages including this page.
+	 *
+	 * @return string String with orderings of this page and all root pages
+	 */
+	public function getRecursiveRootLineOrdering() {
+		$recursiveOrdering = [];
+		foreach ($this->getRootLine() as $pageRootPart) {
+			array_unshift($recursiveOrdering, str_pad($pageRootPart['sorting'], 11, '0', STR_PAD_LEFT));
+		}
+		return implode('-', $recursiveOrdering);
+	}
 }
 ?>

@@ -127,8 +127,18 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		}
 
 			// Make random if selected on queryResult, cause Extbase doesn't support it
-		if ($this->settings['orderBy'] == 'random') {
+		if ($this->settings['orderBy'] === 'random') {
 			shuffle($pages);
+			if (!empty($this->settings['limit'])) {
+				$pages = array_slice($pages, 0, $this->settings['limit']);
+			}
+		}
+
+		if ($this->settings['orderBy'] === 'sorting' && strpos($this->settings['source'], 'Recursively') !== FALSE) {
+			usort($pages, array($this, 'sortByRecursivelySorting'));
+			if (strtolower($this->settings['orderDirection']) === strtolower(\TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)) {
+				$pages = array_reverse($pages);
+			}
 			if (!empty($this->settings['limit'])) {
 				$pages = array_slice($pages, 0, $this->settings['limit']);
 			}
@@ -148,6 +158,20 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 		$this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'ModifyPages', array(&$pages, $this));
 		$this->view->assign('pages', $pages);
+	}
+
+	/**
+	 * Function to sort given pages by recursiveRootLineOrdering string
+	 *
+	 * @param \PwTeaserTeam\PwTeaser\Domain\Model\Page $a
+	 * @param \PwTeaserTeam\PwTeaser\Domain\Model\Page $b
+	 * @return integer
+	 */
+	protected function sortByRecursivelySorting(\PwTeaserTeam\PwTeaser\Domain\Model\Page $a, \PwTeaserTeam\PwTeaser\Domain\Model\Page $b) {
+		if ($a->getRecursiveRootLineOrdering() == $b->getRecursiveRootLineOrdering()) {
+			return 0;
+		}
+		return ($a->getRecursiveRootLineOrdering() < $b->getRecursiveRootLineOrdering()) ? - 1 : 1;
 	}
 
 	/**

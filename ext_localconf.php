@@ -19,4 +19,13 @@ if ($extConfiguration['ENABLECACHE'] == '0') {
 		'Teaser' => $actionNotToCache,
 	)
 );
+
+$rootLineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+	',',
+	$TYPO3_CONF_VARS['FE']['addRootLineFields'],
+	TRUE
+);
+$rootLineFields[] = 'sorting';
+$TYPO3_CONF_VARS['FE']['addRootLineFields'] = implode(',', $rootLineFields);
+
 ?>
