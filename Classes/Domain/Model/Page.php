@@ -728,7 +728,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return string String with orderings of this page and all root pages
 	 */
 	public function getRecursiveRootLineOrdering() {
-		$recursiveOrdering = [];
+		$recursiveOrdering = array();
 		foreach ($this->getRootLine() as $pageRootPart) {
 			array_unshift($recursiveOrdering, str_pad($pageRootPart['sorting'], 11, '0', STR_PAD_LEFT));
 		}
