@@ -176,47 +176,57 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @var array<mixed>
 	 */
-	protected $_customAttributes;
+	protected $_customAttributes = array();
 
 	/**
-     * @var \TYPO3\CMS\Core\Resource\FileRepository
-     * @inject
-     */
-    protected $fileRepository;
+	 * Complete row (from database) of this page
+	 * @var array
+	 */
+	protected $_pageRow = NULL;
+
+	/**
+	 * @var \TYPO3\CMS\Core\Resource\FileRepository
+	 * @inject
+	 */
+	protected $fileRepository;
 
 	/**
 	 * Sets a custom attribute
 	 *
-	 * @param string $name The name of the attribute
+	 * @param string $key The name of the attribute
 	 * @param mixed $value Attribute's value
 	 *
 	 * @return void
 	 */
-	public function setCustomAttribute($name, $value) {
-		if($this->_customAttributes === NULL) {
-			$this->_customAttributes = array();
-		}
-		$this->_customAttributes[$name] = $value;
+	public function setCustomAttribute($key, $value) {
+		$this->_customAttributes[$key] = $value;
 	}
 
 	/**
 	 * Returns the value of a custom attribute
 	 *
-	 * @param string $name Name of attribute
-	 *
+	 * @param string $key Name of attribute
 	 * @return mixed The value of a custom attribute
 	 */
-	public function getCustomAttribute($name = NULL) {
-		if ($name !== NULL) {
-			return $this->_customAttributes[$name];
+	public function getCustomAttribute($key) {
+		if (!empty($key) && $this->hasCustomAttribute($key)) {
+			return $this->_customAttributes[$key];
 		}
 		return NULL;
 	}
 
 	/**
-	 * Magic method which is called if an unknown method is called. If the unknown
-	 * method starts with 'get' the requested attribute will be taken and returned
-	 * from the _customAttribute array
+	 * Checks if given custom attribute has been set
+	 *
+	 * @param string $key
+	 * @return bool
+	 */
+	public function hasCustomAttribute($key) {
+		return isset($this->_customAttributes[$key]);
+	}
+
+	/**
+	 * Checks for attribute in _customAttributes and _pageRow
 	 *
 	 * @param string $name Name of unknown method
 	 * @param array arguments Arguments of call
@@ -225,8 +235,22 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function __call($name, $arguments) {
 		if (substr(strtolower($name), 0, 3) == 'get' && strlen($name) > 3) {
-			$attribute = strtolower(substr($name, 3));
-			return $this->getCustomAttribute($attribute);
+			$attributeName = lcfirst(substr($name, 3));
+			if ($this->hasCustomAttribute($attributeName)) {
+				return $this->getCustomAttribute($attributeName);
+			}
+
+			if (empty($this->_pageRow)) {
+				/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+				$pageSelect = $GLOBALS['TSFE']->sys_page;
+				$pageRow = $pageSelect->getPage($this->getUid());
+				foreach ($pageRow as $key => $value) {
+					$this->_pageRow[\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
+				}
+			}
+			if (isset($this->_pageRow[$attributeName])) {
+				return $this->_pageRow[$attributeName];
+			}
 		}
 	}
 
@@ -733,6 +757,14 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			array_unshift($recursiveOrdering, str_pad($pageRootPart['sorting'], 11, '0', STR_PAD_LEFT));
 		}
 		return implode('-', $recursiveOrdering);
+	}
+
+	/**
+	 * Returns the complete page row (from database) as array
+	 * @return array
+	 */
+	public function getPageRow() {
+		return $this->_pageRow;
 	}
 }
 ?>

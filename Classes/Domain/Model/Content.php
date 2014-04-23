@@ -73,6 +73,11 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $categories;
 
+	/**
+	 * Complete row (from database) of this content element
+	 * @var array
+	 */
+	protected $_contentRow = NULL;
 
 	/**
 	 * Constructor
@@ -235,6 +240,39 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
 		$this->categories->detach($category);
+	}
+
+	/**
+	 * Checks for attribute in _contentRow
+	 *
+	 * @param string $name Name of unknown method
+	 * @param array arguments Arguments of call
+	 *
+	 * @return mixed
+	 */
+	public function __call($name, $arguments) {
+		if (substr(strtolower($name), 0, 3) == 'get' && strlen($name) > 3) {
+			$attributeName = lcfirst(substr($name, 3));
+
+			if (empty($this->_contentRow)) {
+				/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+				$pageSelect = $GLOBALS['TSFE']->sys_page;
+				$contentRow = $pageSelect->getRawRecord('tt_content', $this->getUid());
+				foreach ($contentRow as $key => $value) {
+					$this->_contentRow[\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
+				}
+			}
+			if (isset($this->_contentRow[$attributeName])) {
+				return $this->_contentRow[$attributeName];
+			}
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getContentRow() {
+		return $this->_contentRow;
 	}
 }
 ?>
