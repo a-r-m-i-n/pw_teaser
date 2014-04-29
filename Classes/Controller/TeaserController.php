@@ -107,7 +107,11 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				break;
 
 			case 'thisChildrenRecursively':
-				$pages = $this->pageRepository->findByPidRecursively($this->currentPageUid, (int) $this->settings['recursionDepth']);
+				$pages = $this->pageRepository->findByPidRecursively(
+					$this->currentPageUid,
+					(int) $this->settings['recursionDepthFrom'],
+					(int) $this->settings['recursionDepth']
+				);
 				break;
 
 			case 'custom':
@@ -121,6 +125,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			case 'customChildrenRecursively':
 				$pages = $this->pageRepository->findChildrenRecursivelyByPidList(
 					$this->settings['customPages'],
+					(int) $this->settings['recursionDepthFrom'],
 					(int) $this->settings['recursionDepth']
 				);
 				break;

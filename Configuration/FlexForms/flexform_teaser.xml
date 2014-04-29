@@ -59,6 +59,18 @@
 							</config>
 						</TCEforms>
 					</settings.customPages>
+					<settings.recursionDepthFrom>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:recursionDepthFrom</label>
+							<displayCond>FIELD:settings.source:IN:thisChildrenRecursively,customChildrenRecursively</displayCond>
+							<config>
+								<type>input</type>
+								<eval>int</eval>
+								<default>0</default>
+								<size>5</size>
+							</config>
+						</TCEforms>
+					</settings.recursionDepthFrom>
 					<settings.recursionDepth>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:recursionDepth</label>

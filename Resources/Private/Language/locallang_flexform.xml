@@ -20,7 +20,8 @@
 			<label index="source.customChildren">Childpages of selected pages</label>
 			<label index="source.customChildrenRecursively">Childpages of selected pages (recursively)</label>
 			<label index="customPagesLabel">Custom Pages:</label>
-			<label index="recursionDepth">Recursion depth:</label>
+			<label index="recursionDepthFrom">Recursion depth (from):</label>
+			<label index="recursionDepth">Recursion depth (to):</label>
 
 			<label index="loadContents">Load content elements of each page for use in template (requires more performance)</label>
 			<label index="orderByPlugin">Order selected pages as in the list above (this will overwrite the order settings in visibility options tab)</label>
@@ -76,7 +77,8 @@
 			<label index="source.customChildren">Unterseiten von ausgewählten Seiten</label>
 			<label index="source.customChildrenRecursively">Unterseiten von ausgewählten Seiten (rekursiv)</label>
 			<label index="customPagesLabel">Bestimmte Seiten:</label>
-			<label index="recursionDepth">Rekursionstiefe:</label>
+			<label index="recursionDepthFrom">Rekursionstiefe (von):</label>
+			<label index="recursionDepth">Rekursionstiefe (bis):</label>
 
 			<label index="loadContents">Lade Inhalte (Content-Elemente) von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance)</label>
 			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Sortierungs-Einstellungen im Anzeige-Einstellungen-Tab werden überschrieben)</label>
