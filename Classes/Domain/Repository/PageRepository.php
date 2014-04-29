@@ -96,14 +96,12 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * pid (recursively)
 	 *
 	 * @param integer $pid the pid to search for recursively
+	 * @param integer $recursionDepthFrom Start of recursion depth
 	 * @param integer $recursionDepth Depth of recursion
 	 * @return array All found pages, will be empty if the result is empty
 	 */
 	public function findByPidRecursively($pid, $recursionDepthFrom, $recursionDepth) {
-		$pagePids = $this->getRecursivePageList($pid, $recursionDepthFrom, $recursionDepth);
-
-		$this->addQueryConstraint($this->query->in('pid', $pagePids));
-		return $this->executeQuery();
+		return $this->findChildrenRecursivelyByPidList($pid, $recursionDepthFrom, $recursionDepth);
 	}
 
 	/**
@@ -184,7 +182,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function findChildrenRecursivelyByPidList($pidlist, $recursionDepthFrom, $recursionDepth) {
 		$pagePids = $this->getRecursivePageList($pidlist, $recursionDepthFrom, $recursionDepth);
 
-		$this->addQueryConstraint($this->query->in('pid', $pagePids));
+		$this->addQueryConstraint($this->query->in(($recursionDepthFrom === 0) ? 'pid' : 'uid', $pagePids));
 		return $this->executeQuery();
 	}
 
@@ -327,7 +325,9 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 				TRUE
 			);
 			$pagePids = array_merge($pagePids, $pageList);
-			array_unshift($pagePids, $pid);
+			if ($recursionDepthFrom === 0) {
+				array_unshift($pagePids, $pid);
+			}
 		}
 		return array_unique($pagePids);
 	}
