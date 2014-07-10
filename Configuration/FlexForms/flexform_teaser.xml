@@ -46,7 +46,7 @@
 					</settings.source>
 					<settings.customPages>
 						<TCEforms>
-							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:customPagesLabel</label>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:customPages</label>
 							<displayCond>FIELD:settings.source:IN:custom,customChildren,customChildrenRecursively</displayCond>
 							<config>
 								<type>group</type>
@@ -144,7 +144,7 @@
 				<el>
 					<settings.orderBy>
 						<TCEforms>
-							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByLabel</label>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:order</label>
 							<onChange>reload</onChange>
 							<config>
 								<type>select</type>
@@ -196,7 +196,7 @@
 					</settings.orderBy>
 					<settings.orderByCustomField>
 						<TCEforms>
-							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByCustomFieldLabel</label>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderByCustomField</label>
 							<displayCond>FIELD:settings.orderBy:IN:customField</displayCond>
 							<config>
 								<type>input</type>
@@ -208,7 +208,7 @@
 					</settings.orderByCustomField>
 					<settings.orderDirection>
 						<TCEforms>
-							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderDirectionLabel</label>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderDirection</label>
 							<displayCond>FIELD:settings.orderBy:IN:title,sorting,crdate,tstamp,starttime,endtime,customField</displayCond>
 							<config>
 								<type>select</type>
@@ -218,11 +218,11 @@
 										<numIndex index="1"></numIndex>
 									</numIndex>
 									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderdir.asc</numIndex>
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderDirection.asc</numIndex>
 										<numIndex index="1">asc</numIndex>
 									</numIndex>
 									<numIndex index="2" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderdir.desc</numIndex>
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:orderDirection.desc</numIndex>
 										<numIndex index="1">desc</numIndex>
 									</numIndex>
 								</items>

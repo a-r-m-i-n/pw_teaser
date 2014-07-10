@@ -10,23 +10,25 @@
 			<label index="ordering">Visibility options</label>
 			<label index="enableFields">EnableFields</label>
 			<label index="template">Template</label>
+
 			<label index="default"></label>
 			<label index="yes">Yes</label>
 			<label index="no">No</label>
+
 			<label index="sourceLabel">Teaser source:</label>
 			<label index="source.thisChildren">Childpages of current page</label>
 			<label index="source.thisChildrenRecursively">Childpages of current page (recursively)</label>
 			<label index="source.custom">Selected pages</label>
 			<label index="source.customChildren">Childpages of selected pages</label>
 			<label index="source.customChildrenRecursively">Childpages of selected pages (recursively)</label>
-			<label index="customPagesLabel">Custom Pages:</label>
+			<label index="customPages">Custom Pages:</label>
 			<label index="recursionDepthFrom">Recursion depth (from):</label>
 			<label index="recursionDepth">Recursion depth (to):</label>
 
-			<label index="loadContents">Load content elements of each page for use in template (requires more performance)</label>
+			<label index="loadContents">Load content elements of each page for use in template (requires more performance):</label>
 			<label index="orderByPlugin">Order selected pages as in the list above (this will overwrite the order settings in visibility options tab)</label>
 
-			<label index="orderByLabel">Order by:</label>
+			<label index="order">Order by:</label>
 			<label index="order.crdate">Creation Date</label>
 			<label index="order.tstamp">Modification Date</label>
 			<label index="order.starttime">Publish Date</label>
@@ -37,17 +39,17 @@
 			<label index="order.random">Random</label>
 			<label index="order.customField">Custom field</label>
 
-			<label index="orderByCustomFieldLabel">Custom field to order by (throws exception, if field doesn't exists):</label>
-			<label index="orderDirectionLabel">Order direction:</label>
-			<label index="orderdir.asc">Ascending (A-Z, oldest and fewest first)</label>
-			<label index="orderdir.desc">Descending (Z-A, newest and most first)</label>
-			<label index="limit">Limit (max. number of pages to show)</label>
-			<label index="showNavHiddenItems">Show pages which are hidden for navigation</label>
-			<label index="hideCurrentPage">Hide current page from list</label>
-			<label index="showDoktypes">Show pages with doktypes (comma separated, leave empty to show all)</label>
-			<label index="ignoreUids">Ignore the following pages by uid (comma separated)</label>
-			<label index="categories">Filter by categories</label>
-			<label index="categoryMode">Category mode</label>
+			<label index="orderByCustomField">Custom field to order by (throws exception, if field doesn't exists):</label>
+			<label index="orderDirection">Order direction:</label>
+			<label index="orderDirection.asc">Ascending (A-Z, oldest and fewest first)</label>
+			<label index="orderDirection.desc">Descending (Z-A, newest and most first)</label>
+			<label index="limit">Limit (max. number of pages to show):</label>
+			<label index="showNavHiddenItems">Show pages which are hidden for navigation:</label>
+			<label index="hideCurrentPage">Hide current page from list:</label>
+			<label index="showDoktypes">Show pages with doktypes (comma separated, leave empty to show all):</label>
+			<label index="ignoreUids">Ignore the following pages by uid (comma separated):</label>
+			<label index="categories">Filter by categories:</label>
+			<label index="categoryMode">Category mode:</label>
 			<label index="categoryMode.or">Show pages with selected categories (OR)</label>
 			<label index="categoryMode.and">Show pages with selected categories (AND)</label>
 			<label index="categoryMode.orNot">Do NOT show pages witch selected categories (OR)</label>
@@ -57,33 +59,35 @@
 			<label index="templateType.file">HTML file</label>
 			<label index="templateType.directory">Fluid template directory</label>
 
-			<label index="templateRootFile">Template file (with fullpath, example: fileadmin/templates/pw_teaser/Example.html)</label>
-			<label index="templateRootPath">Template directory (with fullpath, example: fileadmin/templates/pw_teaser/)</label>
-			<label index="partialRootPath">Partial directory (with fullpath, example: fileadmin/templates/pw_teaser/Partials/)</label>
-			<label index="layoutRootPath">Layouts directory (with fullpath, example: fileadmin/templates/pw_teaser/Layouts/)</label>
+			<label index="templateRootFile">Template file (with fullpath, example: fileadmin/templates/pw_teaser/Example.html):</label>
+			<label index="templateRootPath">Template directory (with fullpath, example: fileadmin/templates/pw_teaser/):</label>
+			<label index="partialRootPath">Partial directory (with fullpath, example: fileadmin/templates/pw_teaser/Partials/):</label>
+			<label index="layoutRootPath">Layouts directory (with fullpath, example: fileadmin/templates/pw_teaser/Layouts/):</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="general">Allgemein Einstellungen</label>
 			<label index="ordering">Anzeige Einstellungen</label>
 			<label index="enableFields">Aktivierungsfelder</label>
 			<label index="template">Template</label>
+
 			<label index="default"></label>
 			<label index="yes">Ja</label>
 			<label index="no">Nein</label>
+
 			<label index="sourceLabel">Teaser-Quelle:</label>
 			<label index="source.thisChildren">Unterseiten der aktuellen Seite</label>
 			<label index="source.thisChildrenRecursively">Unterseiten der aktuellen Seite (rekursiv)</label>
 			<label index="source.custom">Ausgewählte Seiten</label>
 			<label index="source.customChildren">Unterseiten von ausgewählten Seiten</label>
 			<label index="source.customChildrenRecursively">Unterseiten von ausgewählten Seiten (rekursiv)</label>
-			<label index="customPagesLabel">Bestimmte Seiten:</label>
+			<label index="customPages">Bestimmte Seiten:</label>
 			<label index="recursionDepthFrom">Rekursionstiefe (von):</label>
 			<label index="recursionDepth">Rekursionstiefe (bis):</label>
 
-			<label index="loadContents">Lade Inhalte (Content-Elemente) von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance)</label>
-			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Sortierungs-Einstellungen im Anzeige-Einstellungen-Tab werden überschrieben)</label>
+			<label index="loadContents">Lade Inhalte (Content-Elemente) von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance):</label>
+			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Sortierungs-Einstellungen im Anzeige-Einstellungen-Tab werden überschrieben):</label>
 
-			<label index="orderByLabel">Sortieren nach:</label>
+			<label index="order">Sortieren nach:</label>
 			<label index="order.crdate">Erstellungsdatum</label>
 			<label index="order.tstamp">Änderungsdatum</label>
 			<label index="order.starttime">Veröffentlichungsdatum (von)</label>
@@ -94,10 +98,10 @@
 			<label index="order.random">Zufällige Sortierung</label>
 			<label index="order.customField">Benutzerdefiniertes Feld</label>
 
-			<label index="orderByCustomFieldLabel">Benutzerdefiniertes Feld, nach dem sortiert werden soll (wirft einen Fehler, wenn das Feld nicht existiert):</label>
-			<label index="orderDirectionLabel">Sortierrichtung:</label>
-			<label index="orderdir.asc">Aufsteigend (A-Z, Älteste und Wenigste als Erstes)</label>
-			<label index="orderdir.desc">Absteigend (Z-A, Neuste und Meiste als Erstes)</label>
+			<label index="orderByCustomField">Benutzerdefiniertes Feld, nach dem sortiert werden soll (wirft einen Fehler, wenn das Feld nicht existiert):</label>
+			<label index="orderDirection">Sortierrichtung:</label>
+			<label index="orderDirection.asc">Aufsteigend (A-Z, Älteste und Wenigste als Erstes)</label>
+			<label index="orderDirection.desc">Absteigend (Z-A, Neuste und Meiste als Erstes)</label>
 			<label index="limit">Limit (max. Seitenanzahl)</label>
 			<label index="showNavHiddenItems">Zeige Seiten, welche in der Navigation ausgeblendet sind</label>
 			<label index="hideCurrentPage">Verstecke die aktuelle Seite von der Liste</label>
