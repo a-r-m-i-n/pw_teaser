@@ -103,10 +103,12 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		switch ($this->settings['source']) {
 			default:
 			case 'thisChildren':
+				$rootPageUids = $this->currentPageUid;
 				$pages = $this->pageRepository->findByPid($this->currentPageUid);
 				break;
 
 			case 'thisChildrenRecursively':
+				$rootPageUids = $this->currentPageUid;
 				$pages = $this->pageRepository->findByPidRecursively(
 					$this->currentPageUid,
 					(int) $this->settings['recursionDepthFrom'],
@@ -115,14 +117,17 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				break;
 
 			case 'custom':
+				$rootPageUids = $this->settings['customPages'];
 				$pages = $this->pageRepository->findByPidList($this->settings['customPages'], $this->settings['orderByPlugin']);
 				break;
 
 			case 'customChildren':
+				$rootPageUids = $this->settings['customPages'];
 				$pages = $this->pageRepository->findChildrenByPidList($this->settings['customPages']);
 				break;
 
 			case 'customChildrenRecursively':
+				$rootPageUids = $this->settings['customPages'];
 				$pages = $this->pageRepository->findChildrenRecursivelyByPidList(
 					$this->settings['customPages'],
 					(int) $this->settings['recursionDepthFrom'],
@@ -131,22 +136,8 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 				break;
 		}
 
-			// Make random if selected on queryResult, cause Extbase doesn't support it
-		if ($this->settings['orderBy'] === 'random') {
-			shuffle($pages);
-			if (!empty($this->settings['limit'])) {
-				$pages = array_slice($pages, 0, $this->settings['limit']);
-			}
-		}
-
-		if ($this->settings['orderBy'] === 'sorting' && strpos($this->settings['source'], 'Recursively') !== FALSE) {
-			usort($pages, array($this, 'sortByRecursivelySorting'));
-			if (strtolower($this->settings['orderDirection']) === strtolower(\TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)) {
-				$pages = array_reverse($pages);
-			}
-			if (!empty($this->settings['limit'])) {
-				$pages = array_slice($pages, 0, $this->settings['limit']);
-			}
+		if ($this->settings['pageMode'] !== 'nested') {
+			$pages = $this->performSpecialOrderings($pages);
 		}
 
 		/** @var $page \PwTeaserTeam\PwTeaser\Domain\Model\Page */
@@ -159,6 +150,10 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			if ($this->settings['loadContents'] == '1') {
 				$page->setContents($this->contentRepository->findByPid($page->getUid()));
 			}
+		}
+
+		if ($this->settings['pageMode'] === 'nested') {
+			$pages = $this->convertFlatToNestedPagesArray($pages, $rootPageUids);
 		}
 
 		$this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'ModifyPages', array(&$pages, $this));
@@ -280,6 +275,84 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 			$this->pageRepository->addCategoryConstraint($categories, $isAnd, $isNot);
 		}
+
+		if ($this->settings['source'] === 'custom') {
+			$this->settings['pageMode'] = 'flat';
+		}
+
+		if ($this->settings['pageMode'] === 'nested') {
+			$this->settings['recursionDepthFrom'] = 0;
+			$this->settings['orderBy'] = 'uid';
+			$this->settings['limit'] = 0;
+		}
+	}
+
+	/**
+	 * Performs special orderings like "random" or "sorting"
+	 *
+	 * @param array<Pages> $pages
+	 * @return array
+	 */
+	protected function performSpecialOrderings(array $pages) {
+			// Make random if selected on queryResult, cause Extbase doesn't support it
+		if ($this->settings['orderBy'] === 'random') {
+			shuffle($pages);
+			if (!empty($this->settings['limit'])) {
+				$pages = array_slice($pages, 0, $this->settings['limit']);
+			}
+		}
+
+		if ($this->settings['orderBy'] === 'sorting' && strpos($this->settings['source'], 'Recursively') !== FALSE) {
+			usort($pages, array($this, 'sortByRecursivelySorting'));
+			if (strtolower($this->settings['orderDirection']) === strtolower(\TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)) {
+				$pages = array_reverse($pages);
+			}
+			if (!empty($this->settings['limit'])) {
+				$pages = array_slice($pages, 0, $this->settings['limit']);
+				return $pages;
+			}
+			return $pages;
+		}
+		return $pages;
+	}
+
+	/**
+	 * Converts given pages array (flat) to nested one
+	 *
+	 * @param array<Pages> $pages
+	 * @param string $rootPageUids Comma separated list of page uids
+	 * @return array<Pages>
+	 */
+	protected function convertFlatToNestedPagesArray($pages, $rootPageUids) {
+		$rootPageUidArray = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $rootPageUids);
+		$rootPages = array();
+		foreach ($rootPageUidArray as $rootPageUid) {
+			$page = $this->pageRepository->findByUid($rootPageUid);
+			$this->fillChildPagesRecursivley($page, $pages);
+			$rootPages[] = $page;
+		}
+		return $rootPages;
+	}
+
+	/**
+	 * Fills given parentPage's childPages attribute recursively with pages
+	 *
+	 * @param \PwTeaserTeam\PwTeaser\Domain\Model\Page $parentPage
+	 * @param array $pages
+	 * @return \PwTeaserTeam\PwTeaser\Domain\Model\Page
+	 */
+	protected function fillChildPagesRecursivley($parentPage, array $pages) {
+		$childPages = array();
+		/** @var $page \PwTeaserTeam\PwTeaser\Domain\Model\Page */
+		foreach ($pages as $page) {
+			if ($page->getPid() === $parentPage->getUid()) {
+				$this->fillChildPagesRecursivley($page, $pages);
+				$childPages[$page->getSorting()] = $page;
+			}
+		}
+		ksort($childPages);
+		$parentPage->setChildPages(array_values($childPages));
+		return $parentPage;
 	}
 }
 ?>

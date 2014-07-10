@@ -106,6 +106,12 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $media;
 
 	/**
+	 * sorting
+	 * @var integer
+	 */
+	protected $sorting;
+
+	/**
 	 * creation date
 	 * @var integer
 	 */
@@ -169,6 +175,12 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var integer
 	 */
 	protected $l18nConfiguration;
+
+	/**
+	 * Child pages
+	 * @var array<Page>
+	 */
+	protected $childPages = array();
 
 	/**
 	 * Custom Attributes
@@ -765,6 +777,36 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getPageRow() {
 		return $this->_pageRow;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getSorting() {
+		return $this->sorting;
+	}
+
+	/**
+	 * @param integer $sorting
+	 * @return void
+	 */
+	public function setSorting($sorting) {
+		$this->sorting = $sorting;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getChildPages() {
+		return $this->childPages;
+	}
+
+	/**
+	 * @param array<Page> $childPages
+	 * @return void
+	 */
+	public function setChildPages(array $childPages) {
+		$this->childPages = $childPages;
 	}
 }
 ?>

@@ -13,7 +13,7 @@ plugin.tx_pwteaser {
 						starttime.mapOnProperty = starttime
 						endtime.mapOnProperty = endtime
 						newUntil.mapOnProperty = newUntil
-						//localization
+						sorting.mapOnProperty = sorting
 						l18n_cfg.mapOnProperty = l18nConfiguration
 					}
 				}

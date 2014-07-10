@@ -27,6 +27,9 @@
 
 			<label index="loadContents">Load content elements of each page for use in template (requires more performance):</label>
 			<label index="orderByPlugin">Order selected pages as in the list above (this will overwrite the order settings in visibility options tab)</label>
+			<label index="pageMode">Page mode:</label>
+			<label index="pageMode.flat">Flat</label>
+			<label index="pageMode.nested">Nested</label>
 
 			<label index="order">Order by:</label>
 			<label index="order.crdate">Creation Date</label>
@@ -86,6 +89,9 @@
 
 			<label index="loadContents">Lade Inhalte (Content-Elemente) von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance):</label>
 			<label index="orderByPlugin">Sortiere die ausgewählten Seiten wie in der Liste oben (Sortierungs-Einstellungen im Anzeige-Einstellungen-Tab werden überschrieben):</label>
+			<label index="pageMode">Seiten-Modus:</label>
+			<label index="pageMode.flat">Flach</label>
+			<label index="pageMode.nested">Verschachtelt</label>
 
 			<label index="order">Sortieren nach:</label>
 			<label index="order.crdate">Erstellungsdatum</label>

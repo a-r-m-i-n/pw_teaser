@@ -62,7 +62,12 @@
 					<settings.recursionDepthFrom>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:recursionDepthFrom</label>
-							<displayCond>FIELD:settings.source:IN:thisChildrenRecursively,customChildrenRecursively</displayCond>
+							<displayCond>
+								<OR>
+									<numIndex>FIELD:settings.source:IN:thisChildrenRecursively,customChildrenRecursively</numIndex>
+									<numIndex>FIELD:settings.pageMode:!=:nested</numIndex>
+								</OR>
+							</displayCond>
 							<config>
 								<type>input</type>
 								<eval>int</eval>
@@ -132,6 +137,32 @@
 							</config>
 						</TCEforms>
 					</settings.loadContents>
+					<settings.pageMode>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:pageMode</label>
+							<onChange>reload</onChange>
+							<displayCond>FIELD:settings.source:!IN:custom</displayCond>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
+										<numIndex index="1"></numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:pageMode.flat</numIndex>
+										<numIndex index="1">flat</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:pageMode.nested</numIndex>
+										<numIndex index="1">nested</numIndex>
+									</numIndex>
+								</items>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</settings.pageMode>
 				</el>
 			</ROOT>
 		</generalsheet>
