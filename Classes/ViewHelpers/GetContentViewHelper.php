@@ -93,4 +93,3 @@ class GetContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
 		return $output;
 	}
 }
-?>

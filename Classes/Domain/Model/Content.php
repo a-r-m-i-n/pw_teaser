@@ -28,7 +28,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Model;
 ***************************************************************/
 
 /**
- * the page model
+ * Content model
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -60,9 +60,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $bodytext;
 
 	/**
-	 * image
 	 * It may contain multiple images, but TYPO3 called this field just "image"
-	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
 	 */
 	protected $image;
@@ -87,7 +85,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Setter for image(s)
+	 * Setter for images
 	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $image
 	 * @return void
@@ -106,6 +104,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Add image
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
 	 * @return void
 	 */
@@ -114,6 +114,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Remove image
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
 	 * @return void
 	 */
@@ -212,6 +214,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Getter for categories
+	 *
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getCategories() {
@@ -219,6 +223,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Setter for categories
+	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories
 	 * @return void
 	 */
@@ -227,6 +233,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Add category
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
 	 * @return void
 	 */
@@ -235,6 +243,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Remove category
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
 	 * @return void
 	 */
@@ -247,7 +257,6 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @param string $name Name of unknown method
 	 * @param array arguments Arguments of call
-	 *
 	 * @return mixed
 	 */
 	public function __call($name, $arguments) {
@@ -269,10 +278,11 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Get raw content row
+	 *
 	 * @return array
 	 */
 	public function getContentRow() {
 		return $this->_contentRow;
 	}
 }
-?>

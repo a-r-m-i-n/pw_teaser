@@ -37,7 +37,6 @@ class StripTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 	 * Strips html and php code out of a string
 	 *
 	 * @param string $string The string which will be stripped
-	 *
 	 * @return string the stripped string
 	 */
 	public function render($string = NULL) {
@@ -50,4 +49,3 @@ class StripTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewH
 		return strip_tags($string);
 	}
 }
-?>

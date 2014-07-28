@@ -28,7 +28,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
 ***************************************************************/
 
 /**
- * Repository for \PwTeaserTeam\PwTeaser\Domain\Model\Page
+ * Repository for Page model
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -69,7 +69,6 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Initializes the repository.
 	 *
 	 * @return void
-	 *
 	 * @see \TYPO3\CMS\Extbase\Persistence\Repository::initializeObject()
 	 */
 	public function initializeObject() {
@@ -176,6 +175,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * pidlist (recursively)
 	 *
 	 * @param string $pidlist comma seperated list of pids to search for
+	 * @param integer $recursionDepthFrom Start level for recursion
 	 * @param integer $recursionDepth Depth of recursion
 	 * @return array All found pages, will be empty if the result is empty
 	 */
@@ -427,4 +427,3 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$this->queryConstraints = array();
 	}
 }
-?>

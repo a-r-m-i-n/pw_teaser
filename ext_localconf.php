@@ -27,5 +27,3 @@ $rootLineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
 );
 $rootLineFields[] = 'sorting';
 $TYPO3_CONF_VARS['FE']['addRootLineFields'] = implode(',', $rootLineFields);
-
-?>

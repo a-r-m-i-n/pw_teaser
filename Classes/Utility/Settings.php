@@ -131,4 +131,3 @@ class Settings {
 		return $dottedConfiguration;
 	}
 }
-?>

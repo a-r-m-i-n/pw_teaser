@@ -28,7 +28,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Model;
 ***************************************************************/
 
 /**
- * the page model
+ * Page model
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -42,7 +42,6 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	const L18N_HIDE_IF_NO_TRANSLATION_EXISTS = 2;
 	/** Translation constant: Hide page always, but show on foreign langauge if translation exists */
 	const L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS = 3;
-
 
 	/**
 	 * doktype
@@ -359,7 +358,6 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return $this->keywords;
 	}
 
-
 	/**
 	 * Setter for description
 	 *
@@ -494,6 +492,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Add single medium
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium
 	 * @return void
 	 */
@@ -502,6 +502,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Removes single medium
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium
 	 * @return void
 	 */
@@ -709,6 +711,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Getter for categories
+	 *
 	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getCategories() {
@@ -716,6 +720,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Setter for categories
+	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories
 	 * @return void
 	 */
@@ -724,6 +730,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Add category
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
 	 * @return void
 	 */
@@ -732,6 +740,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Remove category
+	 *
 	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
 	 * @return void
 	 */
@@ -775,6 +785,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * Returns the complete page row (from database) as array
+	 *
 	 * @return array
 	 */
 	public function getPageRow() {
@@ -782,6 +793,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Getter for sorting
+	 *
 	 * @return integer
 	 */
 	public function getSorting() {
@@ -789,6 +802,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Setter for sorting
+	 *
 	 * @param integer $sorting
 	 * @return void
 	 */
@@ -797,6 +812,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Getter for child pages
+	 *
 	 * @return array
 	 */
 	public function getChildPages() {
@@ -804,6 +821,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Setter for child pages
+	 *
 	 * @param array<Page> $childPages
 	 * @return void
 	 */
@@ -811,4 +830,3 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$this->childPages = $childPages;
 	}
 }
-?>

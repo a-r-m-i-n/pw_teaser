@@ -28,7 +28,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
 ***************************************************************/
 
 /**
- * Repository for Tx_PwTeaser_Domain_Model_Content
+ * Repository for Content model
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -90,4 +90,3 @@ class ContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		return $query->execute();
 	}
 }
-?>
