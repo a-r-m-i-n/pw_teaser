@@ -125,13 +125,13 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		if ($orderByPlugin == FALSE) {
 			$this->handleOrdering($query);
 			$results = $query->execute();
+			$this->resetQuery();
+			return $this->handlePageLocalization($results);
 		} else {
 			$results = $query->execute();
+			$this->resetQuery();
 			return $this->orderByPlugin($pagePids, $this->handlePageLocalization($results));
 		}
-		$results = $this->handlePageLocalization($results);
-		$this->resetQuery();
-		return $results;
 	}
 
 	/**
