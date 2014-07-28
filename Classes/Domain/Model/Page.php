@@ -516,9 +516,11 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getMediaFiles() {
 		$mediaFiles = array();
-		/** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium */
-		foreach ($this->getMedia() as $medium) {
-			$mediaFiles[] = $medium->getOriginalResource()->toArray();
+		if (is_array($this->getMedia())) {
+			/** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium */
+			foreach ($this->getMedia() as $medium) {
+				$mediaFiles[] = $medium->getOriginalResource()->toArray();
+			}
 		}
 		return $mediaFiles;
 	}
