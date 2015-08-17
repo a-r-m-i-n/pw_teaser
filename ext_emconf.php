@@ -13,7 +13,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Create powerful, dynamic page teasers with data from page properties and its content elements. Based on Extbase and Fluid Template Engine.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '3.3.1',
+	'version' => '3.4.0-dev',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
@@ -32,7 +32,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '6.2.0-6.2.99',
+			'typo3' => '6.2.0-7.4.99',
 		),
 		'conflicts' => array(
 		),
