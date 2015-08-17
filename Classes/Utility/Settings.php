@@ -4,7 +4,7 @@ namespace PwTeaserTeam\PwTeaser\Utility;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  (c) 2011-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  *                Benjamin Schulte <benjamin.schulte@diemedialen.de>
  *
  *  All rights reserved
