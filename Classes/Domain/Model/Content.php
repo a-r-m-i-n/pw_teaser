@@ -26,6 +26,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Content model
@@ -295,7 +296,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 $pageSelect = $GLOBALS['TSFE']->sys_page;
                 $contentRow = $pageSelect->getRawRecord('tt_content', $this->getUid());
                 foreach ($contentRow as $key => $value) {
-                    $this->_contentRow[\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
+                    $this->_contentRow[GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
                 }
             }
             if (isset($this->_contentRow[$attributeName])) {

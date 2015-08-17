@@ -72,8 +72,10 @@ class PaginateController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetCont
     public function initializeAction()
     {
         $this->objects = $this->widgetConfiguration['objects'];
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->configuration,
-            $this->widgetConfiguration['configuration']);
+        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
+            $this->configuration,
+            $this->widgetConfiguration['configuration']
+        );
     }
 
     /**

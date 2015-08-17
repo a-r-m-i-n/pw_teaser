@@ -93,7 +93,9 @@ class Settings
     protected function enhanceSettingsWithTypoScript(array $settings)
     {
         $extkey = 'tx_pwteaser';
-        $typoscript = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        $typoscript = $this->configurationManager->getConfiguration(
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+        );
         $typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
         foreach ($settings as $key => $setting) {
             if ($setting === '' && is_array($typoscript) && array_key_exists($key, $typoscript)) {

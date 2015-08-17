@@ -26,6 +26,8 @@ namespace PwTeaserTeam\PwTeaser\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * Controller for the teaser object
@@ -70,7 +72,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $settingsUtility;
 
     /**
-     * @var tslib_cObj
+     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected $contentObject = null;
 
@@ -112,13 +114,19 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
             case 'thisChildrenRecursively':
                 $rootPageUids = $this->currentPageUid;
-                $pages = $this->pageRepository->findByPidRecursively($this->currentPageUid,
-                    (int)$this->settings['recursionDepthFrom'], (int)$this->settings['recursionDepth']);
+                $pages = $this->pageRepository->findByPidRecursively(
+                    $this->currentPageUid,
+                    (int)$this->settings['recursionDepthFrom'],
+                    (int)$this->settings['recursionDepth']
+                );
                 break;
 
             case 'custom':
                 $rootPageUids = $this->settings['customPages'];
-                $pages = $this->pageRepository->findByPidList($this->settings['customPages'], $this->settings['orderByPlugin']);
+                $pages = $this->pageRepository->findByPidList(
+                    $this->settings['customPages'],
+                    $this->settings['orderByPlugin']
+                );
                 break;
 
             case 'customChildren':
@@ -128,8 +136,11 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
             case 'customChildrenRecursively':
                 $rootPageUids = $this->settings['customPages'];
-                $pages = $this->pageRepository->findChildrenRecursivelyByPidList($this->settings['customPages'],
-                    (int)$this->settings['recursionDepthFrom'], (int)$this->settings['recursionDepth']);
+                $pages = $this->pageRepository->findChildrenRecursivelyByPidList(
+                    $this->settings['customPages'],
+                    (int)$this->settings['recursionDepthFrom'],
+                    (int)$this->settings['recursionDepth']
+                );
                 break;
         }
 
@@ -207,7 +218,9 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function performTemplatePathAndFilename()
     {
-        $frameworkSettings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $frameworkSettings = $this->configurationManager->getConfiguration(
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
         $templateType = $frameworkSettings['view']['templateType'];
         $templateFile = $frameworkSettings['view']['templateRootFile'];
         $layoutRootPath = $frameworkSettings['view']['layoutRootPath'];
@@ -225,7 +238,8 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
 
         $templatePathAndFilename = $frameworkSettings['view']['templatePathAndFilename'];
-        if ($templateType === null && !empty($templatePathAndFilename) && file_exists(PATH_site . $templatePathAndFilename)) {
+        if ($templateType === null && !empty($templatePathAndFilename)
+            && file_exists(PATH_site . $templatePathAndFilename)) {
             $this->view->setTemplatePathAndFilename($templatePathAndFilename);
             return true;
         }
@@ -241,22 +255,24 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         // Set ShowNavHiddenItems to TRUE
         $this->pageRepository->setShowNavHiddenItems(($this->settings['showNavHiddenItems'] == '1'));
-        $this->pageRepository->setFilteredDokType(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',',
-            $this->settings['showDoktypes'], true));
+        $this->pageRepository->setFilteredDokType(GeneralUtility::trimExplode(
+            ',',
+            $this->settings['showDoktypes'],
+            true
+        ));
 
         if ($this->settings['hideCurrentPage'] == '1') {
             $this->pageRepository->setIgnoreOfUid($this->currentPageUid);
         }
 
         if ($this->settings['ignoreUids']) {
-            $ignoringUids = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->settings['ignoreUids'], true);
+            $ignoringUids = GeneralUtility::trimExplode(',', $this->settings['ignoreUids'], true);
             array_map(array($this->pageRepository, 'setIgnoreOfUid'), $ignoringUids);
         }
 
         if ($this->settings['categoriesList'] && $this->settings['categoryMode']) {
             $categories = array();
-            foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $this->settings['categoriesList'],
-                true) as $categoryUid) {
+            foreach (GeneralUtility::intExplode(',', $this->settings['categoriesList'], true) as $categoryUid) {
                 $categories[] = $this->categoryRepository->findByUid($categoryUid);
             }
 
@@ -308,7 +324,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         if ($this->settings['orderBy'] === 'sorting' && strpos($this->settings['source'], 'Recursively') !== false) {
             usort($pages, array($this, 'sortByRecursivelySorting'));
-            if (strtolower($this->settings['orderDirection']) === strtolower(\TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING)) {
+            if (strtolower($this->settings['orderDirection']) === strtolower(QueryInterface::ORDER_DESCENDING)) {
                 $pages = array_reverse($pages);
             }
             if (!empty($this->settings['limit'])) {
@@ -329,7 +345,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function convertFlatToNestedPagesArray($pages, $rootPageUids)
     {
-        $rootPageUidArray = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $rootPageUids);
+        $rootPageUidArray = GeneralUtility::intExplode(',', $rootPageUids);
         $rootPages = array();
         foreach ($rootPageUidArray as $rootPageUid) {
             $page = $this->pageRepository->findByUid($rootPageUid);

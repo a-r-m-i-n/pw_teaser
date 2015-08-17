@@ -1,6 +1,6 @@
 <?php
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
 $extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
@@ -15,6 +15,10 @@ if ($extConfiguration['ENABLECACHE'] == '0') {
         'Teaser' => $actionNotToCache,
     ));
 
-$rootLineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $TYPO3_CONF_VARS['FE']['addRootLineFields'], true);
+$rootLineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+    ',',
+    $TYPO3_CONF_VARS['FE']['addRootLineFields'],
+    true
+);
 $rootLineFields[] = 'sorting';
 $TYPO3_CONF_VARS['FE']['addRootLineFields'] = implode(',', $rootLineFields);

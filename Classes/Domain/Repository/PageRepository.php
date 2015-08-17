@@ -26,6 +26,8 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PwTeaserTeam\PwTeaser\Domain\Model\Page;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Repository for Page model
@@ -36,13 +38,13 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
 class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
     /** Category Mode: Or */
-    CONST CATEGORY_MODE_OR = 1;
+    const CATEGORY_MODE_OR = 1;
     /** Category Mode: And */
-    CONST CATEGORY_MODE_AND = 2;
+    const CATEGORY_MODE_AND = 2;
     /** Category Mode: Or Not */
-    CONST CATEGORY_MODE_OR_NOT = 3;
+    const CATEGORY_MODE_OR_NOT = 3;
     /** Category Mode: And Not */
-    CONST CATEGORY_MODE_AND_NOT = 4;
+    const CATEGORY_MODE_AND_NOT = 4;
 
     /**
      * page attribute to order by
@@ -118,7 +120,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findByPidList($pidlist, $orderByPlugin = false)
     {
-        $pagePids = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pidlist, true);
+        $pagePids = GeneralUtility::intExplode(',', $pidlist, true);
 
         $query = $this->query;
         $this->addQueryConstraint($query->in('uid', $pagePids));
@@ -165,7 +167,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findChildrenByPidList($pidlist)
     {
-        $pagePids = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pidlist, true);
+        $pagePids = GeneralUtility::intExplode(',', $pidlist, true);
 
         $this->addQueryConstraint($this->query->in('pid', $pagePids));
         return $this->executeQuery();
@@ -213,13 +215,17 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $this->queryConstraints[] = $this->query->logicalAnd($this->buildCategoryConstraint($categories));
         }
         if ($isAnd === true && $isNot === true) {
-            $this->queryConstraints[] = $this->query->logicalNot($this->query->logicalAnd($this->buildCategoryConstraint($categories)));
+            $this->queryConstraints[] = $this->query->logicalNot($this->query->logicalAnd(
+                $this->buildCategoryConstraint($categories)
+            ));
         }
         if ($isAnd === false && $isNot === false) {
             $this->queryConstraints[] = $this->query->logicalOr($this->buildCategoryConstraint($categories));
         }
         if ($isAnd === false && $isNot === true) {
-            $this->queryConstraints[] = $this->query->logicalNot($this->query->logicalOr($this->buildCategoryConstraint($categories)));
+            $this->queryConstraints[] = $this->query->logicalNot($this->query->logicalOr(
+                $this->buildCategoryConstraint($categories)
+            ));
         }
     }
 
@@ -267,10 +273,11 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $currentLangUid = (int)$GLOBALS['TSFE']->sys_page->sys_language_uid;
         $displayedPages = array();
 
-        /** @var \PwTeaserTeam\PwTeaser\Domain\Model\Page $page */
+        /** @var Page $page */
         foreach ($pages as $page) {
             if ($currentLangUid === 0) {
-                if ($page->getL18nConfiguration() !== \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_DEFAULT_LANGUAGE && $page->getL18nConfiguration() !== \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS) {
+                if ($page->getL18nConfiguration() !== Page::L18N_HIDE_DEFAULT_LANGUAGE &&
+                    $page->getL18nConfiguration() !== Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS) {
                     $displayedPages[] = $page;
                 }
             } else {
@@ -279,11 +286,16 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $pageRowWithOverlays = $pageSelect->getPage($page->getUid());
 
                 if ((boolean)$GLOBALS['TYPO3_CONF_VARS']['FE']['hidePagesIfNotTranslatedByDefault'] === false) {
-                    if (!($page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS || $page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS) || isset($pageRowWithOverlays['_PAGES_OVERLAY'])) {
+                    if (!($page->getL18nConfiguration() === Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS ||
+                            $page->getL18nConfiguration() === Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS) ||
+                        isset($pageRowWithOverlays['_PAGES_OVERLAY'])) {
                         $displayedPages[] = $page;
                     }
                 } else {
-                    if (($page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS || $page->getL18nConfiguration() === \PwTeaserTeam\PwTeaser\Domain\Model\Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS) && !isset($pageRowWithOverlays['_PAGES_OVERLAY']) || isset($pageRowWithOverlays['_PAGES_OVERLAY'])) {
+                    if (($page->getL18nConfiguration() === Page::L18N_HIDE_IF_NO_TRANSLATION_EXISTS ||
+                            $page->getL18nConfiguration() === Page::L18N_HIDE_ALWAYS_BUT_TRANSLATION_EXISTS) &&
+                        !isset($pageRowWithOverlays['_PAGES_OVERLAY']) ||
+                        isset($pageRowWithOverlays['_PAGES_OVERLAY'])) {
                         $displayedPages[] = $page;
                     }
                 }
@@ -303,13 +315,16 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected function getRecursivePageList($pidlist, $recursionDepthFrom, $recursionDepth)
     {
         /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObjectRenderer */
-        $contentObjectRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        $contentObjectRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 
         $pagePids = array();
-        $pids = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pidlist, true);
+        $pids = GeneralUtility::intExplode(',', $pidlist, true);
         foreach ($pids as $pid) {
-            $pageList = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
-                $contentObjectRenderer->getTreeList($pid, $recursionDepth, $recursionDepthFrom), true);
+            $pageList = GeneralUtility::intExplode(
+                ',',
+                $contentObjectRenderer->getTreeList($pid, $recursionDepth, $recursionDepthFrom),
+                true
+            );
             $pagePids = array_merge($pagePids, $pageList);
             if ($recursionDepthFrom === 0) {
                 array_unshift($pagePids, $pid);
