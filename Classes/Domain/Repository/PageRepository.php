@@ -121,6 +121,11 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findByPidList($pidlist, $orderByPlugin = false)
     {
         $pagePids = GeneralUtility::intExplode(',', $pidlist, true);
+        
+        // early return when list is empty to prevent sql exception
+        if (empty($pagePids)) {
+            return array();
+        }
 
         $query = $this->query;
         $this->addQueryConstraint($query->in('uid', $pagePids));
@@ -168,6 +173,11 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findChildrenByPidList($pidlist)
     {
         $pagePids = GeneralUtility::intExplode(',', $pidlist, true);
+        
+        // early return when list is empty to prevent sql exception
+        if (empty($pagePids)) {
+            return array();
+        }
 
         $this->addQueryConstraint($this->query->in('pid', $pagePids));
         return $this->executeQuery();
