@@ -123,14 +123,14 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $sorting;
 
     /**
-     * creation date
+     * creation date (crdate)
      *
      * @var integer
      */
     protected $creationDate;
 
     /**
-     * timestamp
+     * timestamp (tstamp)
      *
      * @var integer
      */
@@ -569,17 +569,14 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Returns media files as array (with all attributes)
      *
      * @return array
+     * @deprecated Use media attribute instead
      */
     public function getMediaFiles()
     {
-        $mediaFiles = array();
-        if (is_array($this->getMedia())) {
-            /** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $medium */
-            foreach ($this->getMedia() as $medium) {
-                $mediaFiles[] = $medium->getOriginalResource()->toArray();
-            }
-        }
-        return $mediaFiles;
+        \TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
+            'Please don\'t use {page.mediaFiles} anymore in your pw_teaser templates. Use {page.media} instead.'
+        );
+        return $this->getMedia()->toArray();
     }
 
     /**
@@ -617,7 +614,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Setter for creationDate
+     * Setter for creationDate (crdate)
      *
      * @param integer $creationDate creationDate
      * @return void
@@ -628,7 +625,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Getter for creationDate
+     * Getter for creationDate (crdate)
      *
      * @return integer creationDate
      */

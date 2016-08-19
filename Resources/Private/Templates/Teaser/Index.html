@@ -1,17 +1,17 @@
 {namespace pw=PwTeaserTeam\PwTeaser\ViewHelpers}
-<f:layout name="default" />
+<f:layout name="Main" />
 
 <f:section name="main">
-	<div><b>How many pages found:</b> {f:count(subject:'{pages}')}</div>
+	<div><b>How many pages found:</b> {pages -> f:count()}</div>
 
-	<f:if condition="{f:count(subject:'{pages}')}">
+	<f:if condition="{pages -> f:count()}">
 		<f:then>
-			<pw:widget.paginate objects="{pages}" as="pageObject" configuration="{itemsPerPage: 5, insertAbove: 0, insertBelow: 1}">
+			<f:widget.paginate objects="{pages}" as="pageObject" configuration="{itemsPerPage: 5, insertAbove: 0, insertBelow: 1}">
 				<ul>
 					<f:for each="{pageObject}" as="page">
 						<li>
 							<fieldset>
-								<legend><b>Title:</b> <f:link.page pageUid="{page.uid}">{page.title}</f:link.page> (uid: {page.uid})</legend>
+								<legend><b>Title:</b> <f:link.page pageUid="{page.uid}">{page.title}</f:link.page> <small>uid={page.uid}</small></legend>
 								<ul>
 									<li><b>isCurrentPage:</b> <f:if condition="{page.isCurrentPage}"><f:then>Yes</f:then><f:else>No</f:else></f:if></li>
 									<li><b>subtitle:</b> {page.subtitle}</li>
@@ -32,12 +32,13 @@
 									<li><b>abstract:</b> {page.abstract}</li>
 									<li><b>alias:</b> {page.alias}</li>
 									<li><b>media:</b>
-										<f:if condition="{page.mediaFiles}">
+										<f:debug>{page}</f:debug>
+										<f:if condition="{page.media}">
 											<f:then>
 												<ul>
-													<f:for each="{page.mediaFiles}" as="mediaFile">
+													<f:for each="{page.media}" as="mediaFile">
 														<li>
-															<f:image src="{mediaFile.url}" alt="{mediaFile.title}" maxWidth="200" maxHeight="200" />
+															<f:image image="{mediaFile}" alt="{mediaFile.title}" maxWidth="120" maxHeight="100" />
 														</li>
 													</f:for>
 												</ul>
@@ -51,7 +52,7 @@
 												<ul>
 													<f:for each="{page.categories}" as="category">
 														<li>
-															<b>{category.title}</b>
+															<b>{category.title}</b> <small>uid={category.uid}</small>
 															<f:if condition="{category.description}">
 																<p>{category.description -> f:format.nl2br()}</p>
 															</f:if>
@@ -61,12 +62,12 @@
 											</f:then>
 										</f:if>
 									</li>
-									<li><b>crdate:</b> <f:format.date date="{page.crdate}" format="d.m.Y" /></li>
+									<li><b>crdate:</b> <f:format.date date="{page.crdate}" format="r" /></li>
 									<li><b>tstamp:</b> <f:format.date date="{page.tstamp}" format="r" /></li>
-									<li><b>lastUpdated:</b> <f:format.date date="{page.lastupdated}" format="l, d.m.Y" /></li>
-									<li><b>starttime:</b> <f:format.date date="{page.starttime}" format="U" /></li>
-									<li><b>endtime:</b> <f:format.date date="{page.endtime}" format="U" /></li>
-									<li><b>newUntil:</b> <f:format.date date="{page.newUntil}" format="d.m.Y" /></li>
+									<li><b>lastUpdated:</b> <f:format.date date="{page.lastupdated}" format="r" /></li>
+									<li><b>starttime:</b> <f:format.date date="{page.starttime}" format="r" /></li>
+									<li><b>endtime:</b> <f:format.date date="{page.endtime}" format="r" /></li>
+									<li><b>newUntil:</b> <f:format.date date="{page.newUntil}" format="r" /></li>
 									<li><b>isNew:</b> <f:if condition="{page.isNew}"><f:then>Yes</f:then><f:else>No</f:else></f:if></li>
 									<li><b>author:</b> {page.author}</li>
 									<li><b>authorEmail:</b> {page.authorEmail}</li>
@@ -85,7 +86,7 @@
 						</li>
 					</f:for>
 				</ul>
-			</pw:widget.paginate>
+			</f:widget.paginate>
 		</f:then>
 		<f:else>
 			<i>This appears if the number of found pages is zero.</i>
