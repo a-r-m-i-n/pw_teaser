@@ -4,7 +4,7 @@ namespace PwTeaserTeam\PwTeaser\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  (c) 2011-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  *
  *  All rights reserved
  *
