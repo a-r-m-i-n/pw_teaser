@@ -83,6 +83,11 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $signalSlotDispatcher;
 
     /**
+     * @var \TYPO3\CMS\Fluid\View\TemplateView
+     */
+    protected $view;
+
+    /**
      * Initialize Action will performed before each action will be executed
      *
      * @return void
@@ -227,10 +232,20 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $partialRootPath = $frameworkSettings['view']['partialRootPath'];
 
         if ($layoutRootPath != null && !empty($layoutRootPath) && file_exists(PATH_site . $layoutRootPath)) {
-            $this->view->setLayoutRootPath($layoutRootPath);
+            if (method_exists($this->view, 'setLayoutRootPaths')) {
+                $this->view->setLayoutRootPaths([$layoutRootPath]);
+            } else {
+                // TODO: Remove this when 6.2 support is gone
+                $this->view->setLayoutRootPath($layoutRootPath);
+            }
         }
         if ($partialRootPath != null && !empty($partialRootPath) && file_exists(PATH_site . $partialRootPath)) {
-            $this->view->setPartialRootPath($partialRootPath);
+            if (method_exists($this->view, 'setPartialRootPaths')) {
+                $this->view->setPartialRootPaths([$layoutRootPath]);
+            } else {
+                // TODO: Remove this when 6.2 support is gone
+                $this->view->setPartialRootPath($partialRootPath);
+            }
         }
         if ($templateType === 'file' && !empty($templateFile) && file_exists(PATH_site . $templateFile)) {
             $this->view->setTemplatePathAndFilename($templateFile);
