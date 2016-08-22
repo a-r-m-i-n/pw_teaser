@@ -226,36 +226,44 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $frameworkSettings = $this->configurationManager->getConfiguration(
             \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
-        $templateType = $frameworkSettings['view']['templateType'];
-        $templateFile = $frameworkSettings['view']['templateRootFile'];
-        $layoutRootPath = $frameworkSettings['view']['layoutRootPath'];
-        $partialRootPath = $frameworkSettings['view']['partialRootPath'];
+        $viewSettings = $frameworkSettings['view'];
+        $templateType = $viewSettings['templateType'];
+        $templateFile = $viewSettings['templateRootFile'];
+        $layoutRootPaths = $viewSettings['layoutRootPaths'] ?: array($viewSettings['layoutRootPath'] ?: null);
+        $partialRootPaths = $viewSettings['partialRootPaths'] ?: array($viewSettings['partialRootPath'] ?: null);
 
-        if ($layoutRootPath != null && !empty($layoutRootPath) && file_exists(PATH_site . $layoutRootPath)) {
+        if ($layoutRootPaths !== array(null) && !empty($layoutRootPaths)) {
+            if (!file_exists(GeneralUtility::getFileAbsFileName(reset($layoutRootPaths)))) {
+                throw new \Exception('Layout folder "' . reset($layoutRootPaths) . '" not found!');
+            }
+            // TODO: Remove if and else part when 6.2 support is gone
             if (method_exists($this->view, 'setLayoutRootPaths')) {
-                $this->view->setLayoutRootPaths([$layoutRootPath]);
+                $this->view->setLayoutRootPaths($layoutRootPaths);
             } else {
-                // TODO: Remove this when 6.2 support is gone
-                $this->view->setLayoutRootPath($layoutRootPath);
+                $this->view->setLayoutRootPath(GeneralUtility::getFileAbsFileName($viewSettings['layoutRootPath']));
             }
         }
-        if ($partialRootPath != null && !empty($partialRootPath) && file_exists(PATH_site . $partialRootPath)) {
+        if ($partialRootPaths !== array(null) && !empty($partialRootPaths)) {
+            if (!file_exists(GeneralUtility::getFileAbsFileName(reset($partialRootPaths)))) {
+                throw new \Exception('Partial folder "' . reset($partialRootPaths) . '" not found!');
+            }
+
+            // TODO: Remove if and else part when 6.2 support is gone
             if (method_exists($this->view, 'setPartialRootPaths')) {
-                $this->view->setPartialRootPaths([$layoutRootPath]);
+                $this->view->setPartialRootPaths($partialRootPaths);
             } else {
-                // TODO: Remove this when 6.2 support is gone
-                $this->view->setPartialRootPath($partialRootPath);
+                $this->view->setPartialRootPath(GeneralUtility::getFileAbsFileName($viewSettings['partialRootPath']));
             }
         }
         if ($templateType === 'file' && !empty($templateFile) && file_exists(PATH_site . $templateFile)) {
-            $this->view->setTemplatePathAndFilename($templateFile);
+            $this->view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateFile));
             return true;
         }
 
         $templatePathAndFilename = $frameworkSettings['view']['templatePathAndFilename'];
         if ($templateType === null && !empty($templatePathAndFilename)
             && file_exists(PATH_site . $templatePathAndFilename)) {
-            $this->view->setTemplatePathAndFilename($templatePathAndFilename);
+            $this->view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templatePathAndFilename));
             return true;
         }
         return false;
