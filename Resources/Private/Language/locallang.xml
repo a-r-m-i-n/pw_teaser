@@ -6,15 +6,17 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="tx_pwteaser_domain_model_teaser">the teaser model</label>
-			<label index="tx_pwteaser_domain_model_teaser.name">name</label>
-			<label index="tx_pwteaser_domain_model_teaser.teaser_that">teaserThat</label>
-			<label index="tx_pwteaser_domain_model_teaser.order_by">orderBy</label>
+			<label index="newContentElementWizardTitle">Page teaser</label>
+			<label index="newContentElementWizardDescription">Create powerful, dynamic page teasers with pw_teaser and fluid templates.</label>
 
 			<label index="pagination_first">&#171;</label>
 			<label index="pagination_previous">&lt;</label>
 			<label index="pagination_next">&gt;</label>
 			<label index="pagination_last">&#187;</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="newContentElementWizardTitle">Seiten-Teaser</label>
+			<label index="newContentElementWizardDescription">Erstelle mächtige und dynamische Seiten-Teaser mit pw_teaser und Fluid-Templates.</label>
 		</languageKey>
 	</data>
 </T3locallang>
