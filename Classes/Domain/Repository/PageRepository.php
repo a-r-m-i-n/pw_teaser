@@ -4,7 +4,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  (c) 2011-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  *                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
  *                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
  *

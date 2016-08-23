@@ -12,7 +12,8 @@ if (!defined('TYPO3_MODE')) {
 $extensionName = \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY);
 $pluginSignature = strtolower($extensionName) . '_pi1';
 
-$TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'select_key,pages,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
     $pluginSignature,
     'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_teaser.xml'

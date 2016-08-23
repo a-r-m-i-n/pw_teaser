@@ -22,3 +22,25 @@ $rootLineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
 );
 $rootLineFields[] = 'sorting';
 $TYPO3_CONF_VARS['FE']['addRootLineFields'] = implode(',', $rootLineFields);
+
+if (TYPO3_MODE === 'BE') {
+    /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
+    $iconRegistry->registerIcon(
+        'ext-pwteaser-wizard-icon',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        ['source' => 'EXT:pw_teaser/ext_icon_x2.png']
+    );
+
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
+	mod.wizards.newContentElement.wizardItems.plugins.elements.pwteaser {
+        iconIdentifier = ext-pwteaser-wizard-icon
+        title = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardTitle
+        description = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardDescription
+        tt_content_defValues {
+            CType = list
+            list_type = pwteaser_pi1
+        }
+	}
+	');
+}
