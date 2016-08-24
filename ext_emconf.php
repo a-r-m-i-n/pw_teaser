@@ -10,8 +10,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'Page Teaser (with Fluid)',
-    'description' => 'Create powerful, dynamic page teasers with data from page properties and its content elements.' .
-        'Based on Extbase and Fluid Template Engine.',
+    'description' => 'Create powerful, dynamic page teasers with data from page properties and its content elements. Based on Extbase and Fluid Template Engine.',
     'category' => 'plugin',
     'shy' => 0,
     'version' => '3.4.0',

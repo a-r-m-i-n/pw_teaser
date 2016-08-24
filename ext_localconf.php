@@ -28,8 +28,8 @@ if (TYPO3_MODE === 'BE') {
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
     $iconRegistry->registerIcon(
         'ext-pwteaser-wizard-icon',
-        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-        ['source' => 'EXT:pw_teaser/ext_icon_x2.png']
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        array('source' => 'EXT:pw_teaser/Resources/Public/Icons/ext_icon_x2.png')
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
