@@ -23,8 +23,7 @@ Requirements
 
 Version 3.4 of pw_teaser requires:
 
-* TYPO3 6.2 or higher and
-* Gridelements 3.0.5 or higher
+* TYPO3 6.2 or higher
 
 
 Links
