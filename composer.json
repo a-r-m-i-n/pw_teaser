@@ -4,9 +4,7 @@
 	"description": "Create powerful, dynamic page teasers with data from page properties and its content elements. Based on Extbase and Fluid Template Engine.",
 	"version": "3.4.1",
 	"homepage": "http://typo3.org",
-	"license": [
-		"GPL-2.0+"
-	],
+	"license": "GPL-2.0",
 	"require": {
 		"typo3/cms-core": ">=6.2.0,<9.0"
 	},
