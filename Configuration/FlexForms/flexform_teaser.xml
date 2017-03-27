@@ -64,8 +64,8 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:recursionDepthFrom</label>
 							<displayCond>
 								<OR>
-									<numIndex>FIELD:settings.source:IN:thisChildrenRecursively,customChildrenRecursively</numIndex>
-									<numIndex>FIELD:settings.pageMode:!=:nested</numIndex>
+									<numIndex index="0">FIELD:settings.source:IN:thisChildrenRecursively,customChildrenRecursively</numIndex>
+									<numIndex index="1">FIELD:settings.pageMode:!=:nested</numIndex>
 								</OR>
 							</displayCond>
 							<config>
@@ -222,7 +222,7 @@
 									</numIndex>
 								</items>
 								<maxitems>1</maxitems>
-						  </config>
+							</config>
 						</TCEforms>
 					</settings.orderBy>
 					<settings.orderByCustomField>
@@ -259,7 +259,7 @@
 								</items>
 								<maxitems>1</maxitems>
 								<size>1</size>
-						  </config>
+							</config>
 						</TCEforms>
 					</settings.orderDirection>
 					<settings.limit>
@@ -414,14 +414,14 @@
 							<config>
 								<type>select</type>
 								<items type="array">
-								  <numIndex index="0" type="array">
-									<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.file</numIndex>
-									<numIndex index="1">file</numIndex>
-								  </numIndex>
-								  <numIndex index="1" type="array">
-									<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.directory</numIndex>
-									<numIndex index="1">directory</numIndex>
-								  </numIndex>
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.file</numIndex>
+										<numIndex index="1">file</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.directory</numIndex>
+										<numIndex index="1">directory</numIndex>
+									</numIndex>
 								</items>
 								<maxitems>1</maxitems>
 								<size>1</size>
