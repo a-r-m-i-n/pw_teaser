@@ -231,6 +231,17 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $templateFile = $viewSettings['templateRootFile'];
         $layoutRootPaths = $viewSettings['layoutRootPaths'] ?: array($viewSettings['layoutRootPath'] ?: null);
         $partialRootPaths = $viewSettings['partialRootPaths'] ?: array($viewSettings['partialRootPath'] ?: null);
+	    $templateRootPath = array( $viewSettings['templateRootPath'] ?: null );
+
+	    if ( $templateRootPath !== array( null ) && ! empty( $templateRootPath ) ) {
+		    if ( ! file_exists( GeneralUtility::getFileAbsFileName( reset( $templateRootPath ) ) ) ) {
+			    throw new \Exception( 'Template folder "' . reset( $templateRootPath ) . '" not found!' );
+		    }
+		    // TODO: Remove if and else part when 6.2 support is gone
+		    if ( method_exists( $this->view, 'setTemplateRootPaths' ) ) {
+			    $this->view->setTemplateRootPaths( $templateRootPath );
+		    }
+	    }
 
         if ($layoutRootPaths !== array(null) && !empty($layoutRootPaths)) {
             if (!file_exists(GeneralUtility::getFileAbsFileName(reset($layoutRootPaths)))) {
