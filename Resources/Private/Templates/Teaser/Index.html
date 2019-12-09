@@ -30,7 +30,7 @@
 									</li>
 									<li><b>description:</b> {page.description}</li>
 									<li><b>abstract:</b> {page.abstract}</li>
-									<li><b>alias:</b> {page.alias}</li>
+									<li><b>slug:</b> {page.get.slug}</li>
 									<li><b>media:</b>
 										<f:if condition="{page.media}">
 											<f:then>
@@ -61,7 +61,7 @@
 											</f:then>
 										</f:if>
 									</li>
-									<li><b>crdate:</b> <f:format.date date="{page.crdate}" format="r" /></li>
+									<li><b>crdate:</b> <f:format.date date="{page.get.crdate}" format="r" /></li>
 									<li><b>tstamp:</b> <f:format.date date="{page.tstamp}" format="r" /></li>
 									<li><b>lastUpdated:</b> <f:format.date date="{page.lastupdated}" format="r" /></li>
 									<li><b>starttime:</b> <f:format.date date="{page.starttime}" format="r" /></li>

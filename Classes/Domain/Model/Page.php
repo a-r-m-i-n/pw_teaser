@@ -266,32 +266,34 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * @return array
+     */
+    public function getGet(): array
+    {
+        if (empty($this->_pageRow)) {
+            /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+            $pageSelect = $GLOBALS['TSFE']->sys_page;
+            $pageRow = $pageSelect->getPage($this->getUid());
+            foreach ($pageRow as $key => $value) {
+                $this->_pageRow[GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
+            }
+        }
+        return array_merge($this->_customAttributes, $this->_pageRow);
+    }
+
+    /**
      * Checks for attribute in _customAttributes and _pageRow
      *
      * @param string $name Name of unknown method
      * @param array arguments Arguments of call
-     *
      * @return mixed
+     * @deprecated Use getGet() instead (in fluid template: {page.get.attributeName})
      */
     public function __call($name, $arguments)
     {
-        if (substr(strtolower($name), 0, 3) == 'get' && strlen($name) > 3) {
+        if (substr(strtolower($name), 0, 3) === 'get' && strlen($name) > 3) {
             $attributeName = lcfirst(substr($name, 3));
-            if ($this->hasCustomAttribute($attributeName)) {
-                return $this->getCustomAttribute($attributeName);
-            }
-
-            if (empty($this->_pageRow)) {
-                /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
-                $pageSelect = $GLOBALS['TSFE']->sys_page;
-                $pageRow = $pageSelect->getPage($this->getUid());
-                foreach ($pageRow as $key => $value) {
-                    $this->_pageRow[\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
-                }
-            }
-            if (isset($this->_pageRow[$attributeName])) {
-                return $this->_pageRow[$attributeName];
-            }
+            return $this->getGet()[$attributeName];
         }
     }
 

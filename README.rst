@@ -21,9 +21,7 @@ https://forge.typo3.org/projects/extension-pw_teaser/wiki
 Requirements
 ------------
 
-Version 3.4 of pw_teaser requires:
-
-* TYPO3 6.2 or higher
+Version 4.0 of pw_teaser requires TYPO3 8.7 or 9.7.
 
 
 Links
