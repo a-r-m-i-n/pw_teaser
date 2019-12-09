@@ -36,6 +36,9 @@ namespace PwTeaserTeam\PwTeaser\ViewHelpers;
  */
 class GetContentViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+
+    protected $escapeOutput = false;
+
     /**
      * @return void
      */
