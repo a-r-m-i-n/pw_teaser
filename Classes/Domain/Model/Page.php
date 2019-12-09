@@ -1,11 +1,13 @@
 <?php
 namespace PwTeaserTeam\PwTeaser\Domain\Model;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
- *                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+ *  (c) 2011-2019 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *      2016      Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
  *                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
  *
  *  All rights reserved
@@ -316,7 +318,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Getter for contents
      *
-     * @returns array<\PwTeaserTeam\PwTeaser\Domain\Model\Content> contents
+     * @return array<\PwTeaserTeam\PwTeaser\Domain\Model\Content> contents
      */
     public function getContents()
     {
@@ -383,7 +385,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getKeywords()
     {
-        return (\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->keywords, true));
+        return (GeneralUtility::trimExplode(',', $this->keywords, true));
     }
 
     /**
@@ -573,7 +575,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getMediaFiles()
     {
-        \TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
+        GeneralUtility::deprecationLog(
             'Please don\'t use {page.mediaFiles} anymore in your pw_teaser templates. Use {page.media} instead.'
         );
         return $this->getMedia()->toArray();

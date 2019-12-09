@@ -9,11 +9,16 @@ if ($extConfiguration['ENABLECACHE'] == '0') {
     $actionNotToCache = 'index';
 }
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('PwTeaserTeam.' . $_EXTKEY, 'Pi1', array(
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'PwTeaserTeam.' . $_EXTKEY,
+    'Pi1',
+    [
         'Teaser' => 'index',
-    ), array(
+    ],
+    [
         'Teaser' => $actionNotToCache,
-    ));
+    ]
+);
 
 $rootLineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
     ',',
@@ -24,7 +29,6 @@ $rootLineFields[] = 'sorting';
 $TYPO3_CONF_VARS['FE']['addRootLineFields'] = implode(',', $rootLineFields);
 
 if (TYPO3_MODE === 'BE') {
-    if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.5')) {
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
         $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
         $iconRegistry->registerIcon(
@@ -44,17 +48,4 @@ if (TYPO3_MODE === 'BE') {
                 }
             }
         ');
-    } else {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
-            mod.wizards.newContentElement.wizardItems.plugins.elements.pwteaser {
-                icon = ../typo3conf/ext/pw_teaser/Resources/Public/Icons/ext_icon_x2.png
-                title = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardTitle
-                description = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardDescription
-                tt_content_defValues {
-                    CType = list
-                    list_type = pwteaser_pi1
-                }
-            }
-        ');
-    }
 }

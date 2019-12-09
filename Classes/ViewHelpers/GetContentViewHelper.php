@@ -4,8 +4,8 @@ namespace PwTeaserTeam\PwTeaser\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
- *                Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
+ *  (c) 2011-2019 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *      2016      Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
  *                Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
  *
  *  All rights reserved
@@ -34,21 +34,24 @@ namespace PwTeaserTeam\PwTeaser\ViewHelpers;
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class GetContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GetContentViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Get content
-     *
-     * @param array $contents array which contains content elements
-     * @param string $as the name of the iteration variable
-     * @param integer $colPos column position to get content elements from, default is 0 (normal)
-     * @param string $cType the cType to filter content elements for, default is NULL
-     * @param integer $index limits the output to n-th element. default is NULL which disables the limitation, 0 would
-     *        limit the output to the first found content element
-     * @return string Rendered string
+     * @return void
      */
-    public function render($contents, $as, $colPos = 0, $cType = null, $index = null)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('contents', 'array', 'Content elements');
+        $this->registerArgument('as', 'string', 'the name of the iteration variable', true);
+        $this->registerArgument('colPos', 'integer', 'column position to get content elements from', false, 0);
+        $this->registerArgument('cType', 'string', 'the cType to filter content elements for');
+        $this->registerArgument('index', 'integer', 'limits the output to n-th element');
+    }
+
+    public function render()
+    {
+        $contents = $this->arguments['contents'];
         if ($contents === null) {
             return '';
         }
@@ -63,14 +66,14 @@ class GetContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
             $contentCtype = $content->getCtype();
             $contentColPos = $content->getColPos();
 
-            if ($contentColPos == $colPos) {
-                if ($cType === null || $contentCtype == $cType) {
-                    if ($index === null) {
-                        $this->templateVariableContainer->add($as, $content);
+            if ($contentColPos == $this->arguments['colPos']) {
+                if ($this->arguments['cType'] === null || $contentCtype == $this->arguments['cType']) {
+                    if ($this->arguments['index'] === null) {
+                        $this->templateVariableContainer->add($this->arguments['as'], $content);
                         $asHasBeenSet = true;
                     } else {
-                        if ($indexCount == $index) {
-                            $this->templateVariableContainer->add($as, $content);
+                        if ($indexCount == $this->arguments['index']) {
+                            $this->templateVariableContainer->add($this->arguments['as'], $content);
                             $asHasBeenSet = true;
                             $breakNow = true;
                         }
@@ -78,18 +81,17 @@ class GetContentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractView
                 }
             }
 
-            if ($asHasBeenSet == true) {
+            if ($asHasBeenSet) {
                 $output .= $this->renderChildren();
-                $this->templateVariableContainer->remove($as);
+                $this->templateVariableContainer->remove($this->arguments['as']);
                 $asHasBeenSet = false;
             }
 
             if ($breakNow) {
                 break;
-            } else {
-                if ($cType === null || $contentCtype == $cType) {
-                    $indexCount++;
-                }
+            }
+            if ($this->arguments['cType'] === null || $contentCtype == $this->arguments['cType']) {
+                $indexCount++;
             }
         }
         return $output;
