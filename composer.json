@@ -1,19 +1,15 @@
 {
-	"name": "arminvieweg/pw_teaser",
+	"name": "t3/pw_teaser",
 	"type": "typo3-cms-extension",
 	"description": "Create powerful, dynamic page teasers with data from page properties and its content elements. Based on Extbase and Fluid Template Engine.",
-	"version": "3.4.2",
 	"homepage": "http://typo3.org",
 	"license": "GPL-2.0",
 	"require": {
-		"typo3/cms-core": ">=6.2.0,<9.0"
+		"typo3/cms-core": ">=8.7.0,<10.0"
 	},
 	"autoload": {
 		"psr-4": {
 			"PwTeaserTeam\\PwTeaser\\": "Classes"
 		}
-	},
-	"replace": {
-		"pw-teaser": "*"
 	}
 }
