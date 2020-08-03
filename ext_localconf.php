@@ -3,14 +3,14 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
+$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['pw_teaser']);
 $actionNotToCache = '';
 if ($extConfiguration['ENABLECACHE'] == '0') {
     $actionNotToCache = 'index';
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'PwTeaserTeam.' . $_EXTKEY,
+    'PwTeaserTeam.' . 'pw_teaser',
     'Pi1',
     [
         'Teaser' => 'index',
@@ -22,11 +22,11 @@ if ($extConfiguration['ENABLECACHE'] == '0') {
 
 $rootLineFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
     ',',
-    $TYPO3_CONF_VARS['FE']['addRootLineFields'],
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'],
     true
 );
 $rootLineFields[] = 'sorting';
-$TYPO3_CONF_VARS['FE']['addRootLineFields'] = implode(',', $rootLineFields);
+$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(',', $rootLineFields);
 
 if (TYPO3_MODE === 'BE') {
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */

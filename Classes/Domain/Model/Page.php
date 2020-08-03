@@ -1,7 +1,9 @@
 <?php
 namespace PwTeaserTeam\PwTeaser\Domain\Model;
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -64,7 +66,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * title
      *
      * @var string
-     * @validate NotEmpty
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $title;
 
@@ -223,7 +225,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @var \TYPO3\CMS\Core\Resource\FileRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fileRepository;
 
@@ -835,9 +837,10 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getRootLine()
     {
-        /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
-        $pageSelect = $GLOBALS['TSFE']->sys_page;
-        return $pageSelect->getRootLine($this->getUid());
+        $context = GeneralUtility::makeInstance(Context::class);
+        /** @var RootlineUtility $rootline */
+        $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $this->getUid(), '', $context);
+        return $rootline->get();
     }
 
     /**

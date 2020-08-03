@@ -27,6 +27,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use PwTeaserTeam\PwTeaser\Domain\Model\Page;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -121,7 +122,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findByPidList($pidlist, $orderByPlugin = false)
     {
         $pagePids = GeneralUtility::intExplode(',', $pidlist, true);
-        
+
         // early return when list is empty to prevent sql exception
         if (empty($pagePids)) {
             return array();
@@ -173,7 +174,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findChildrenByPidList($pidlist)
     {
         $pagePids = GeneralUtility::intExplode(',', $pidlist, true);
-        
+
         // early return when list is empty to prevent sql exception
         if (empty($pagePids)) {
             return array();
@@ -280,7 +281,9 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function handlePageLocalization(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $pages)
     {
-        $currentLangUid = (int)$GLOBALS['TSFE']->sys_page->sys_language_uid;
+        /** @var Context $context */
+        $context = GeneralUtility::makeInstance(Context::class);
+        $currentLangUid = $context->getPropertyFromAspect('language', 'id');
         $displayedPages = array();
 
         /** @var Page $page */

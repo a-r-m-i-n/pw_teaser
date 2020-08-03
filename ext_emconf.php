@@ -18,13 +18,13 @@ $EM_CONF[$_EXTKEY] = [
     'clearcacheonload' => 0,
     'lockType' => '',
     'author' => 'Armin Vieweg',
-    'author_email' => 'armin@v.ieweg.de',
-    'author_company' => '',
+    'author_email' => 'info@v.ieweg.de',
+    'author_company' => 'v.ieweg Webentwicklung',
     'CGLcompliance' => '',
     'CGLcompliance_note' => '',
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-9.5.99',
+            'typo3' => '9.5.0-10.4.99',
         ],
         'conflicts' => [],
         'suggests' => [],

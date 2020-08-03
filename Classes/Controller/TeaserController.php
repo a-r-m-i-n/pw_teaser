@@ -49,25 +49,25 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * @var \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $pageRepository;
 
     /**
      * @var \PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $contentRepository;
 
     /**
      * @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $categoryRepository;
 
     /**
      * @var \PwTeaserTeam\PwTeaser\Utility\Settings
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $settingsUtility;
 
@@ -78,7 +78,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $signalSlotDispatcher;
 

@@ -13,6 +13,7 @@
 							<onChange>reload</onChange>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -94,6 +95,7 @@
 							<displayCond>FIELD:settings.source:IN:custom</displayCond>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -118,6 +120,7 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:loadContents</label>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -144,6 +147,7 @@
 							<displayCond>FIELD:settings.source:!IN:custom</displayCond>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -179,6 +183,7 @@
 							<onChange>reload</onChange>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -243,6 +248,7 @@
 							<displayCond>FIELD:settings.orderBy:IN:title,sorting,crdate,tstamp,starttime,endtime,customField</displayCond>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -278,6 +284,7 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:showNavHiddenItems</label>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -302,6 +309,7 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:hideCurrentPage</label>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -348,6 +356,7 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:categories</label>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<autoSizeMax>10</autoSizeMax>
 								<foreign_table>sys_category</foreign_table>
 								<foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
@@ -369,6 +378,7 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:categoryMode</label>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:default</numIndex>
@@ -413,6 +423,7 @@
 							<onChange>reload</onChange>
 							<config>
 								<type>select</type>
+								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.file</numIndex>
