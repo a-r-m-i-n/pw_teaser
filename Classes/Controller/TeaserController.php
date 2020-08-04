@@ -255,14 +255,14 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 $this->view->setPartialRootPath(GeneralUtility::getFileAbsFileName($viewSettings['partialRootPath']));
             }
         }
-        if ($templateType === 'file' && !empty($templateFile) && file_exists(PATH_site . $templateFile)) {
+        if ($templateType === 'file' && !empty($templateFile) && file_exists(GeneralUtility::getFileAbsFileName($templateFile))) {
             $this->view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateFile));
             return true;
         }
 
         $templatePathAndFilename = $frameworkSettings['view']['templatePathAndFilename'];
         if ($templateType === null && !empty($templatePathAndFilename)
-            && file_exists(PATH_site . $templatePathAndFilename)) {
+            && file_exists(GeneralUtility::getFileAbsFileName($templatePathAndFilename))) {
             $this->view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templatePathAndFilename));
             return true;
         }
