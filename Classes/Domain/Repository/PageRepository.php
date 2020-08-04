@@ -69,7 +69,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * @var array
      */
-    protected $queryConstraints = array();
+    protected $queryConstraints = [];
 
     /**
      * Initializes the repository.
@@ -125,7 +125,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         // early return when list is empty to prevent sql exception
         if (empty($pagePids)) {
-            return array();
+            return [];
         }
 
         $query = $this->query;
@@ -153,7 +153,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function orderByPlugin(array $pagePids, array $results)
     {
-        $sortedResults = array();
+        $sortedResults = [];
         foreach ($pagePids as $pagePid) {
             foreach ($results as $result) {
                 if ($pagePid === $result->getUid()) {
@@ -177,7 +177,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         // early return when list is empty to prevent sql exception
         if (empty($pagePids)) {
-            return array();
+            return [];
         }
 
         $this->addQueryConstraint($this->query->in('pid', $pagePids));
@@ -248,7 +248,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function buildCategoryConstraint(array $categories)
     {
-        $contraints = array();
+        $contraints = [];
         foreach ($categories as $category) {
             $contraints[] = $this->query->contains('categories', $category);
         }
@@ -284,7 +284,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         /** @var Context $context */
         $context = GeneralUtility::makeInstance(Context::class);
         $currentLangUid = $context->getPropertyFromAspect('language', 'id');
-        $displayedPages = array();
+        $displayedPages = [];
 
         /** @var Page $page */
         foreach ($pages as $page) {
@@ -330,7 +330,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObjectRenderer */
         $contentObjectRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 
-        $pagePids = array();
+        $pagePids = [];
         $pids = GeneralUtility::intExplode(',', $pidlist, true);
         foreach ($pids as $pid) {
             $pageList = GeneralUtility::intExplode(
@@ -395,9 +395,9 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function setShowNavHiddenItems($showNavHiddenItems)
     {
         if ($showNavHiddenItems === true) {
-            $this->addQueryConstraint($this->query->in('nav_hide', array(0, 1)));
+            $this->addQueryConstraint($this->query->in('nav_hide', [0, 1]));
         } else {
-            $this->addQueryConstraint($this->query->in('nav_hide', array(0)));
+            $this->addQueryConstraint($this->query->in('nav_hide', [0]));
         }
     }
 
@@ -433,7 +433,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function handleOrdering(\TYPO3\CMS\Extbase\Persistence\QueryInterface $query)
     {
-        $query->setOrderings(array($this->orderBy => $this->orderDirection));
+        $query->setOrderings([$this->orderBy => $this->orderDirection]);
     }
 
     /**
@@ -446,6 +446,6 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         unset($this->query);
         $this->query = $this->createQuery();
         unset($this->queryConstraints);
-        $this->queryConstraints = array();
+        $this->queryConstraints = [];
     }
 }

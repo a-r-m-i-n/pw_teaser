@@ -62,9 +62,11 @@ class ContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $query = $this->createQuery();
         $query->matching($query->equals('pid', $pid));
-        $query->setOrderings(array(
+        $query->setOrderings(
+            [
             'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-        ));
+            ]
+        );
         return $query->execute();
     }
 
@@ -79,7 +81,7 @@ class ContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findByPages($pages)
     {
         $query = $this->createQuery();
-        $constraint = array();
+        $constraint = [];
 
         foreach ($pages as $page) {
             $constraint[] = $query->equals('pid', $page->getUid());

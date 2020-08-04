@@ -27,6 +27,7 @@ namespace PwTeaserTeam\PwTeaser\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
@@ -40,7 +41,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * @var array
      */
-    protected $settings = array();
+    protected $settings = [];
 
     /**
      * @var integer
@@ -169,7 +170,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $pages = $this->convertFlatToNestedPagesArray($pages, $rootPageUids);
         }
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'ModifyPages', array(&$pages, $this));
+        $this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'ModifyPages', [&$pages, $this]);
         $this->view->assign('pages', $pages);
     }
 
@@ -224,49 +225,38 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function performTemplatePathAndFilename()
     {
         $frameworkSettings = $this->configurationManager->getConfiguration(
-            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
         $viewSettings = $frameworkSettings['view'];
         $templateType = $viewSettings['templateType'];
         $templateFile = $viewSettings['templateRootFile'];
-        $layoutRootPaths = $viewSettings['layoutRootPaths'] ?: array($viewSettings['layoutRootPath'] ?: null);
-        $partialRootPaths = $viewSettings['partialRootPaths'] ?: array($viewSettings['partialRootPath'] ?: null);
-	    $templateRootPath = array( $viewSettings['templateRootPath'] ?: null );
+        $layoutRootPaths = $viewSettings['layoutRootPaths'] ?: [$viewSettings['layoutRootPath'] ?: null];
+        $partialRootPaths = $viewSettings['partialRootPaths'] ?: [$viewSettings['partialRootPath'] ?: null];
+        $templateRootPath = [$viewSettings['templateRootPath'] ?: null];
 
-	    if ( $templateRootPath !== array( null ) && ! empty( $templateRootPath ) ) {
-		    if ( ! file_exists( GeneralUtility::getFileAbsFileName( reset( $templateRootPath ) ) ) ) {
-			    throw new \Exception( 'Template folder "' . reset( $templateRootPath ) . '" not found!' );
-		    }
-		    // TODO: Remove if and else part when 6.2 support is gone
-		    if ( method_exists( $this->view, 'setTemplateRootPaths' ) ) {
-			    $this->view->setTemplateRootPaths( $templateRootPath );
-		    }
-	    }
+        if ($templateRootPath !== [null] && !empty($templateRootPath)) {
+            if (!file_exists(GeneralUtility::getFileAbsFileName(reset($templateRootPath)))) {
+                throw new \Exception('Template folder "' . reset($templateRootPath) . '" not found!');
+            }
+            $this->view->setTemplateRootPaths($templateRootPath);
+        }
 
-        if ($layoutRootPaths !== array(null) && !empty($layoutRootPaths)) {
+        if ($layoutRootPaths !== [null] && !empty($layoutRootPaths)) {
             if (!file_exists(GeneralUtility::getFileAbsFileName(reset($layoutRootPaths)))) {
                 throw new \Exception('Layout folder "' . reset($layoutRootPaths) . '" not found!');
             }
-            // TODO: Remove if and else part when 6.2 support is gone
-            if (method_exists($this->view, 'setLayoutRootPaths')) {
-                $this->view->setLayoutRootPaths($layoutRootPaths);
-            } else {
-                $this->view->setLayoutRootPath(GeneralUtility::getFileAbsFileName($viewSettings['layoutRootPath']));
-            }
+            $this->view->setLayoutRootPaths($layoutRootPaths);
         }
-        if ($partialRootPaths !== array(null) && !empty($partialRootPaths)) {
+        if ($partialRootPaths !== [null] && !empty($partialRootPaths)) {
             if (!file_exists(GeneralUtility::getFileAbsFileName(reset($partialRootPaths)))) {
                 throw new \Exception('Partial folder "' . reset($partialRootPaths) . '" not found!');
             }
-
-            // TODO: Remove if and else part when 6.2 support is gone
-            if (method_exists($this->view, 'setPartialRootPaths')) {
-                $this->view->setPartialRootPaths($partialRootPaths);
-            } else {
-                $this->view->setPartialRootPath(GeneralUtility::getFileAbsFileName($viewSettings['partialRootPath']));
-            }
+            $this->view->setPartialRootPaths($partialRootPaths);
         }
-        if ($templateType === 'file' && !empty($templateFile) && file_exists(GeneralUtility::getFileAbsFileName($templateFile))) {
+        if ($templateType === 'file' &&
+            !empty($templateFile) &&
+            file_exists(GeneralUtility::getFileAbsFileName($templateFile))
+        ) {
             $this->view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templateFile));
             return true;
         }
@@ -301,11 +291,11 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         if ($this->settings['ignoreUids']) {
             $ignoringUids = GeneralUtility::trimExplode(',', $this->settings['ignoreUids'], true);
-            array_map(array($this->pageRepository, 'setIgnoreOfUid'), $ignoringUids);
+            array_map([$this->pageRepository, 'setIgnoreOfUid'], $ignoringUids);
         }
 
         if ($this->settings['categoriesList'] && $this->settings['categoryMode']) {
-            $categories = array();
+            $categories = [];
             foreach (GeneralUtility::intExplode(',', $this->settings['categoriesList'], true) as $categoryUid) {
                 $categories[] = $this->categoryRepository->findByUid($categoryUid);
             }
@@ -357,7 +347,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
 
         if ($this->settings['orderBy'] === 'sorting' && strpos($this->settings['source'], 'Recursively') !== false) {
-            usort($pages, array($this, 'sortByRecursivelySorting'));
+            usort($pages, [$this, 'sortByRecursivelySorting']);
             if (strtolower($this->settings['orderDirection']) === strtolower(QueryInterface::ORDER_DESCENDING)) {
                 $pages = array_reverse($pages);
             }
@@ -380,7 +370,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected function convertFlatToNestedPagesArray($pages, $rootPageUids)
     {
         $rootPageUidArray = GeneralUtility::intExplode(',', $rootPageUids);
-        $rootPages = array();
+        $rootPages = [];
         foreach ($rootPageUidArray as $rootPageUid) {
             $page = $this->pageRepository->findByUid($rootPageUid);
             $this->fillChildPagesRecursivley($page, $pages);
@@ -398,7 +388,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function fillChildPagesRecursivley($parentPage, array $pages)
     {
-        $childPages = array();
+        $childPages = [];
         /** @var $page \PwTeaserTeam\PwTeaser\Domain\Model\Page */
         foreach ($pages as $page) {
             if ($page->getPid() === $parentPage->getUid()) {

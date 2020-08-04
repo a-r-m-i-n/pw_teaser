@@ -65,7 +65,7 @@ class Settings
     public function renderConfigurationArray(array $settings)
     {
         $settings = $this->enhanceSettingsWithTypoScript($this->makeConfigurationArrayRenderable($settings));
-        $result = array();
+        $result = [];
 
         foreach ($settings as $key => $value) {
             if (substr($key, -1) === '.') {
@@ -119,7 +119,7 @@ class Settings
      */
     protected function makeConfigurationArrayRenderable(array $configuration)
     {
-        $dottedConfiguration = array();
+        $dottedConfiguration = [];
         foreach ($configuration as $key => $value) {
             if (is_array($value)) {
                 if (array_key_exists('_typoScriptNodeValue', $value)) {

@@ -29,23 +29,23 @@ $rootLineFields[] = 'sorting';
 $GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'] = implode(',', $rootLineFields);
 
 if (TYPO3_MODE === 'BE') {
-        /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
-        $iconRegistry->registerIcon(
-            'ext-pwteaser-wizard-icon',
-            'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-            array('source' => 'EXT:pw_teaser/Resources/Public/Icons/ext_icon_x2.png')
-        );
+    /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
+    $iconRegistry->registerIcon(
+        'ext-pwteaser-wizard-icon',
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        ['source' => 'EXT:pw_teaser/Resources/Public/Icons/ext_icon_x2.png']
+    );
 
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
-            mod.wizards.newContentElement.wizardItems.plugins.elements.pwteaser {
-                iconIdentifier = ext-pwteaser-wizard-icon
-                title = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardTitle
-                description = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardDescription
-                tt_content_defValues {
-                    CType = list
-                    list_type = pwteaser_pi1
-                }
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
+        mod.wizards.newContentElement.wizardItems.plugins.elements.pwteaser {
+            iconIdentifier = ext-pwteaser-wizard-icon
+            title = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardTitle
+            description = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardDescription
+            tt_content_defValues {
+                CType = list
+                list_type = pwteaser_pi1
             }
-        ');
+        }
+    ');
 }

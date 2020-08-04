@@ -42,6 +42,6 @@ class RemoveWhitespacesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstr
      */
     public function render()
     {
-        return str_replace(array("\t", "\r", "\n"), '', $this->renderChildren());
+        return str_replace(["\t", "\r", "\n"], '', $this->renderChildren());
     }
 }

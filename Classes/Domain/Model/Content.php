@@ -27,6 +27,11 @@ namespace PwTeaserTeam\PwTeaser\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Model\Category;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Content model
@@ -34,7 +39,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Content extends AbstractEntity
 {
 
     /**
@@ -68,14 +73,14 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * It may contain multiple images, but TYPO3 called this field just "image"
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+     * @var ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
      */
     protected $image;
 
     /**
      * Categories
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
+     * @var ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
      */
     protected $categories;
 
@@ -84,23 +89,23 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var array
      */
-    protected $_contentRow = null;
+    protected $contentRow;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->image = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->image = new ObjectStorage();
     }
 
     /**
      * Setter for images
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $image
+     * @param ObjectStorage $image
      * @return void
      */
-    public function setImage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $image)
+    public function setImage(ObjectStorage $image)
     {
         $this->image = $image;
     }
@@ -108,7 +113,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Getter for images
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage images
+     * @return ObjectStorage images
      */
     public function getImage()
     {
@@ -118,10 +123,10 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Add image
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+     * @param FileReference $image
      * @return void
      */
-    public function addImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
+    public function addImage(FileReference $image)
     {
         $this->image->attach($image);
     }
@@ -129,10 +134,10 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Remove image
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+     * @param FileReference $image
      * @return void
      */
-    public function removeImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
+    public function removeImage(FileReference $image)
     {
         $this->image->detach($image);
     }
@@ -144,8 +149,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getImageFiles()
     {
-        $imageFiles = array();
-        /** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $image */
+        $imageFiles = [];
+        /** @var FileReference $image */
         foreach ($this->getImage() as $image) {
             $imageFiles[] = $image->getOriginalResource()->toArray();
         }
@@ -239,7 +244,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Getter for categories
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     * @return ObjectStorage
      */
     public function getCategories()
     {
@@ -249,7 +254,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Setter for categories
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories
+     * @param ObjectStorage $categories
      * @return void
      */
     public function setCategories($categories)
@@ -260,10 +265,10 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Add category
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+     * @param Category $category
      * @return void
      */
-    public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category)
+    public function addCategory(Category $category)
     {
         $this->categories->attach($category);
     }
@@ -271,10 +276,10 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Remove category
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+     * @param Category $category
      * @return void
      */
-    public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category)
+    public function removeCategory(Category $category)
     {
         $this->categories->detach($category);
     }
@@ -291,16 +296,16 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (substr(strtolower($name), 0, 3) == 'get' && strlen($name) > 3) {
             $attributeName = lcfirst(substr($name, 3));
 
-            if (empty($this->_contentRow)) {
-                /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
+            if (empty($this->contentRow)) {
+                /** @var PageRepository $pageSelect */
                 $pageSelect = $GLOBALS['TSFE']->sys_page;
                 $contentRow = $pageSelect->getRawRecord('tt_content', $this->getUid());
                 foreach ($contentRow as $key => $value) {
-                    $this->_contentRow[GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
+                    $this->contentRow[GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
                 }
             }
-            if (isset($this->_contentRow[$attributeName])) {
-                return $this->_contentRow[$attributeName];
+            if (isset($this->contentRow[$attributeName])) {
+                return $this->contentRow[$attributeName];
             }
         }
     }
@@ -312,6 +317,6 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getContentRow()
     {
-        return $this->_contentRow;
+        return $this->contentRow;
     }
 }

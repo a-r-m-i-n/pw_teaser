@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Page Teaser (with Fluid)',
     'description' => 'Create powerful, dynamic page teasers with data from page properties and its content elements. Based on Extbase and Fluid Template Engine.',

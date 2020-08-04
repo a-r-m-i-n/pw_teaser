@@ -206,7 +206,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var array<Page>
      */
-    protected $childPages = array();
+    protected $childPages = [];
 
     /**
      * Custom Attributes
@@ -214,14 +214,14 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var array<mixed>
      */
-    protected $_customAttributes = array();
+    protected $customAttributes = [];
 
     /**
      * Complete row (from database) of this page
      *
      * @var array
      */
-    protected $_pageRow = null;
+    protected $pageRow = null;
 
     /**
      * @var \TYPO3\CMS\Core\Resource\FileRepository
@@ -239,7 +239,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setCustomAttribute($key, $value)
     {
-        $this->_customAttributes[$key] = $value;
+        $this->customAttributes[$key] = $value;
     }
 
     /**
@@ -251,7 +251,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getCustomAttribute($key)
     {
         if (!empty($key) && $this->hasCustomAttribute($key)) {
-            return $this->_customAttributes[$key];
+            return $this->customAttributes[$key];
         }
         return null;
     }
@@ -264,7 +264,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function hasCustomAttribute($key)
     {
-        return isset($this->_customAttributes[$key]);
+        return isset($this->customAttributes[$key]);
     }
 
     /**
@@ -272,15 +272,15 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getGet(): array
     {
-        if (empty($this->_pageRow)) {
+        if (empty($this->pageRow)) {
             /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageSelect */
             $pageSelect = $GLOBALS['TSFE']->sys_page;
             $pageRow = $pageSelect->getPage($this->getUid());
             foreach ($pageRow as $key => $value) {
-                $this->_pageRow[GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
+                $this->pageRow[GeneralUtility::underscoredToLowerCamelCase($key)] = $value;
             }
         }
-        return array_merge($this->_customAttributes, $this->_pageRow);
+        return array_merge($this->customAttributes, $this->pageRow);
     }
 
     /**
@@ -861,7 +861,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getRecursiveRootLineOrdering()
     {
-        $recursiveOrdering = array();
+        $recursiveOrdering = [];
         foreach ($this->getRootLine() as $pageRootPart) {
             array_unshift($recursiveOrdering, str_pad($pageRootPart['sorting'], 11, '0', STR_PAD_LEFT));
         }
@@ -875,7 +875,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getPageRow()
     {
-        return $this->_pageRow;
+        return $this->pageRow;
     }
 
     /**
