@@ -89,6 +89,11 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $view;
 
     /**
+     * @var array
+     */
+    protected $viewSettings = [];
+
+    /**
      * Initialize Action will performed before each action will be executed
      *
      * @return void
@@ -96,6 +101,12 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function initializeAction()
     {
         $this->settings = $this->settingsUtility->renderConfigurationArray($this->settings);
+
+        $frameworkSettings = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
+        $viewSettings = $frameworkSettings['view'];
+        $this->viewSettings = $this->settingsUtility->renderConfigurationArray($viewSettings, 'view.');
     }
 
     /**
@@ -224,15 +235,11 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected function performTemplatePathAndFilename()
     {
-        $frameworkSettings = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        );
-        $viewSettings = $frameworkSettings['view'];
-        $templateType = $viewSettings['templateType'];
-        $templateFile = $viewSettings['templateRootFile'];
-        $layoutRootPaths = $viewSettings['layoutRootPaths'] ?: [$viewSettings['layoutRootPath'] ?: null];
-        $partialRootPaths = $viewSettings['partialRootPaths'] ?: [$viewSettings['partialRootPath'] ?: null];
-        $templateRootPaths = $viewSettings['templateRootPaths'] ?: [$viewSettings['templateRootPath'] ?: null];
+        $templateType = $this->viewSettings['templateType'];
+        $templateFile = $this->viewSettings['templateRootFile'];
+        $layoutRootPaths = $this->viewSettings['layoutRootPaths'] ?: [$this->viewSettings['layoutRootPath'] ?: null];
+        $partialRootPaths = $this->viewSettings['partialRootPaths'] ?: [$this->viewSettings['partialRootPath'] ?: null];
+        $templateRootPaths = $this->viewSettings['templateRootPaths'] ?: [$this->viewSettings['templateRootPath'] ?: null];
 
         if ($templateRootPaths !== [null] && !empty($templateRootPaths)) {
             if (!file_exists(GeneralUtility::getFileAbsFileName(reset($templateRootPaths)))) {
@@ -261,7 +268,7 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             return true;
         }
 
-        $templatePathAndFilename = $frameworkSettings['view']['templatePathAndFilename'];
+        $templatePathAndFilename = $this->viewSettings['templatePathAndFilename'] ?? '';
         if ($templateType === null && !empty($templatePathAndFilename)
             && file_exists(GeneralUtility::getFileAbsFileName($templatePathAndFilename))) {
             $this->view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templatePathAndFilename));

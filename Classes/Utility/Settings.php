@@ -60,11 +60,12 @@ class Settings
      * calculated values.
      *
      * @param array $settings the typoscript configuration array
+     * @param string $section
      * @return array the configuration array with the rendered typoscript
      */
-    public function renderConfigurationArray(array $settings)
+    public function renderConfigurationArray(array $settings, string $section = 'settings.')
     {
-        $settings = $this->enhanceSettingsWithTypoScript($this->makeConfigurationArrayRenderable($settings));
+        $settings = $this->enhanceSettingsWithTypoScript($this->makeConfigurationArrayRenderable($settings), $section);
         $result = [];
 
         foreach ($settings as $key => $value) {
@@ -88,15 +89,19 @@ class Settings
      * Overwrite flexform values with typoscript if flexform value is empty and typoscript value exists.
      *
      * @param array $settings Settings from flexform
+     * @param string $section
+     * @param string $extKey
      * @return array enhanced settings
      */
-    protected function enhanceSettingsWithTypoScript(array $settings)
-    {
-        $extkey = 'tx_pwteaser';
+    protected function enhanceSettingsWithTypoScript(
+        array $settings,
+        string $section = 'settings.',
+        string $extKey = 'tx_pwteaser'
+    ) {
         $typoscript = $this->configurationManager->getConfiguration(
             \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
         );
-        $typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
+        $typoscript = $typoscript['plugin.'][$extKey . '.'][$section];
         foreach ($settings as $key => $setting) {
             if ($setting === '' && is_array($typoscript) && array_key_exists($key, $typoscript)) {
                 $settings[$key] = $typoscript[$key];
