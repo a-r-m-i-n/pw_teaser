@@ -232,13 +232,13 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $templateFile = $viewSettings['templateRootFile'];
         $layoutRootPaths = $viewSettings['layoutRootPaths'] ?: [$viewSettings['layoutRootPath'] ?: null];
         $partialRootPaths = $viewSettings['partialRootPaths'] ?: [$viewSettings['partialRootPath'] ?: null];
-        $templateRootPath = [$viewSettings['templateRootPath'] ?: null];
+        $templateRootPaths = $viewSettings['templateRootPaths'] ?: [$viewSettings['templateRootPath'] ?: null];
 
-        if ($templateRootPath !== [null] && !empty($templateRootPath)) {
-            if (!file_exists(GeneralUtility::getFileAbsFileName(reset($templateRootPath)))) {
-                throw new \Exception('Template folder "' . reset($templateRootPath) . '" not found!');
+        if ($templateRootPaths !== [null] && !empty($templateRootPaths)) {
+            if (!file_exists(GeneralUtility::getFileAbsFileName(reset($templateRootPaths)))) {
+                throw new \Exception('Template folder "' . reset($templateRootPaths) . '" not found!');
             }
-            $this->view->setTemplateRootPaths($templateRootPath);
+            $this->view->setTemplateRootPaths($templateRootPaths);
         }
 
         if ($layoutRootPaths !== [null] && !empty($layoutRootPaths)) {
