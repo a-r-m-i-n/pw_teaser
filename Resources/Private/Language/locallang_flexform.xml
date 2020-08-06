@@ -11,7 +11,7 @@
 			<label index="enableFields">EnableFields</label>
 			<label index="template">Template</label>
 
-			<label index="default"></label>
+			<label index="default">[Defined by TypoScript]</label>
 			<label index="yes">Yes</label>
 			<label index="no">No</label>
 
@@ -73,7 +73,7 @@
 			<label index="enableFields">Aktivierungsfelder</label>
 			<label index="template">Template</label>
 
-			<label index="default"></label>
+			<label index="default">[Durch TypoScript definiert]</label>
 			<label index="yes">Ja</label>
 			<label index="no">Nein</label>
 
