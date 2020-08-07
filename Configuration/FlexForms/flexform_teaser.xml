@@ -426,18 +426,19 @@
 								<renderType>selectSingle</renderType>
 								<items type="array">
 									<numIndex index="0" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.file</numIndex>
-										<numIndex index="1">file</numIndex>
-									</numIndex>
-									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.directory</numIndex>
-										<numIndex index="1">directory</numIndex>
-									</numIndex>
-									<numIndex index="2" type="array">
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.preset</numIndex>
 										<numIndex index="1">preset</numIndex>
 									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.file</numIndex>
+										<numIndex index="1">file</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.directory</numIndex>
+										<numIndex index="1">directory</numIndex>
+									</numIndex>
 								</items>
+								<default>preset</default>
 								<maxitems>1</maxitems>
 								<size>1</size>
 							</config>
