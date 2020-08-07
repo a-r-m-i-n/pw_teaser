@@ -106,7 +106,10 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
         $viewSettings = $frameworkSettings['view'];
+        $presets = $viewSettings['presets'];
+        unset($viewSettings['presets']);
         $this->viewSettings = $this->settingsUtility->renderConfigurationArray($viewSettings, 'view.');
+        $this->viewSettings['presets'] = $presets;
     }
 
     /**
@@ -241,7 +244,20 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $partialRootPaths = $this->viewSettings['partialRootPaths'] ?: [$this->viewSettings['partialRootPath'] ?: null];
         $templateRootPaths = $this->viewSettings['templateRootPaths'] ?: [$this->viewSettings['templateRootPath'] ?: null];
 
-        if ($templateRootPaths !== [null] && !empty($templateRootPaths)) {
+        $preset = $this->viewSettings['templatePreset'] ?? null;
+        if ($templateType === 'preset' && !empty($preset)) {
+            $currentPreset = $this->viewSettings['presets'][$preset];
+            if (array_key_exists('partialRootPaths', $currentPreset) && !empty($currentPreset['partialRootPaths'])) {
+                $partialRootPaths = $currentPreset['partialRootPaths'];
+            }
+            if (array_key_exists('layoutRootPaths', $currentPreset) && !empty($currentPreset['layoutRootPaths'])) {
+                $layoutRootPaths = $currentPreset['layoutRootPaths'];
+            }
+            $templateType = 'file';
+            $templateFile = $currentPreset['templateRootFile'];
+        }
+
+        if ($templateType !== 'preset' && $templateRootPaths !== [null] && !empty($templateRootPaths)) {
             if (!file_exists(GeneralUtility::getFileAbsFileName(reset($templateRootPaths)))) {
                 throw new \Exception('Template folder "' . reset($templateRootPaths) . '" not found!');
             }

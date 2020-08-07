@@ -433,12 +433,36 @@
 										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.directory</numIndex>
 										<numIndex index="1">directory</numIndex>
 									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateType.preset</numIndex>
+										<numIndex index="1">preset</numIndex>
+									</numIndex>
 								</items>
 								<maxitems>1</maxitems>
 								<size>1</size>
 							</config>
 						</TCEforms>
 					</view.templateType>
+					<view.templatePreset>
+						<TCEforms>
+							<displayCond>FIELD:view.templateType:IN:preset,</displayCond>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templatePreset</label>
+							<config>
+								<type>select</type>
+								<renderType>selectSingle</renderType>
+								<itemsProcFunc>PwTeaserTeam\PwTeaser\UserFunction\ItemsProcFunc->getAvailableTemplatePresets</itemsProcFunc>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0"></numIndex>
+										<numIndex index="1"></numIndex>
+									</numIndex>
+								</items>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</view.templatePreset>
+
 					<view.templateRootFile>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:templateRootFile</label>
@@ -464,6 +488,7 @@
 					<view.partialRootPath>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:partialRootPath</label>
+							<displayCond>FIELD:view.templateType:IN:file,directory</displayCond>
 							<config>
 								<type>input</type>
 								<eval>trim</eval>
@@ -474,6 +499,7 @@
 					<view.layoutRootPath>
 						<TCEforms>
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xml:layoutRootPath</label>
+							<displayCond>FIELD:view.templateType:IN:file,directory</displayCond>
 							<config>
 								<type>input</type>
 								<eval>trim</eval>

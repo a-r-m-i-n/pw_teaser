@@ -61,7 +61,9 @@
 			<label index="templateType">Template type:</label>
 			<label index="templateType.file">HTML file</label>
 			<label index="templateType.directory">Fluid template directory</label>
+			<label index="templateType.preset">Preset</label>
 
+			<label index="templatePreset">Template preset</label>
 			<label index="templateRootFile">Template file (with fullpath, example: fileadmin/templates/pw_teaser/Example.html):</label>
 			<label index="templateRootPath">Template directory (with fullpath, example: fileadmin/templates/pw_teaser/):</label>
 			<label index="partialRootPath">Partial directory (with fullpath, example: fileadmin/templates/pw_teaser/Partials/):</label>
@@ -123,7 +125,9 @@
 			<label index="templateType">Template-Typ:</label>
 			<label index="templateType.file">HTML-Datei</label>
 			<label index="templateType.directory">Fluid-Template Verzeichnis</label>
+			<label index="templateType.preset">Vorlage</label>
 
+			<label index="templatePreset">Template Vorlage</label>
 			<label index="templateRootFile">Template Datei (mit Pfad)</label>
 			<label index="templateRootPath">Template Verzeichnis</label>
 			<label index="partialRootPath">Partial Verzeichnis</label>
