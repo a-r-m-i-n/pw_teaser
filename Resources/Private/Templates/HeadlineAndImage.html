@@ -7,7 +7,7 @@
 			<li class="page {f:if(condition:'{iterator.isFirst}', then:' first')}{f:if(condition:'{iterator.isLast}', then:' last')}">
 				<f:link.page pageUid="{page.uid}" title="{page.title}">
 					<f:if condition="{page.media.0}">
-						<f:image src="{page.media.0}" alt="{page.title}" width="110" />
+						<f:image image="{page.media.0}" alt="{page.title}" width="110" />
 					</f:if>
 					<span>{page.title}</span>
 				</f:link.page>
