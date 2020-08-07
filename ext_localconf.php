@@ -3,20 +3,11 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['pw_teaser']);
-$actionNotToCache = '';
-if ($extConfiguration['ENABLECACHE'] == '0') {
-    $actionNotToCache = 'index';
-}
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'PwTeaserTeam.' . 'pw_teaser',
     'Pi1',
     [
         'Teaser' => 'index',
-    ],
-    [
-        'Teaser' => $actionNotToCache,
     ]
 );
 
