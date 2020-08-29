@@ -7,6 +7,7 @@ Features
 * Create nested or flat views of your page structures
 * extreme detailed options to filter pages available
 * layout the teasers of your pages like you want with Fluid Templates
+* template presets
 * pagination is also supported
 * extendable with signals to modify or extend page models
 
@@ -14,14 +15,15 @@ Features
 Documentation
 -------------
 
-The documentation is outsourced to
-https://forge.typo3.org/projects/extension-pw_teaser/wiki
+This extension provides a ReST documentation, located in Documentation/ directory.
+
+You can see a rendered version on https://docs.typo3.org/p/t3/pw_teaser
 
 
 Requirements
 ------------
 
-Version 4.0 of pw_teaser requires TYPO3 8.7 or 9.7.
+Version 5.0 of pw_teaser requires TYPO3 9.5 or 10.4.
 
 
 Links

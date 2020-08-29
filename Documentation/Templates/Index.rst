@@ -23,7 +23,7 @@ Type: Preset
 The preset template mode is new (since 5.0) and offers the possibility to **define presets in TypoScript**.
 Also, it provides a select box in plugin settings to **choose a preset**.
 
-pw_comments provide three presets by default:
+pw_teaser provide three presets by default:
 
 - ``default``
 - ``headlineAndImage``
