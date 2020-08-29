@@ -9,6 +9,26 @@ Versions
 .. contents:: :local:
 
 
+5.0.0
+-----
+
+- [FEATURE] Documentation
+- [BUGFIX] Remove default value for setting "hideCurrentPage" in teaser flexform
+- [TASK] Set templateType by default to "preset"
+- [TASK] Remove "ENABLECACHE" extension setting
+- [BUGFIX] Fix image viewhelper usage in Fluid template
+- [FEATURE] Template presets
+- [BUGFIX] Merge view settings from plugin with typoscript
+- [TASK] Set label for default value in dropdowns
+- [BUGFIX] Streamline "templateRootPaths" setting
+- [TASK] Update copyrights
+- [TASK] Code style fixing
+- [BUGFIX] Custom fluid templates not working because of missing templateRootPath
+- [TASK] Move ext_tables.php contents to TCA/Overrides
+- [FEATURE] Add TYPO3 10 compatibility
+- Dropped support for TYPO3 8.7
+
+
 4.0.0
 -----
 
