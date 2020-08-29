@@ -1,5 +1,4 @@
 plugin.tx_pwteaser {
-
     view.presets {
         default {
             label = Default

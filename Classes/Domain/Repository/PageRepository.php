@@ -26,6 +26,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use PwTeaserTeam\PwTeaser\Domain\Model\Page;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -226,17 +227,21 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $this->queryConstraints[] = $this->query->logicalAnd($this->buildCategoryConstraint($categories));
         }
         if ($isAnd === true && $isNot === true) {
-            $this->queryConstraints[] = $this->query->logicalNot($this->query->logicalAnd(
-                $this->buildCategoryConstraint($categories)
-            ));
+            $this->queryConstraints[] = $this->query->logicalNot(
+                $this->query->logicalAnd(
+                    $this->buildCategoryConstraint($categories)
+                )
+            );
         }
         if ($isAnd === false && $isNot === false) {
             $this->queryConstraints[] = $this->query->logicalOr($this->buildCategoryConstraint($categories));
         }
         if ($isAnd === false && $isNot === true) {
-            $this->queryConstraints[] = $this->query->logicalNot($this->query->logicalOr(
-                $this->buildCategoryConstraint($categories)
-            ));
+            $this->queryConstraints[] = $this->query->logicalNot(
+                $this->query->logicalOr(
+                    $this->buildCategoryConstraint($categories)
+                )
+            );
         }
     }
 

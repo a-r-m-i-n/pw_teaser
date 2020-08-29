@@ -7,7 +7,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class ItemsProcFunc
 {
-    public function getAvailableTemplatePresets(array &$parameters) : void
+    public function getAvailableTemplatePresets(array &$parameters): void
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $configurationManager = $objectManager->get(ConfigurationManager::class);

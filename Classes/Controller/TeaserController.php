@@ -26,6 +26,7 @@ namespace PwTeaserTeam\PwTeaser\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -302,11 +303,13 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         // Set ShowNavHiddenItems to TRUE
         $this->pageRepository->setShowNavHiddenItems(($this->settings['showNavHiddenItems'] == '1'));
-        $this->pageRepository->setFilteredDokType(GeneralUtility::trimExplode(
-            ',',
-            $this->settings['showDoktypes'],
-            true
-        ));
+        $this->pageRepository->setFilteredDokType(
+            GeneralUtility::trimExplode(
+                ',',
+                $this->settings['showDoktypes'],
+                true
+            )
+        );
 
         if ($this->settings['hideCurrentPage'] == '1') {
             $this->pageRepository->setIgnoreOfUid($this->currentPageUid);

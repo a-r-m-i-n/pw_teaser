@@ -185,9 +185,11 @@ class PaginateController extends \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetCont
         $this->setNumberOfPages(intval(ceil(count($this->objects) / (integer)$this->itemsPerPage)));
         $this->setCurrentPage((integer)$currentPage);
 
-        $this->view->assign('contentArguments', [
-            $this->widgetConfiguration['as'] => $this->getVisibleObjects($this->objects)
-        ]
+        $this->view->assign(
+            'contentArguments',
+            [
+                $this->widgetConfiguration['as'] => $this->getVisibleObjects($this->objects)
+            ]
         );
         $this->view->assign('configuration', $this->configuration);
         $this->view->assign('pagination', $this->buildPagination());
