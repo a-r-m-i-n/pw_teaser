@@ -8,6 +8,15 @@ Versions
 
 .. contents:: :local:
 
+5.0.1
+-----
+
+- [BUGFIX] Fix wrong extension icon path
+- [DEVOPS] Update DDEV install scripts (for TYPO3 environments)
+- [BUGFIX] Do not show warning in ItemsProcFunc, if pw_teaser typoscript is missing
+- [BUGFIX] Fix wrong Extbase mapping (for TYPO3 10+)
+- [TASK] Update README
+
 
 5.0.0
 -----
