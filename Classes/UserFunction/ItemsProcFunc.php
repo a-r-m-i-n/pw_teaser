@@ -12,7 +12,7 @@ class ItemsProcFunc
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $configurationManager = $objectManager->get(ConfigurationManager::class);
         $config = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-        $presets = $config['plugin.']['tx_pwteaser.']['view.']['presets.'];
+        $presets = $config['plugin.']['tx_pwteaser.']['view.']['presets.'] ?? [];
         foreach ($presets as $key => $preset) {
             $parameters['items'][] = [$preset['label'], rtrim($key, '.')];
         }

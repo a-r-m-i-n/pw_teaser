@@ -26,4 +26,8 @@ When pw_teaser is successfully installed, you need to **include the provided Typ
    :alt: Include static TypoScript of pw_teaser
 
 
+.. important::
+   When you don't include the pw_teaser TypoScript, plugin settings like "Template preset" remain empty.
+
+
 That's it. Now, pw_teaser is ready to get used.
