@@ -25,7 +25,7 @@ if (TYPO3_MODE === 'BE') {
     $iconRegistry->registerIcon(
         'ext-pwteaser-wizard-icon',
         'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-        ['source' => 'EXT:pw_teaser/Resources/Public/Icons/ext_icon_x2.png']
+        ['source' => 'EXT:pw_teaser/Resources/Public/Icons/Extension_x2.png']
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
