@@ -1,7 +1,7 @@
 <?php
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'PwTeaserTeam.' . 'pw_teaser',
+    'pw_teaser',
     'Pi1',
     'Page Teaser (pw_teaser)'
 );

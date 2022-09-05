@@ -4,10 +4,10 @@ if (!defined('TYPO3_MODE')) {
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'PwTeaserTeam.' . 'pw_teaser',
+    'pw_teaser',
     'Pi1',
     [
-        'Teaser' => 'index',
+        \PwTeaserTeam\PwTeaser\Controller\TeaserController::class => 'index',
     ]
 );
 
