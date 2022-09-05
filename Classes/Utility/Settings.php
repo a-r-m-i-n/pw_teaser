@@ -1,6 +1,10 @@
 <?php
 namespace PwTeaserTeam\PwTeaser\Utility;
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -35,15 +39,19 @@ namespace PwTeaserTeam\PwTeaser\Utility;
 class Settings
 {
     /**
-     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+     * @var ContentObjectRenderer
      */
     protected $contentObject;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var ConfigurationManager
      */
     protected $configurationManager = null;
+
+    public function __construct(ConfigurationManager $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
 
     /**
      * Initialize this settings utility
@@ -99,9 +107,9 @@ class Settings
         string $extKey = 'tx_pwteaser'
     ) {
         $typoscript = $this->configurationManager->getConfiguration(
-            \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
         );
-        $typoscript = $typoscript['plugin.'][$extKey . '.'][$section];
+        $typoscript = $typoscript['plugin.'][$extKey . '.'][$section] ?? [];
         foreach ($settings as $key => $setting) {
             if ($setting === '' && is_array($typoscript) && array_key_exists($key, $typoscript)) {
                 $settings[$key] = $typoscript[$key];

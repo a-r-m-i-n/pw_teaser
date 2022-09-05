@@ -27,9 +27,17 @@ namespace PwTeaserTeam\PwTeaser\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository;
+use PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository;
+use PwTeaserTeam\PwTeaser\Utility\Settings;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Fluid\View\TemplateView;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Controller for the teaser object
@@ -37,7 +45,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class TeaserController extends ActionController
 {
     /**
      * @var array
@@ -50,42 +58,37 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     protected $currentPageUid = null;
 
     /**
-     * @var \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var PageRepository
      */
     protected $pageRepository;
 
     /**
-     * @var \PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var ContentRepository
      */
     protected $contentRepository;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var CategoryRepository
      */
     protected $categoryRepository;
 
     /**
-     * @var \PwTeaserTeam\PwTeaser\Utility\Settings
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var Settings
      */
     protected $settingsUtility;
 
     /**
-     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+     * @var ContentObjectRenderer
      */
     protected $contentObject = null;
 
     /**
-     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var Dispatcher
      */
     protected $signalSlotDispatcher;
 
     /**
-     * @var \TYPO3\CMS\Fluid\View\TemplateView
+     * @var TemplateView
      */
     protected $view;
 
@@ -93,6 +96,20 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @var array
      */
     protected $viewSettings = [];
+
+    public function __construct(
+        PageRepository $pageRepository,
+        ContentRepository $contentRepository,
+        CategoryRepository $categoryRepository,
+        Settings $settingsUtility,
+        Dispatcher $dispatcher
+    ) {
+        $this->pageRepository = $pageRepository;
+        $this->contentRepository = $contentRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->settingsUtility = $settingsUtility;
+        $this->signalSlotDispatcher = $dispatcher;
+    }
 
     /**
      * Initialize Action will performed before each action will be executed
@@ -327,16 +344,16 @@ class TeaserController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             }
 
             switch ((int)$this->settings['categoryMode']) {
-                case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_OR:
-                case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_OR_NOT:
+                case PageRepository::CATEGORY_MODE_OR:
+                case PageRepository::CATEGORY_MODE_OR_NOT:
                     $isAnd = false;
                     break;
                 default:
                     $isAnd = true;
             }
             switch ((int)$this->settings['categoryMode']) {
-                case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_AND_NOT:
-                case \PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository::CATEGORY_MODE_OR_NOT:
+                case PageRepository::CATEGORY_MODE_AND_NOT:
+                case PageRepository::CATEGORY_MODE_OR_NOT:
                     $isNot = true;
                     break;
                 default:
