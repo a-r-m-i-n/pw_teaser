@@ -31,8 +31,8 @@ if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
         mod.wizards.newContentElement.wizardItems.plugins.elements.pwteaser {
             iconIdentifier = ext-pwteaser-wizard-icon
-            title = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardTitle
-            description = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xml:newContentElementWizardDescription
+            title = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xlf:newContentElementWizardTitle
+            description = LLL:EXT:pw_teaser/Resources/Private/Language/locallang.xlf:newContentElementWizardDescription
             tt_content_defValues {
                 CType = list
                 list_type = pwteaser_pi1
