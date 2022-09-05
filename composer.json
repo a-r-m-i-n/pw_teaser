@@ -11,5 +11,10 @@
 		"psr-4": {
 			"PwTeaserTeam\\PwTeaser\\": "Classes"
 		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "pw_teaser"
+		}
 	}
 }
