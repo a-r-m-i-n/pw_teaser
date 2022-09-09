@@ -76,12 +76,10 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * Initializes the repository.
      *
      * @return void
-     * @see \TYPO3\CMS\Extbase\Persistence\Repository::initializeObject()
      */
     public function initializeObject()
     {
-        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $querySettings */
-        $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface');
+        $querySettings = $this->createQuery()->getQuerySettings();
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
         $this->query = $this->createQuery();
