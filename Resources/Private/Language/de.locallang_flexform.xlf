@@ -21,6 +21,8 @@
 			<trans-unit id="customPages"><target>Bestimmte Seiten:</target></trans-unit>
 			<trans-unit id="recursionDepthFrom"><target>Rekursionstiefe (von):</target></trans-unit>
 			<trans-unit id="recursionDepth"><target>Rekursionstiefe (bis):</target></trans-unit>
+			<trans-unit id="enablePagination"><target>Aktiviere Paginierung:</target></trans-unit>
+			<trans-unit id="itemsPerPage"><target>Anzahl Einträge pro Seite:</target></trans-unit>
 
 			<trans-unit id="loadContents"><target>Lade Inhalte (Content-Elemente) von jeder Seite um im Template verwendet werden zu können (benötigt mehr Performance):</target></trans-unit>
 			<trans-unit id="orderByPlugin"><target>Sortiere die ausgewählten Seiten wie in der Liste oben (Sortierungs-Einstellungen im Anzeige-Einstellungen-Tab werden überschrieben):</target></trans-unit>

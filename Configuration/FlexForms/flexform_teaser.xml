@@ -167,6 +167,41 @@
 							</config>
 						</TCEforms>
 					</settings.pageMode>
+					<settings.enablePagination>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xlf:enablePagination</label>
+							<onChange>reload</onChange>
+							<config>
+								<type>select</type>
+								<renderType>selectSingle</renderType>
+								<items type="array">
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xlf:yes</numIndex>
+										<numIndex index="1">1</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xlf:no</numIndex>
+										<numIndex index="1">0</numIndex>
+									</numIndex>
+								</items>
+								<default>1</default>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</settings.enablePagination>
+					<settings.itemsPerPage>
+						<TCEforms>
+							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xlf:itemsPerPage</label>
+							<displayCond>FIELD:settings.enablePagination:!=:0</displayCond>
+							<config>
+								<type>input</type>
+								<eval>int</eval>
+								<default>10</default>
+								<size>5</size>
+							</config>
+						</TCEforms>
+					</settings.itemsPerPage>
 				</el>
 			</ROOT>
 		</generalsheet>

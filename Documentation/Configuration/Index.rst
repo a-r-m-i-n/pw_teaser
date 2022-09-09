@@ -38,6 +38,8 @@ recursionDepth_                        ``integer``
 orderByPlugin_                         ``bool``
 loadContents_                          ``bool``
 pageMode_                              ``string``
+enablePagination_                      ``bool``
+itemsPerPage_                          ``int``
 ===================================== ============
 
 
@@ -107,7 +109,7 @@ recursionDepth
 .. _orderByPlugin:
 
 orderByPlugin
-""""""""""""""
+"""""""""""""
 .. container:: table-row
 
    Property
@@ -157,6 +159,38 @@ pageMode
 
       In this case the options ``recursionDepthFrom``, ``orderBy`` and ``limit`` will be ignored.
       The option ``nested`` is not available for source custom.
+
+
+.. _enablePagination:
+
+enablePagination
+""""""""""""""""
+.. container:: table-row
+
+   Property
+      enablePagination
+   Data type
+      boolean
+   Default
+      1
+   Description
+      Provides pagination for Fluid template, when enabled.
+
+
+.. _itemsPerPage:
+
+itemsPerPage
+""""""""""""
+.. container:: table-row
+
+   Property
+      itemsPerPage
+   Data type
+      int
+   Default
+      10
+   Description
+      Amount of items (pages) to show on a single page. Only used, when ``enabledPagination`` is true.
 
 
 .. _configuration-visibility:

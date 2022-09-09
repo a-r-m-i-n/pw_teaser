@@ -31,6 +31,10 @@ use Psr\Http\Message\ResponseInterface;
 use PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository;
 use PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository;
 use PwTeaserTeam\PwTeaser\Utility\Settings;
+use TYPO3\CMS\Core\Pagination\ArrayPaginator;
+use TYPO3\CMS\Core\Pagination\PaginationInterface;
+use TYPO3\CMS\Core\Pagination\PaginatorInterface;
+use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
@@ -205,6 +209,18 @@ class TeaserController extends ActionController
 
         $this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'ModifyPages', [&$pages, $this]);
         $this->view->assign('pages', $pages);
+
+        if ($this->settings['enablePagination'] ?? true) {
+            $itemsPerPage = $this->settings['itemsPerPage'] ?? 10;
+            $currentPage = max(1, $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1);
+            $paginator = GeneralUtility::makeInstance(ArrayPaginator::class, $pages, $currentPage, $itemsPerPage, (int)($this->settings['limit'] ?? 0), 0);
+            $pagination = $this->getPagination($paginator);
+            $this->view->assign('pagination', [
+                'currentPage' => $currentPage,
+                'paginator' => $paginator,
+                'pagination' => $pagination,
+            ]);
+        }
 
         if (isset($this->responseFactory)) {
             return $this->responseFactory->createResponse()
@@ -449,5 +465,19 @@ class TeaserController extends ActionController
         ksort($childPages);
         $parentPage->setChildPages(array_values($childPages));
         return $parentPage;
+    }
+
+    /**
+     * @param PaginatorInterface $paginator
+     * @param string|null $paginationClass
+     * @return PaginationInterface
+     */
+    protected function getPagination($paginator, $paginationClass = null)
+    {
+        if (!empty($paginationClass) && class_exists($paginationClass)) {
+            return GeneralUtility::makeInstance($paginationClass, $paginator);
+        }
+
+        return GeneralUtility::makeInstance(SimplePagination::class, $paginator);
     }
 }

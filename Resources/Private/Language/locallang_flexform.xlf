@@ -21,6 +21,8 @@
 			<trans-unit id="customPages"><source>Custom Pages:</source></trans-unit>
 			<trans-unit id="recursionDepthFrom"><source>Recursion depth (from):</source></trans-unit>
 			<trans-unit id="recursionDepth"><source>Recursion depth (to):</source></trans-unit>
+			<trans-unit id="enablePagination"><source>Enable pagination:</source></trans-unit>
+			<trans-unit id="itemsPerPage"><source>Items per page:</source></trans-unit>
 
 			<trans-unit id="loadContents"><source>Load content elements of each page for use in template (requires more performance):</source></trans-unit>
 			<trans-unit id="orderByPlugin"><source>Order selected pages as in the list above (this will overwrite the order settings in visibility options tab)</source></trans-unit>
