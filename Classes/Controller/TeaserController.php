@@ -30,6 +30,7 @@ namespace PwTeaserTeam\PwTeaser\Controller;
 use Psr\Http\Message\ResponseInterface;
 use PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository;
 use PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository;
+use PwTeaserTeam\PwTeaser\Event\ModifyPagesEvent;
 use PwTeaserTeam\PwTeaser\Utility\Settings;
 use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Core\Pagination\PaginationInterface;
@@ -40,7 +41,6 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Fluid\View\TemplateView;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -88,11 +88,6 @@ class TeaserController extends ActionController
     protected $contentObject = null;
 
     /**
-     * @var Dispatcher
-     */
-    protected $signalSlotDispatcher;
-
-    /**
      * @var TemplateView
      */
     protected $view;
@@ -106,14 +101,12 @@ class TeaserController extends ActionController
         PageRepository $pageRepository,
         ContentRepository $contentRepository,
         CategoryRepository $categoryRepository,
-        Settings $settingsUtility,
-        Dispatcher $dispatcher
+        Settings $settingsUtility
     ) {
         $this->pageRepository = $pageRepository;
         $this->contentRepository = $contentRepository;
         $this->categoryRepository = $categoryRepository;
         $this->settingsUtility = $settingsUtility;
-        $this->signalSlotDispatcher = $dispatcher;
     }
 
     /**
@@ -207,13 +200,14 @@ class TeaserController extends ActionController
             $pages = $this->convertFlatToNestedPagesArray($pages, $rootPageUids);
         }
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'ModifyPages', [&$pages, $this]);
-        $this->view->assign('pages', $pages);
+        /** @var ModifyPagesEvent $event */
+        $event = $this->eventDispatcher->dispatch(new ModifyPagesEvent($pages, $this));
+        $this->view->assign('pages', $event->getPages());
 
         if ($this->settings['enablePagination'] ?? true) {
             $itemsPerPage = $this->settings['itemsPerPage'] ?? 10;
             $currentPage = max(1, $this->request->hasArgument('currentPage') ? (int)$this->request->getArgument('currentPage') : 1);
-            $paginator = GeneralUtility::makeInstance(ArrayPaginator::class, $pages, $currentPage, $itemsPerPage, (int)($this->settings['limit'] ?? 0), 0);
+            $paginator = GeneralUtility::makeInstance(ArrayPaginator::class, $event->getPages(), $currentPage, $itemsPerPage, (int)($this->settings['limit'] ?? 0), 0);
             $pagination = $this->getPagination($paginator);
             $this->view->assign('pagination', [
                 'currentPage' => $currentPage,

@@ -55,6 +55,6 @@ Page Teaser (with Fluid)
         Configuration/Index
         UsingTypoScript/Index
         Templates/Index
-        SignalSlot/Index
+        Events/Index
         Versions/Index
         Support/Index

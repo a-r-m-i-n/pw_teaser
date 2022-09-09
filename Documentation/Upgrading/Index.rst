@@ -36,3 +36,10 @@ Here is a minimum example, which replaces the previous ``widget.paginate`` call:
 
 You can disable the pagination in the plugin settings.
 By default it is enabled and the amount of ``settings.itemsPerPage`` is 10.
+
+
+Events
+------
+
+Previous versions of pw_teaser provided a Signal to programmatically modify the pages result array.
+Since version 6 those Signals has been replaced with `Events <events>`.

@@ -9,7 +9,7 @@ Features
 * layout the teasers of your pages like you want with Fluid Templates
 * template presets
 * pagination is also supported
-* extendable with signals to modify or extend page models
+* extendable by EventListener to modify or extend pages result
 
 
 Documentation
