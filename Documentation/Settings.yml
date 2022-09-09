@@ -5,7 +5,7 @@
 
 ---
 conf.py:
-  copyright: 2010-2020
+  copyright: 2010-2022
   project: Page Teaser (with Fluid)
   version: 5.0
   release: 5.0.1

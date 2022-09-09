@@ -17,13 +17,13 @@ Documentation
 
 This extension provides a ReST documentation, located in Documentation/ directory.
 
-You can see a rendered version on https://docs.typo3.org/p/t3/pw_teaser
+You can see a rendered version on https://docs.typo3.org/p/t3/pw_teaser/main/en-us/
 
 
 Requirements
 ------------
 
-Version 5.0 of pw_teaser requires TYPO3 9.5 or 10.4.
+Version 6.0 of pw_teaser requires TYPO3 10.4 or 11.5.
 
 
 Links

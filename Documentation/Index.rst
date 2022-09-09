@@ -25,7 +25,7 @@ Page Teaser (with Fluid)
 		TYPO3 CMS, teaser, pages, sitemap
 
 	:Copyright:
-		2010-2020
+		2010-2022
 
 	:Author:
 		Armin Vieweg
