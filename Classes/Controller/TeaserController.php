@@ -256,11 +256,11 @@ class TeaserController extends ActionController
      */
     protected function performTemplatePathAndFilename()
     {
-        $templateType = $this->viewSettings['templateType'];
-        $templateFile = $this->viewSettings['templateRootFile'];
-        $layoutRootPaths = $this->viewSettings['layoutRootPaths'] ?: [$this->viewSettings['layoutRootPath'] ?: null];
-        $partialRootPaths = $this->viewSettings['partialRootPaths'] ?: [$this->viewSettings['partialRootPath'] ?: null];
-        $templateRootPaths = $this->viewSettings['templateRootPaths'] ?: [$this->viewSettings['templateRootPath'] ?: null];
+        $templateType = $this->viewSettings['templateType'] ?? '';
+        $templateFile = $this->viewSettings['templateRootFile'] ?? '';
+        $layoutRootPaths = $this->viewSettings['layoutRootPaths'] ?? [$this->viewSettings['layoutRootPath'] ?? null];
+        $partialRootPaths = $this->viewSettings['partialRootPaths'] ?? [$this->viewSettings['partialRootPath'] ?? null];
+        $templateRootPaths = $this->viewSettings['templateRootPaths'] ?? [$this->viewSettings['templateRootPath'] ?? null];
 
         $preset = $this->viewSettings['templatePreset'] ?? null;
         if ($templateType === 'preset' && !empty($preset)) {
@@ -328,16 +328,16 @@ class TeaserController extends ActionController
             )
         );
 
-        if ($this->settings['hideCurrentPage'] == '1') {
+        if ($this->settings['hideCurrentPage'] ?? null == '1') {
             $this->pageRepository->setIgnoreOfUid($this->currentPageUid);
         }
 
-        if ($this->settings['ignoreUids']) {
+        if ($this->settings['ignoreUids'] ?? null) {
             $ignoringUids = GeneralUtility::trimExplode(',', $this->settings['ignoreUids'], true);
             array_map([$this->pageRepository, 'setIgnoreOfUid'], $ignoringUids);
         }
 
-        if ($this->settings['categoriesList'] && $this->settings['categoryMode']) {
+        if (($this->settings['categoriesList'] ?? null) && $this->settings['categoryMode'] ?? null) {
             $categories = [];
             foreach (GeneralUtility::intExplode(',', $this->settings['categoriesList'], true) as $categoryUid) {
                 $categories[] = $this->categoryRepository->findByUid($categoryUid);
