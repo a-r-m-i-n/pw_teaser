@@ -27,6 +27,7 @@ namespace PwTeaserTeam\PwTeaser\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Psr\Http\Message\ResponseInterface;
 use PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository;
 use PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository;
 use PwTeaserTeam\PwTeaser\Utility\Settings;
@@ -133,7 +134,7 @@ class TeaserController extends ActionController
     /**
      * Displays teasers
      *
-     * @return void
+     * @return ResponseInterface|void
      */
     public function indexAction()
     {
@@ -204,6 +205,12 @@ class TeaserController extends ActionController
 
         $this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'ModifyPages', [&$pages, $this]);
         $this->view->assign('pages', $pages);
+
+        if (isset($this->responseFactory)) {
+            return $this->responseFactory->createResponse()
+                ->withAddedHeader('Content-Type', 'text/html; charset=utf-8')
+                ->withBody($this->streamFactory->createStream($this->view->render()));
+        }
     }
 
     /**
