@@ -43,4 +43,4 @@ In case you can't provide code but want to support pw_comments anyway, here is m
 - [EXT:fluid_page_cache in TER](https://extensions.typo3.org/extension/pw_teaser)
 - [EXT:fluid_page_cache on Packagist](https://packagist.org/packages/t3/pw_teaser)
 - [The author](https://v.ieweg.de)
-- [**Donate**](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9LJYFQGJ7S232)
+- [**Donate**](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2DCCULSKFRZFU)
