@@ -57,5 +57,5 @@ Page Teaser (with Fluid)
         Templates/Index
         Events/Index
         Versions/Index
-		Upgrading/Index
+        Upgrading/Index
         Support/Index
