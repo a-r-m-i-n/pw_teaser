@@ -9,6 +9,7 @@ router_http_port: "80"
 router_https_port: "443"
 xdebug_enabled: false
 additional_hostnames:
+    - docs.pw-teaser
     - v10.pw-teaser
     - v11.pw-teaser
 additional_fqdns: []
