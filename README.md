@@ -34,6 +34,12 @@ Please also describe why you've submitted your patch. If you have any questions 
 
 In case you can't provide code but want to support pw_comments anyway, here is my [PayPal donation link](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2DCCULSKFRZFU).
 
+### DDEV Environment
+
+pw_teaser ships a DDEV configuration for TYPO3 10 and 11.
+
+See https://github.com/a-r-m-i-n/ddev-for-typo3-extensions for more information.
+
 
 ## Links
 
