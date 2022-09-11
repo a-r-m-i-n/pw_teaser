@@ -8,9 +8,9 @@ Support
 
 Issue tracker
 -------------
-See all open tasks `here`_ in the forge bug tracker.
+See all open tasks `here`_ in the Github issue tracker.
 
-.. _here: https://forge.typo3.org/projects/extension-pw_teaser/issues
+.. _here: https://github.com/a-r-m-i-n/pw_teaser/issues
 
 
 Donate
@@ -22,7 +22,7 @@ If you like the pw_teaser extension, feel free to `donate`_ some funds to suppor
 
 Contribute
 ----------
-If you are a developer and you want to submit improvements as code, you can fork https://bitbucket.org/ArminVieweg/pw_teaser/src
+If you are a developer and you want to submit improvements as code, you can fork https://github.com/a-r-m-i-n/pw_teaser
 and make a pull request to pw_teaser's master branch.
 
 Thanks!

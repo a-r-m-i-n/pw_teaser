@@ -2,7 +2,7 @@
 // phpcs:disable
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Page Teaser (with Fluid)',
-    'description' => 'Create powerful, dynamic page teasers with data from page properties and its content elements. Based on Extbase and Fluid Template Engine.',
+    'description' => 'Create powerful page teasers in TYPO3 CMS with data from page properties and its content elements. Based on Extbase and Fluid template engine.',
     'category' => 'plugin',
     'version' => '6.0.0-dev',
     'state' => 'stable',
