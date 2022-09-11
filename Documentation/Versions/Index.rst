@@ -8,6 +8,25 @@ Versions
 
 .. contents:: :local:
 
+6.0.0
+-----
+
+- [DOCS] Change README format from "rst" to "md"
+- [TASK] Update Copyright Notices
+- [TASK] Update AbstractViewHelper class to extend from
+- [DOCS] Add example Routing Enhancer configuration for pagination
+- [TASK] Replace SignalSlot dispatcher usage by EventDispatcher
+- [TASK] Provide Pagination in TeaserController and replace "widget.paginate" usage
+- [TASK] Return Response instance in TeaserController
+- [TASK] Fix warnings because of undefined array keys
+- [TASK] Do not use ObjectManager
+- [TASK] Add Services.yaml and use Dependency Injection
+- [TASK] Update Extbase plugin configuration
+- [TASK] Replace locallang XML with XLF
+- [TASK] Add extension-key to composer.json extra section
+- [TASK] Raise TYPO3 requirements (added v11, dropped v9 support)
+
+
 5.0.1
 -----
 
