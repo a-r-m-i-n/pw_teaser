@@ -177,7 +177,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $pagePids = $this->getRecursivePageList($pidlist, $recursionDepthFrom, $recursionDepth);
 
-        $this->addQueryConstraint($this->query->in(($recursionDepthFrom === 0) ? 'pid' : 'uid', $pagePids));
+        $this->addQueryConstraint($this->query->in('uid', $pagePids));
         return $this->executeQuery();
     }
 

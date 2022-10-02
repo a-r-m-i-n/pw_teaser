@@ -10,6 +10,7 @@ namespace PwTeaserTeam\PwTeaser\Controller;
  */
 
 use Psr\Http\Message\ResponseInterface;
+use PwTeaserTeam\PwTeaser\Domain\Model\Page;
 use PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository;
 use PwTeaserTeam\PwTeaser\Domain\Repository\PageRepository;
 use PwTeaserTeam\PwTeaser\Event\ModifyPagesEvent;
@@ -435,11 +436,18 @@ class TeaserController extends ActionController
         foreach ($pages as $page) {
             if ($page->getPid() === $parentPage->getUid()) {
                 $this->fillChildPagesRecursivley($page, $pages);
-                $childPages[$page->getSorting()] = $page;
+                $childPages[] = $page;
             }
         }
-        ksort($childPages);
-        $parentPage->setChildPages(array_values($childPages));
+
+        usort($childPages, function (Page $a, Page $b) {
+            if ($a->getSorting() === $b->getSorting()) {
+                return 0;
+            }
+            return ($a->getSorting() < $b->getSorting()) ? -1 : 1;
+        });
+
+        $parentPage->setChildPages($childPages);
         return $parentPage;
     }
 
