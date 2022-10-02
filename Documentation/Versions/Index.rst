@@ -8,6 +8,14 @@ Versions
 
 .. contents:: :local:
 
+
+6.0.1
+-----
+
+- [BUGFIX] Fix nested page view
+- [DEVOPS] Update DDEV configuration
+
+
 6.0.0
 -----
 
