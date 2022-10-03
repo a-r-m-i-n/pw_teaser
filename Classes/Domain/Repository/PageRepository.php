@@ -10,6 +10,7 @@ namespace PwTeaserTeam\PwTeaser\Domain\Repository;
  */
 use PwTeaserTeam\PwTeaser\Domain\Model\Page;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -74,7 +75,9 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findByPid($pid)
     {
-        $this->addQueryConstraint($this->query->equals('pid', $pid));
+        $translatedPid = $this->translatePids([$pid]);
+
+        $this->addQueryConstraint($this->query->equals('pid', reset($translatedPid)));
         return $this->executeQuery();
     }
 
@@ -109,7 +112,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         $query = $this->query;
-        $this->addQueryConstraint($query->in('uid', $pagePids));
+        $this->addQueryConstraint($query->in('uid', $this->translatePids($pagePids)));
         $query->matching($query->logicalAnd($this->queryConstraints));
 
         if ($orderByPlugin == false) {
@@ -160,7 +163,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             return [];
         }
 
-        $this->addQueryConstraint($this->query->in('pid', $pagePids));
+        $this->addQueryConstraint($this->query->in('pid', $this->translatePids($pagePids)));
         return $this->executeQuery();
     }
 
@@ -176,9 +179,48 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function findChildrenRecursivelyByPidList($pidlist, $recursionDepthFrom, $recursionDepth)
     {
         $pagePids = $this->getRecursivePageList($pidlist, $recursionDepthFrom, $recursionDepth);
+        $translatedPids = $this->translatePids($pagePids);
+        if (!empty($translatedPids)) {
+            $this->addQueryConstraint($this->query->in('uid', $translatedPids));
+        } else {
+            $this->addQueryConstraint($this->query->in('uid', $pagePids));
+        }
 
-        $this->addQueryConstraint($this->query->in('uid', $pagePids));
         return $this->executeQuery();
+    }
+
+    protected function translatePids(array $pidList, ?int $languageUid = null): array
+    {
+        if (empty($pidList)) {
+            return $pidList;
+        }
+
+        if (!$languageUid) {
+            /** @var Context $context */
+            $context = GeneralUtility::makeInstance(Context::class);
+            $languageUid = $context->getPropertyFromAspect('language', 'id');
+        }
+
+        /** @var ConnectionPool $pool */
+        $pool = GeneralUtility::makeInstance(ConnectionPool::class);
+
+        $translatedPidList = [];
+        foreach ($pidList as $pid) {
+            $queryBuilder = $pool->getQueryBuilderForTable('pages');
+            $translatedRow = $queryBuilder->select('*')
+                ->from('pages')
+                ->where('l10n_parent = :pid AND sys_language_uid = :lang')
+                ->setParameter('pid', $pid)
+                ->setParameter('lang', $languageUid)
+                ->setMaxResults(1)
+                ->execute()
+                ->fetchAssociative();
+            if ($translatedRow) {
+                $translatedPidList[$pid] = $translatedRow['uid'];
+            }
+        }
+
+        return array_values($translatedPidList);
     }
 
     /**
@@ -407,6 +449,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     public function setIgnoreOfUid($currentPageUid)
     {
         $this->addQueryConstraint($this->query->logicalNot($this->query->equals('uid', $currentPageUid)));
+        $this->addQueryConstraint($this->query->logicalNot($this->query->equals('l10n_parent', $currentPageUid)));
     }
 
     /**
