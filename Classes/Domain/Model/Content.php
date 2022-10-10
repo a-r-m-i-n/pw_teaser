@@ -60,6 +60,13 @@ class Content extends AbstractEntity
     protected $image;
 
     /**
+     * It may contain multiple assets"
+     *
+     * @var ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+     */
+    protected $assets;
+
+    /**
      * Categories
      *
      * @var ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
@@ -79,6 +86,7 @@ class Content extends AbstractEntity
     public function __construct()
     {
         $this->image = new ObjectStorage();
+        $this->assets = new ObjectStorage();
     }
 
     /**
@@ -137,6 +145,64 @@ class Content extends AbstractEntity
             $imageFiles[] = $image->getOriginalResource()->toArray();
         }
         return $imageFiles;
+    }
+
+    /**
+     * Setter for assets
+     *
+     * @param ObjectStorage $assets
+     * @return void
+     */
+    public function setAssets(ObjectStorage $assets)
+    {
+        $this->assets = $assets;
+    }
+
+    /**
+     * Getter for assets
+     *
+     * @return ObjectStorage assets
+     */
+    public function getAssets()
+    {
+        return $this->assets;
+    }
+
+    /**
+     * Add assets
+     *
+     * @param FileReference $assets
+     * @return void
+     */
+    public function addAssets(FileReference $assets)
+    {
+        $this->assets->attach($assets);
+    }
+
+    /**
+     * Remove assets
+     *
+     * @param FileReference $assets
+     * @return void
+     */
+    public function removeAssets(FileReference $assets)
+    {
+        $this->assets->detach($assets);
+    }
+
+    /**
+     * Returns assets files as array (with all attributes)
+     *
+     * @return array
+     */
+    public function getAssetsFiles()
+    {
+        $assetsFiles = [];
+        /** @var FileReference $assets */
+        foreach ($this->getAssets() as $assets) {
+            $assetsFiles[] = $assets->getOriginalResource()->toArray();
+        }
+        return $assetsFiles;
     }
 
     /**
