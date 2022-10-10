@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 // This configuration is used for TYPO3 10 and later
 // Previous versions use "ext_typoscript_setup.txt" file in root of extension.

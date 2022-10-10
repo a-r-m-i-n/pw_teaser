@@ -8,7 +8,6 @@ namespace PwTeaserTeam\PwTeaser\Controller;
  *  |     2016 Tim Klein-Hitpass <tim.klein-hitpass@diemedialen.de>
  *  |     2016 Kai Ratzeburg <kai.ratzeburg@diemedialen.de>
  */
-
 use Psr\Http\Message\ResponseInterface;
 use PwTeaserTeam\PwTeaser\Domain\Model\Page;
 use PwTeaserTeam\PwTeaser\Domain\Repository\ContentRepository;
@@ -93,7 +92,7 @@ class TeaserController extends ActionController
     }
 
     /**
-     * Initialize Action will performed before each action will be executed
+     * Initialize Action will get performed before each action will be executed
      *
      * @return void
      */

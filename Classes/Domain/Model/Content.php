@@ -60,7 +60,7 @@ class Content extends AbstractEntity
     protected $image;
 
     /**
-     * It may contain multiple assets"
+     * It may contain multiple "assets"
      *
      * @var ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
      */

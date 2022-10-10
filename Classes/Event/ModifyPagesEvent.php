@@ -1,6 +1,4 @@
-<?php
-declare(strict_types = 1);
-
+<?php declare(strict_types = 1);
 namespace PwTeaserTeam\PwTeaser\Event;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed

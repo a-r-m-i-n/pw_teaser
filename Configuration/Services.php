@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use PwTeaserTeam\PwTeaser\UserFunction\ItemsProcFunc;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
