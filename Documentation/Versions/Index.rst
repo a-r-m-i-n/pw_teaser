@@ -8,6 +8,15 @@ Versions
 
 .. contents:: :local:
 
+6.0.2
+-----
+
+- [TASK] Some whitespace/copyright improvements
+- [BUGFIX] Remove whitespaces in some pagination links
+- [BUGFIX] Do not throw "Layout folder not found" exception
+- [TASK] Add the possibility to call textmedia assets in the content php (Contribution of **Matthias Peltzer**)
+- [BUGFIX] Fix translation handling
+
 
 6.0.1
 -----
