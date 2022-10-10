@@ -105,7 +105,7 @@ class TeaserController extends ActionController
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
         $viewSettings = $frameworkSettings['view'];
-        $presets = $viewSettings['presets'];
+        $presets = $viewSettings['presets'] ?? [];
         unset($viewSettings['presets']);
         $this->viewSettings = $this->settingsUtility->renderConfigurationArray($viewSettings, 'view.');
         $this->viewSettings['presets'] = $presets;
@@ -257,10 +257,10 @@ class TeaserController extends ActionController
     protected function performTemplatePathAndFilename()
     {
         $templateType = $this->viewSettings['templateType'] ?? '';
-        $templateFile = $this->viewSettings['templateRootFile'] ?? '';
-        $layoutRootPaths = $this->viewSettings['layoutRootPaths'] ?? [$this->viewSettings['layoutRootPath'] ?? null];
-        $partialRootPaths = $this->viewSettings['partialRootPaths'] ?? [$this->viewSettings['partialRootPath'] ?? null];
-        $templateRootPaths = $this->viewSettings['templateRootPaths'] ?? [$this->viewSettings['templateRootPath'] ?? null];
+        $templateFile = $this->viewSettings['templateRootFile'] ?: '';
+        $layoutRootPaths = $this->viewSettings['layoutRootPaths'] ?? null ?: [$this->viewSettings['layoutRootPath'] ?? null ?: null];
+        $partialRootPaths = $this->viewSettings['partialRootPaths'] ?? null ?: [$this->viewSettings['partialRootPath'] ?? null ?: null];
+        $templateRootPaths = $this->viewSettings['templateRootPaths'] ?? null ?: [$this->viewSettings['templateRootPath'] ?? null ?: null];
 
         $preset = $this->viewSettings['templatePreset'] ?? null;
         if ($templateType === 'preset' && !empty($preset)) {
