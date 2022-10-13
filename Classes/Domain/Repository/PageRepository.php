@@ -218,6 +218,9 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             if ($translatedRow) {
                 $translatedPidList[$pid] = $translatedRow['uid'];
             }
+            else {
+                $translatedPidList[$pid] = $pid;
+            }
         }
 
         return array_values($translatedPidList);
