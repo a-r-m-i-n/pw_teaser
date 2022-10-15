@@ -8,6 +8,13 @@ Versions
 
 .. contents:: :local:
 
+6.0.3
+-----
+
+- [BUGFIX] Do not return empty array for default language in PageRepository::translatePids()
+- [BUGFIX] Fix missing array key "templateRootFile"
+
+
 6.0.2
 -----
 
