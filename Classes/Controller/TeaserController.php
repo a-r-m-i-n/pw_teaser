@@ -256,7 +256,7 @@ class TeaserController extends ActionController
     protected function performTemplatePathAndFilename()
     {
         $templateType = $this->viewSettings['templateType'] ?? '';
-        $templateFile = $this->viewSettings['templateRootFile'] ?: '';
+        $templateFile = $this->viewSettings['templateRootFile'] ?? '';
         $layoutRootPaths = $this->viewSettings['layoutRootPaths'] ?? null ?: [$this->viewSettings['layoutRootPath'] ?? null ?: null];
         $partialRootPaths = $this->viewSettings['partialRootPaths'] ?? null ?: [$this->viewSettings['partialRootPath'] ?? null ?: null];
         $templateRootPaths = $this->viewSettings['templateRootPaths'] ?? null ?: [$this->viewSettings['templateRootPath'] ?? null ?: null];
