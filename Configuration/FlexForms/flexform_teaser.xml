@@ -390,13 +390,11 @@
 							<label>LLL:EXT:pw_teaser/Resources/Private/Language/locallang_flexform.xlf:categories</label>
 							<config>
 								<type>select</type>
-								<renderType>selectSingle</renderType>
-								<autoSizeMax>10</autoSizeMax>
+								<renderType>selectTree</renderType>
 								<foreign_table>sys_category</foreign_table>
 								<foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
 								<maxitems>999</maxitems>
-								<renderMode>tree</renderMode>
-								<size>5</size>
+								<size>20</size>
 								<treeConfig>
 									<appearance>
 										<expandAll>1</expandAll>
