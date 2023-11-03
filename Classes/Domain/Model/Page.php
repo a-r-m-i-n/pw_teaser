@@ -206,7 +206,6 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @var \TYPO3\CMS\Core\Resource\FileRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $fileRepository;
 
@@ -560,8 +559,9 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getMediaFiles()
     {
-        GeneralUtility::deprecationLog(
-            'Please don\'t use {page.mediaFiles} anymore in your pw_teaser templates. Use {page.media} instead.'
+        trigger_error(
+            'Please don\'t use {page.mediaFiles} anymore in your pw_teaser templates. Use {page.media} instead.',
+            E_USER_DEPRECATED
         );
         return $this->getMedia()->toArray();
     }
